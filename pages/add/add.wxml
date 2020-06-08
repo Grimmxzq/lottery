@@ -1,0 +1,262 @@
+<!--pages/add/add.wxml-->
+<wxs module="changeWord" src="../../filter/numChangeWord.wxs"></wxs>
+<view class="add-title">普通抽奖</view>
+<view class='add-body'>
+  <view class="setting-prize-nums" wx:for="{{prizeNum}}" wx:for-index="id" wx:key="id">
+
+    <!-- 更换奖品图片 -->
+    <view class='content' wx:if="{{id == 0}}">
+      <!--头部复用  -->
+      <view class='contentList'>
+        <view class='contentHead'>
+          <view class='labelLeft'>
+            <!-- <view class='labelText'>{{item.Type}}</view> -->
+          </view>
+          <view class='leabelRight' bindtap='cehngePhoto' data-index="{{id}}">更换奖品图片</view>
+          <image class='userBack' src='{{imgsValue[id]}}'></image>
+        </view>
+      </view>
+    </view>
+    <view class="gray-upload-img" wx:else>
+      <view class='contentList content-bg' bindtap='cehngePhoto' data-index="{{id}}">
+        <view class='content-bg-contain' wx:if="{{!imgsValue[id]}}">
+          <image src="../../images/img/uploadimgs.png" class="gray-upload-img-icon"></image>
+          <text class='gray-upload-img-title' decode="{{true}}" space="{{true}}">&nbsp;可添加{{changeWord.changeWord(id + 1)}}等奖图片</text>
+        </view>
+        <image class='userBack' src='{{imgsValue[id]}}' wx:else></image>
+      </view>
+    </view>
+    <!-- 设置奖品名称及数量 -->
+    <view class='head'>
+      <!-- 奖品名称 -->
+      <view class='prizeName'>
+        <view class='prizeNameOne'>
+          <!-- 删除按钮 -->
+          <view class="reduce-prize" wx:if="{{prizeNum.length > 1}}" bindtap="deletePrize" data-index="{{id}}">
+            <image src="../../images/img/reduce.png"></image>
+          </view>
+          <view>
+            <text wx:if="{{prizeNum.length == 1 }}">奖品名称</text>
+            <text wx:else>{{changeWord.changeWord(id + 1)}}等奖名称</text>
+          </view>
+          <view class="section">
+            <input type="text" bindinput='inputchange' value='{{nameTotalVal[id]}}' placeholder="请输入奖品名称" data-index="{{id}}" maxlength='20' placeholder-style='font-size: 14px;color: #B7B7B7;' />
+          </view>
+          <view class='warning' wx:if='{{byte}}'>不能超过20个字符</view>
+        </view>
+      </view>
+      <!-- 奖品数量 -->
+      <view class='prizeNumber'>
+        <view class="reduce-prize" wx:if="{{prizeNum.length > 1}}"></view>
+        <view class=''>奖品份数</view>
+        <!-- <view class='part'>份</view> -->
+        <view class="num">
+          <input type="number" placeholder="份数" value='{{amountTotalValue[id]}}' bindinput='numberchange' data-index="{{id}}" maxlength='3' placeholder-style='font-size: 14px;color: #B7B7B7;' />
+        </view>
+        <view class='warning' wx:if='{{bytenumber}}'>数量不得超过 999</view>
+      </view>
+    </view>
+
+  </view>
+  
+  <!-- 添加奖项 -->
+  <view class="add-prize" bindtap="addPrize">
+    + 添加奖项
+  </view>
+  
+  <!-- <view class='imgTxt'>
+    <view class='imgTxtTitle'>图文介绍</view>
+    <view class='imgTxtCon'>
+      <view class='addImgTxt' bindtap='addImgTxt'>{{introduction!=null?'已完成图文介绍可编辑':introduction==null?'添加图文介绍':''}}</view>
+    </view>
+  </view> -->
+  <!-- 开奖条件 -->
+  <view class='foot'>
+    <view class='footTitle'>开奖设置</view>
+    <view class='LotteryStart'>
+      <view class='starttime'>开奖条件</view>
+      <view class="section__title condition-contain">
+        <picker range="{{condition}}" value="{{index}}" bindchange="bindPickerChangeCondition">
+          <view class="picker" >
+            <!-- {{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}:{{multiArray[2][multiIndex[2]]}} -->
+            {{condition[showCondition]}}
+            <image class='rightpicker' src='../../images/rig.png'></image>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <!-- 开奖时间 -->
+  <view class='foot'>
+    <view class='LotteryStyle'></view>
+    <view class='LotteryStart'>
+      <view class='starttime'>开奖时间</view>
+      <view class="section__title">
+        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+          <view class="picker">
+            <text>{{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}:{{multiArray[2][multiIndex[2]]}}</text>
+            <image class='rightpicker' src='../../images/rig.png'></image>
+          </view>
+        </picker>
+      </view>
+      <view class='warning' wx:if='{{newDate}}'>开奖时间不得低于现在时间</view>
+    </view>
+  </view>
+  <!-- 开奖人数 -->
+  <view class='foot' wx:if="{{showCondition != 0}}">
+    <view class='LotteryStyle'></view>
+    <view class='LotteryStart'>
+      <view class='starttime'>开奖人数</view>
+      <view class="section__title prize-num-input">
+        <input type="text" bindinput='inputchange' value='{{nameTotalVal[id]}}' placeholder="人数" data-index="{{id}}" maxlength='20' placeholder-style='font-size: 14px;color: #B7B7B7;' />
+        <text style="color: #333;padding-right: 30rpx">人</text>
+      </view>
+    </view>
+  </view>
+  <!-- 领奖方式 -->
+  <view class='foot'>
+    <view class='LotteryStyle'></view>
+    <view class='LotteryStart '>
+      <view class='starttime'>领奖方式</view>
+      <view class="section__title">
+        <picker bindchange="bindPickerChange" value="{{wayOfGiving}}" range="{{array}}">
+          <view class="picker" style='text-align:right'>
+            {{array[wayOfGiving]}}
+            <image class='rightpicker' style='margin-right:15px;' src='../../images/rig.png'></image>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 抽奖说明 -->
+  <view class="prize-introduce">
+    <view class="prize-introduce-title">
+      <view class="footTitle">抽奖说明</view>
+      <view class="go-example" bindtap="goExample">查看示例 ></view>
+    </view>
+    <view class="textarea-contain">
+      <textarea placeholder='非必填，可输入抽奖说明' value="" placeholder-style='font-size: 14px;color: #B7B7B7;' class="textarea-area" auto-height maxlength='-1' cursor-spacing="100"/>
+    </view>
+  </view>
+
+  <!-- 高级设置 -->
+  <view class="vip-setting">
+    <view class="vip-setting-title">
+      <view class="footTitle">高级设置</view>
+    </view>
+    <view class="vip-setting-contain">
+      <view class="img">
+        <image src="../../images/img/vip.png" class="full-width full-height"></image>
+      </view>
+      <view class="vip-introduce">
+        <view class="name" bindtap="heighterTip">高级功能<image src="../../images/img/tip.png"></image></view>
+        <view>高级会员专属功能</view>
+      </view>
+      <view class="vip-btn">
+        <switch checked="{{switch1Checked}}" bindchange="switch1Change"/>
+      </view>
+    </view>
+  </view>
+  <!-- 领奖方式 -->
+  <view class='foot' wx:if="{{switch1Checked && isVip}}">
+    <view class='LotteryStyle'></view>
+    <view class='LotteryStart' bindtap="goUsersPage">
+      <view class='starttime'>参与设置</view>
+      <view class="section__title" style="text-align: right;">
+        <image class='rightpicker' style='margin-right:15px;' src='../../images/rig.png'></image>
+      </view>
+    </view>
+
+  </view>
+
+  <view class='LotteryStart' wx:if='{{WechatAccept}}'>
+    <input type="text" bindinput='Wechat' value='{{Wechat}}' placeholder="请输入客服微信号码" maxlength='24' placeholder-style='font-size: 15px;color: #B7B7B7;' />
+  </view>
+  <view class='isHome' bindtap='isHome'>是否申请展示到首页？</view>
+  <!-- <view wx:if='{{getSystemConfig.disableAdvancedGiftCard=="false"}}'>
+  <view class='advanced' bindtap='advanced'>使用高级功能></view>
+  <view class='expireTime'>{{vipExpiryTime==null?'未开通':vipExpiryTime!=null?'到期时间：'+vipExpiryTime:''}}</view>
+  </view> -->
+  <view class="bottomPadding {{isIphonex ? 'iphonex-bottom' : ''}}"></view>
+  <view class="add-bottom {{isIphonex ? 'iphonex-bottom' : ''}}">
+    <view class="bottom-contain">
+      <form bindsubmit="formSubmit" bindreset="formReset" report-submit='true'>
+        发起新抽奖
+        <button class='Submit' formType="submit" data-id='{{item.giftCard.id}}' disabled='{{lock}}'>Submit</button>
+      </form>
+    </view>
+  </view>
+  <button wx:if="{{!hasUserInfo && canIUse}}" class='userinfo' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+
+
+
+
+
+  <view class='popUp' wx:if='{{popUp}}'>
+    <view class='popUpContent'>
+      <view class='close' bindtap='isHome'>
+        <image src='../../images/close.png'></image>
+      </view>
+      <view class='upTitle'>申请上首页</view>
+      <view class='upTxt'>
+        <view class='icon'>
+          <image src='../../images/titleIcon.png'></image>
+        </view>
+        <view class='upTxtContent'>展示到首页可让你的抽奖被所有用户参与，获得更多的曝光以及参与者。</view>
+      </view>
+      <view class='upTxt'>
+        <view class='icon'>
+          <image src='../../images/titleIcon.png'></image>
+        </view>
+        <view class='upTxtContent'>申请通过可在抽奖详情页对你的项目进行更加详细的描述，以及导流。
+        </view>
+      </view>
+      <view class='upTxt'>
+        <view class='icon'>
+          <image src='../../images/titleIcon.png'></image>
+        </view>
+        <view class='upTxtContent upTxtContentB'>如要展示到首页可添加客服进行申请。</view>
+      </view>
+      <view class='clear'></view>
+      <view class='btn' bindtap='copy'> 微信号：xzq1628957104</view>
+      <view class='hint'>点击复制</view>
+    </view>
+  </view>
+  <!-- <view class='popUp'   wx:if='{{expireTime}}' >
+    <view class='popUpContent expireTimeContent'>
+      <view class='close' bindtap='advanced'>
+        <image src='../../images/close.png'></image>
+      </view>
+      <view class='upTitle'>付费功能</view>
+      <view class='upTxt'>
+        <view class='expireTimeicon icon'>
+          <image src='../../images/titleIcon.png'></image>
+        </view>
+        <view class='upTxtContent expireTimeTxtContent'>礼品卡功能支持图文详情编辑，支持小程序导流</view>
+      </view>
+      <view class='upTxt'>
+        <view class='expireTimeicon icon'>
+          <image src='../../images/titleIcon.png'></image>
+        </view>
+        <view class='upTxtContent expireTimeTxtContent'>支持发送Token红包（类微信红包）</view>
+      </view>
+      <view class='upTxt'>
+        <view class='expireTimeicon icon'>
+          <image src='../../images/titleIcon.png'></image>
+        </view>
+        <view class='upTxtContent expireTimeTxtContent'>支持代币充值、转账、提现功能</view>
+      </view>
+      <view class='clear'></view>
+      <view class='WeChatCode'>
+        <image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/WeChatCode.png'></image>
+      </view>
+      <view class='addWeChat'  bindtap='copy'>开通请添加客服微信：
+        <e class='wechatNuber'>maggiekf01</e>
+        （点击复制）
+      </view>
+    </view>
+  </view>
+</view> -->
+</view>

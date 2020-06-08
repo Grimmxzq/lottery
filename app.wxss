@@ -1,0 +1,20 @@
+.font-color-gray {
+  color: gray;
+}
+
+.iphonex-bottom {
+  /* 若果是iphoneX 就离底部34px */
+  padding-bottom:34px; 
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}

@@ -1,0 +1,15 @@
+<!--pages/myBalance/myBalance.wxml-->
+
+<view class='balanceList' wx:for='{{list}}' wx:key='index' bindtap='balanceList' data-index='{{index}}'>
+  <view class='currencyLogo'>
+    <image src='{{item.token.picPath}}'></image>
+  </view>
+  <view class='contentTxt'>
+    <view class='nameTxt'>{{item.token.symbol}}</view>
+    <view class='number'>{{item.balance}}
+      <e class='kind'>{{item.token.symbol}}
+      </e>
+    </view>
+  </view>
+  <view class='rig'><image src='../../images/rig.png'></image></view>
+</view>

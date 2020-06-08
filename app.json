@@ -1,0 +1,69 @@
+{
+  "pages": [
+    
+    "pages/home/home",
+    "pages/pay/pay",
+    "pages/addaAdvanced/addAdvanced",
+    "pages/user/user",
+    "pages/add/add",
+    "pages/putDeposit/putDeposit",
+    "pages/deposit/deposit",
+    "pages/papersParticulars/papersParticulars",
+    "pages/authentication/authentication",
+    "pages/redPackageRecord/redPackageRecord",
+    "pages/robRedPackage/robRedPackage",
+    "pages/redPackagePhoto/redPackagePhoto",
+    "pages/editor/editor",
+    "pages/myAddGiftCard/myAddGiftCard",
+    "pages/particulars/particulars",
+    "pages/addAddress/addAddress",
+    "pages/flaunt/flaunt",
+    "pages/winUserInfo/winUserInfo",
+    "pages/contact/contact",
+    "pages/detail/detail",
+    "pages/myBalance/myBalance",
+    "pages/compileAddress/compileAddress",
+    "pages/myGiftCard/myGiftCard",
+    "pages/walletAddressList/walletAddressList",
+    "pages/producePhoto/producePhoto",
+    "pages/giftParticulars/giftParticulars",
+    "pages/sponsor/sponsor",
+    "pages/skip/skip",
+    "pages/example/example",
+    "pages/totalUsers/totalUsers"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "首页",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#a0a0a0",
+    "selectedColor": "#fa7635",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "selectedIconPath": "images/homeSe.png",
+        "iconPath": "images/home.png",
+        "pagePath": "pages/home/home",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "images/addSe.png",
+        "iconPath": "images/add.png",
+        "pagePath": "pages/skip/skip",
+        "text": "抽奖"
+      },
+      {
+        "selectedIconPath": "images/userSe.png",
+        "iconPath": "images/user.png",
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

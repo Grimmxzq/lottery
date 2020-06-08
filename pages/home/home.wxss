@@ -1,0 +1,307 @@
+/* pages/home/home.wxss */
+page{
+  background: #f2f2ef;
+}
+
+.swipers {
+  width: 100%;
+  height: 400rpx;
+}
+
+.swipers swiper {
+  height: 100%;
+}
+
+/* .swipers image{
+  width: 100%;
+  height: 400rpx;
+} */
+
+.head {
+  height: 51px;
+  width: 100%;
+  background: #f2f2ef;
+  line-height: 51px;
+}
+.masking{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+background: rgba(0,0,0,0.50);
+}
+.maskingConten{
+  position: absolute;
+  border-radius: 10px;
+  width: 276px;
+  height: 200px;
+  background: #fff;
+  left: 50%;
+  margin-left: -138px;
+  top: 50%;
+  margin-top: -100px;
+}
+.mHeadImg{
+  position: absolute;
+  left: 50%;
+  margin-left: -37px;
+  top: -37px;
+  width: 75px;
+  height: 75px;
+}
+.mCloseImg{
+   position: absolute;
+  right: 12px;
+  top: 3px;
+  width: 12px;
+  height: 12px; 
+}
+.top
+{
+  margin-top: 60px;
+}
+.mTxt{
+  text-align: center;
+  font-size: 16px;
+  line-height: 22px;
+}
+.mag{
+  color: #fa7635;
+}
+.mHeadImg image{
+  height: 100%;
+  width: 100%;
+}
+.mCloseImg image{
+  height: 100%;
+  width: 100%;
+}
+.share {
+  float: right;
+  font-size: 14px;
+  line-height: 51px;
+  color: #8a8a8a;
+  position: relative;
+}
+
+.welfare {
+  float: left;
+  color: #f1341c;
+  font-size: 18px;
+  margin-left: 15px;
+}
+.shareBtn{
+position: absolute;
+bottom: 0;
+right: 0;
+top: 0;
+width: 100%;
+height: 100%;
+ opacity:0; 
+}
+.share view {
+  float: left;
+  color: #FF5849;
+  height: 51px;
+}
+
+.shareIco image{
+width:25px;
+height:20px;
+margin-top:15px;
+margin-left:10px;
+margin-right: 10px;
+}
+
+.shareIcon{
+  width: 82px;
+height: 77px;
+  position: relative;
+}
+.btnShare{
+  margin: 0 auto;
+  margin-top: 40px;font-size: 17px;
+  text-align: center;
+  line-height: 40px;
+color: #FFFFFF;
+    position: relative;
+    background: #FA7635;
+border-radius: 10px;
+height: 40px;
+width: 246px;
+}
+.shareIcon image {
+position: fixed;
+bottom: 20px;
+right: 20px;
+width: 82px;
+height: 77px;
+}
+
+.content {
+  clear: both;
+}
+
+.contentList {
+  width: 100%;
+  height: 268px;
+  position: relative;
+}
+
+.dividing {
+  clear: both;
+  height: 10px;
+  width: 100%;
+  background: #f2f2ef;
+  position: absolute;
+  bottom: 0;
+}
+
+.labelLeft {
+  float: left;
+  position: absolute;
+  background: url("https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/label.png");
+  background-size: cover;
+  height: 30px;
+  width: 58px;
+}
+
+.labelText {
+  text-align: center;
+  line-height: 30px;
+  color: #fff;
+  width: 48px;
+  font-size: 13px;
+}
+
+.contentHead {
+  height: 180px;
+  position: relative;
+}
+
+.userBack {
+  height: 100%;
+  width: 100%;
+
+}
+
+.leabelRight {
+  float: right;
+  right: 10px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.50);
+  border-radius: 10px;
+  width: 90px;
+  height: 28px;
+  color: white;
+  margin-top: 10px;
+  text-align: center;
+  line-height: 28px;
+  font-size: 13px;
+  /* margin-right: 10px; */
+}
+
+.prize {
+  color: #444;
+  font-size: 17px;
+  background: #fff;
+  line-height: 50px;
+  padding-left: 15px;
+}
+
+.lotteryData {
+  padding-left: 15px;
+  height: 30px;
+  background: #fff;
+}
+
+.lotteryData view {
+  float: left;
+  font-size: 13px;
+  color: #939393;
+}
+
+.lotteryWay {
+  margin-left: 7px;
+}
+
+.participation image {
+  width: 12.5px;
+  height: 12.5px;
+}
+.lotteryData .participationY{
+  font-size: 13px;
+  margin-left: 3px;
+color: #53AD21;
+}
+.lotteryData  .vertical{
+  margin: 0 5px;
+  height: 15px;
+  overflow: hidden;
+  color: #C3C3C3;
+}
+.trunSponsor{
+  font-size: 14px;
+  text-align: center;
+
+  height: 40px;
+  line-height: 40px;
+  background: #f2f2ef;
+color: #fa7635;
+
+}
+.tuceng{
+  width: 50px;
+  height: 80px;
+  background: red;
+  position: absolute;
+  bottom: 0px;
+}
+
+.prize-content {
+  padding: 0 20rpx;
+  /* background-color: #C3C3C3; */
+}
+
+.prize-content .lists{
+  width: 100%;
+  /* height: 500rpx; */
+  background-color: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.prize-content .lists .prize-img{
+  width: 100%;
+  height: 300rpx;
+}
+
+.prize-content .lists .discribe-content{
+  font-size: 28rpx;
+  color: #333;
+  padding: 30rpx 30rpx;
+}
+
+.prize-content .lists .discribe-content .prize-shop{
+  font-weight: bold;
+  color: #f1341c;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.prize-content .lists .discribe-content .prizes{
+  min-height: 90rpx;
+}
+
+.prize-content .lists .discribe-content .prizes .tuan{
+  background-color: red;
+  color: #fff;
+  padding: 0 5rpx;
+}
+
+.prize-content .lists .discribe-content .open-times{
+  color: rgb(170, 170, 170);
+  font-size: 24rpx;
+}
