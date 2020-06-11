@@ -223,7 +223,8 @@ wx:wx.navigateTo({
    */
   goDetails() {
     wx.navigateTo({
-      url: '../particulars/particulars?giftId=' + 2 +"&pageId=0",
+      // url: '../particulars/particulars?giftId=' + 2 +"&pageId=0",
+      url: '../goodsDetails/goodsDetails'
     })
   }
 })
