@@ -1,2 +1,12 @@
-<!--pages/joinUser/joinUser.wxml-->
-<text>pages/joinUser/joinUser.wxml</text>
+<view class="container">
+  <view class="joiner">8807位参与者</view>
+  <view class="user-head-img flex">
+    <block wx:for="{{headImg}}" wx:key="i">
+      <view class="img">
+        <image src="http:\/\/img.alicdn.com\/imgextra\/i3\/1905896812\/O1CN01AKKSWn20Bwb2D9W3X_!!1905896812.jpg"></image>
+      </view>
+    </block>
+  </view>
+  <view class="loading-text" bindtap="getData">{{loadingText}}</view>
+</view>
+

@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {},
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "抽奖参与用户"
 }

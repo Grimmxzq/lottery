@@ -1,3 +1,5 @@
+
+<login-component wx:if="{{isShowLogin}}" bind:closeLoginDialog="closeLoginDialog"></login-component>
 <view class="goods-details-body full-width full-height">
   <!-- 头部 -->
   <view class="headers">
@@ -60,3 +62,5 @@
     </view>
   </view>
 </view>
+
+

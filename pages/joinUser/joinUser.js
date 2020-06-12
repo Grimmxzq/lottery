@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    headImg: 100,
+    loadingText: "加载更多",
+    page: 1,
+    size: 100
   },
 
   /**
@@ -62,5 +65,22 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  /**
+   * 获取更多数据
+   */
+  getData: function () {
+    this.setData({
+      loadingText: "加载中..."
+    });
+    
+    setTimeout(()=>{
+      let headImg = this.data.headImg;
+      headImg += 100;
+      this.setData({
+        loadingText: "加载更多",
+        headImg
+      });
+    }, 3000)
   }
 })

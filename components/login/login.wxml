@@ -1,0 +1,17 @@
+<view class="login-container" bindtap="cancelLogin">
+  <view class="box" catchtap="touchHandler">
+    <view class="header">
+      <image src="../../images/img/header.png" class="img"></image>
+    </view>
+    <view class="msg">
+      <view class="not-login-title">您还未登录</view>
+      <view class="tip">相关操作涉及到用户信息，请登录后再试</view>
+    </view>
+    <view class="login-button common">
+      <button open-type="getUserInfo" class="login" bindgetuserinfo="getUserInfo">立即登录</button>
+    </view>
+    <view class="cancel-button common">
+      <button class="cancel" catchtap="cancelLogin">暂不登录</button>
+    </view>
+  </view>
+</view>

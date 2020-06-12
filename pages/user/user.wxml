@@ -105,12 +105,18 @@
           <image src='../../images/rig.png'></image>
         </view>
       </view>
-  </view><view class='moree'>
+  </view>
+</view>
+<!-- <view class='moree'>
 更多精彩
 </view>
 <view class='littleapp' >
 <navigator class='openlittleapp' target="miniProgram" open-type="navigate" app-id="wx7245add0c1844d9a" path="pages/index/index" extra-data="" version="release">打开绑定的小程序</navigator>
-<image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/jietu.png'></image>
+<image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/jietu.png'></image>  -->
+<view class="bottom-tip">
+  <view class="name">--<text>熊猫科技出品</text>--</view>
+  <view class="message">超过一亿一千万人在用的小程序</view>
 </view>
+<view>
   <button wx:if="{{!hasUserInfo && canIUse}}" class='userinfo' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
 </view>
