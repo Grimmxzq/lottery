@@ -1,38 +1,18 @@
-// pages/contact/contact.js
+// pages/message/message.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
-  },
-  preview: function () { //预览图片
-    wx.previewImage({
-      current: '', // 当前显示图片的http链接
-      urls: ["https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/maggie.png"] // 需要预览的图片http链接列表
-    })
-  },
-  copy: function (event) { //复制
-    wx.setClipboardData({
-      data: 'xzq1628957104',
-      success: function (res) {
-        wx.getClipboardData({
-          success: function (res) {
-            console.log(res.data) // data
-          }
-        })
-      }
-    })
+    loadingText: "暂无更多消息"
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: '成为赞助商'
-    })
+
   },
 
   /**
@@ -67,21 +47,39 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    const that = this;
+    that.setData({
+      loadingText: "加载中..."
+    })
+    wx.showLoading({
+      title: '加载中...',
+    })
+    setTimeout(() => {
+      wx.hideLoading({
+        complete: (res) => {
+          wx.showToast({
+            title: '刷新成功',
+          });
+          wx.stopPullDownRefresh();
+          that.setData({
+            loadingText: "暂无更多消息"
+          })
+        },
+      })
+    }, 2000)
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    wx.stopPullDownRefresh() //停止下拉刷新
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  // onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
-  // }
+  }
 })

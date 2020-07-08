@@ -23,3 +23,21 @@ page {
 .flex {
   display: flex;
 }
+
+.line-one {
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.line-more {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.button-style-close {
+  padding: 0;
+  border: 0;
+}

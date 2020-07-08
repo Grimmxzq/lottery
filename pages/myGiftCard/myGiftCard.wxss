@@ -17,7 +17,7 @@
   height: 8rpx;
   border-radius: 50rpx;
   width: 70rpx;
-  background: #fa7635;
+  background: #f1341c;
   bottom: 0;
   left: 36%;
 }
@@ -34,11 +34,11 @@
   clear: both;
   height: 100rpx;
   width: 100%;
-  background: #f2f2ef;
+  background: #fff;
 }
 
 .on {
-  color: #fa7635;
+  color: #f1341c;
   border-bottom-left-radius: 10%;
   border-bottom-right-radius: 10%;
 }
@@ -52,10 +52,11 @@ margin: 20px 0 12px 15px;
   float: left;
 }
 .awaitLst{
-background: #fff;
+  background: #fff;
   height: 60px;
   line-height: 60px;
-  margin: 0 15px; 
+  margin: 0 5px;
+  padding: 0 15px; 
   margin-top: 10px;
   border-bottom: 1px #d8d8d8 solid;
 }
@@ -65,11 +66,15 @@ background: #fff;
 }
 .name{
   font-size: 15px;
-color: #444444;
-width: 200px;
-overflow: hidden;
-text-overflow:ellipsis;
-white-space: nowrap;
+  color: #333;
+  width: 200px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.num {
+  font-size: 15px;
+  color: #444444;
 }
 .awaitLst .date{
   float: right;

@@ -1,0 +1,2 @@
+
+<view class="message">{{loadingText}}</view>

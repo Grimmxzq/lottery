@@ -32,10 +32,11 @@
     "pages/skip/skip",
     "pages/example/example",
     "pages/totalUsers/totalUsers",
-    "pages/joinUser/joinUser"
+    "pages/joinUser/joinUser",
+    "pages/message/message"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "首页",
     "navigationBarTextStyle": "black",

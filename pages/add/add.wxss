@@ -312,6 +312,7 @@ page {
 
 .prizeNameOne .section {
   float: right;
+  width: 415rpx;
 }
 
 .section input {
@@ -469,7 +470,7 @@ page {
   position: absolute;
   left: 0;
   bottom: 0;
-  z-index: 3;
+  z-index: 3000000000;
   opacity: 0;
 }
 

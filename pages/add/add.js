@@ -2,6 +2,8 @@
 //获取应用实例
 var app = getApp();
 var common = require("../../common.js");
+const Request = require("../../utils/request");//导入模块
+const commonRequest = require("../../utils/commonRequest");//导入模块
 var util = require("../../utils/util.js");
 Page({
 
@@ -16,13 +18,9 @@ Page({
     wayOfGiving: 0,
     vipExpiryTime: null,
     WechatAccept: false,
-    byte: false,
-    bytenumber: false,
     Wechat: null,
     newDate: false,
     pickDate: '',
-    name: '', // 奖品名称
-    amount: '', //奖品数量
     picKey: 'giftCard/cover/default.png',
     src: 'https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/583594514074129397.png',
     index: 0,
@@ -36,26 +34,51 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    prizeNum: [0], //当前奖项数量
-    nameTotalVal: [], //所有奖品名称value值
-    amountTotalValue: [], //所有奖品数量的value值
-    imgsValue: ['https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/583594514074129397.png'], //所有图片的地址
+    prizeNum: [{
+      img: '',
+      num: null,
+      name: ''
+    }], //当前奖项
+    desc: '', //抽奖说明
+    peoples: '', //开奖人数 
     condition: ["按时间自动开奖", "按人数自动开奖", "即开即中"], //开奖条件
-    showCondition: 0,
+    showCondition: 0, //当前选中的开奖条件是第几个
     isIphonex: false, //适配iphonex以上版本
     switch1Checked: false, //高级功能是否开启 默认不开启
-    isVip: false //是否是高级用户 默认false
+    isVip: true //是否是高级用户 默认false
   },
   getUserInfo: function (e) {
     console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
+    const userInfo = e.detail.userInfo;
+    const that = this;
     if (e.detail.errMsg == 'getUserInfo:ok') {
-      this.setData({
-        userInfo: e.detail.userInfo,
-        hasUserInfo: true
+      wx.login({
+        success: loginRes => {
+          console.log(loginRes);
+          commonRequest.gologin(loginRes, userInfo, (res) => {
+            console.log(res);
+            that.setData({
+              userInfo: e.detail.userInfo,
+              hasUserInfo: true
+            });
+          })
+        },
+        fail:res=>{
+          wx.showToast({
+            title: res,
+          });
+          wx.hideLoading();
+        }
       })
-      common.uploadInfo(e.detail.userInfo.nickName, e.detail.userInfo.avatarUrl)
-
+    } else {
+      wx.hideLoading({
+        complete: (res) => {
+          wx.showToast({
+            icon: 'none',
+            title: '已取消授权',
+          })
+        }
+      });
     }
   },
   addImgTxt: function () {
@@ -103,89 +126,97 @@ Page({
     var that = this;
     var nowIdx=e.currentTarget.dataset.index;//获取当前索引
     var val=e.detail.value;//获取输入的值
-    var oldVal=this.data.nameTotalVal;
-    oldVal[nowIdx]=val;//修改对应索引值的内容
-    if (val.length >= 20) {
-
-      that.setData({
-        byte: true
-      })
-    } else if (val.length < 20) {
-
-      that.setData({
-        byte: false
-      })
-    }
+    var oldVal=this.data.prizeNum;
+    oldVal[nowIdx].name=val;//修改对应索引值的内容
     that.setData({
-      name: e.detail.value.replace(/\s+/g, ''),
-      nameTotalVal: oldVal
+      prizeNum: oldVal
     })
   },
   numberchange: function (e) { //输入数量判断
     var that = this;
     var nowIdx=e.currentTarget.dataset.index;//获取当前索引
     var val=e.detail.value;//获取输入的值
-    var oldVal=this.data.amountTotalValue;
-    oldVal[nowIdx]=val;//修改对应索引值的内容
+    var oldVal=this.data.prizeNum;
+    oldVal[nowIdx].num=val;//修改对应索引值的内容
     that.setData({
-      amount: e.detail.value.replace(/\s+/g, ''),
-      amountTotalValue: oldVal
+      prizeNum: oldVal
     })
   },
   // 添加图片
   cehngePhoto: function (e) {
     const that = this;
     const index = e.currentTarget.dataset.index;
-    const imgsValue = that.data.imgsValue;
+    const prizeNum = that.data.prizeNum;
     wx.chooseImage({
       count: 1, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
+        console.log(res);
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        var tempFilePath = res.tempFilePaths[0]
-        // common.req({
-        //   url: 'gift/uploadGiftCardCover',
-        //   data: {},
-        //   header: {
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-        //   },
-        //   dataType: 'json',
-        //   method: 'POST',
-        //   success: function (uploadGiftCardCoverRes) {
-        //     console.log(uploadGiftCardCoverRes)
-        //     var filename = new Date().getTime() + util.getSuffix(tempFilePath);
-        //     var formdata = {};
-        //     // 注意formdata里append添加的键的大小写
-        //     formdata.key = uploadGiftCardCoverRes.data.data.dir + filename;   //存储在oss的文件路径
-        //     formdata.policy = uploadGiftCardCoverRes.data.data.policy;   //policy
-        //     formdata.OSSAccessKeyId = uploadGiftCardCoverRes.data.data.accessId;   //accessKeyId
-        //     formdata.success_action_status = "200";   //成功后返回的操作码
-        //     formdata.Signature = uploadGiftCardCoverRes.data.data.signature;    //签名
-        //     formdata['x-oss-security-token'] = uploadGiftCardCoverRes.data.data.securityToken;
-        //     that.setData({
-        //       picKey: formdata.key
-        //     })
-        //     console.log(that.data.picKey)
-        //     wx: wx.uploadFile({
-        //       url: app.FILE_URL,
-        //       filePath: tempFilePath,
-        //       name: 'file',
-        //       formData: formdata,
-        //       success: function (uploadFileRes) {
-        //         console.log(uploadFileRes)
-        //       },
-        //     })
-        //   },
-        // })
-        imgsValue[index] = tempFilePath;
-        that.setData({
-          imgsValue
-        })
+        const tempFilePath = res.tempFilePaths[0];
+        const imgInfo = res.tempFiles[0];
+        if (imgInfo.size / 1024 / 1024 >= 10) {
+          wx.showModal({
+            title: '提示', // 标题
+            content: "图片超过10MB啦~",// 内容
+            showCancel: false, // 是否显示取消按钮
+            confirmText: '确定', // 确认按钮的文字
+          });
+          return
+        }
+        // 判断图片格式
+        const imgSplit = tempFilePath.split(".");
+        const imgSLen = imgSplit.length;
+        if (["jpg", "jpeg", "png"].includes(imgSplit[imgSLen - 1])) {
+          console.log("格式正确");
+        } else {
+          console.log("格式错误");
+          wx.showModal({
+              title: '提示',
+              content: "请选择正确的图片格式上传",
+              showCancel: false,
+              confirmText: '确定',
+          });
+          return
+        }
+        if (tempFilePath) {
+          wx.uploadFile({
+            url: app.REQUEST_URL + 'lottery/UploadFile/',
+            filePath: tempFilePath,
+            name: 'image',
+            timeout: 20000,
+            header: {
+              'token': wx.getStorageSync("token")
+            },
+            success(res) {
+              console.log(res);
+              const data = JSON.parse(res.data);
+              if (data.code == 200) {
+                prizeNum[index].img = data.data.url;
+                that.setData({
+                  prizeNum
+                })
+              } else {
+                wx.showToast({
+                  icon: 'none',
+                  title: '图片上传失败，请重新上传',
+                })
+              }
+            },
+            fail(err) {
+              console.log(err);
+              wx.showToast({
+                icon: 'none',
+                title: '图片上传失败，请重新上传',
+              })
+            }
+          })
+        }
       }
     })
   },
-
+  // 发起抽奖
   formSubmit: function (e) {
     let that = this
     that.setData({
@@ -246,42 +277,89 @@ Page({
     if (mon < (date.getMonth() + 1)) {
       year = year + 1
     }
-    let awardTime = year + '-' + mon + '-' + day + ' ' + hous + ":" + minut + ":00"
-    if (that.data.amount > 0 && that.data.name != '' && that.data.byte == false) { //判断名称数量是否合法
+    let awardTime = year + '-' + mon + '-' + day + ' ' + hous + ":" + minut + ":00";
+    const judgement = this.data.prizeNum.every( item => {
+      return item.num > 0 && item.name != ''
+    })
+    if (judgement) { //判断名称数量是否合法
       if (that.data.newDate == false) { //判断是时间是否合法
-        common.req({
-          url: 'gift/createGiftCard',
-          data: {
-            "type": "0000",
-            "level": "0000",
-            "name": that.data.name,
-            "amount": that.data.amount,
-            "picPath": that.data.picKey,
-            "awardTime": awardTime,
-            "sponsor": '',
-            "introduction": app.globalData.introduction,
-            "msgFormId": e.detail.formId,
-            "wayOfGiving": parseInt(that.data.wayOfGiving) + 1,
-            "awardWechat": that.data.Wechat
-          },
-          header: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          dataType: 'json',
-          method: 'POST',
-          success: function (res) {
-            common.uploadInfo(that.data.userInfo.nickName, that.data.userInfo.avatarUrl)
-            wx.reLaunch({
-              url: '../giftParticulars/giftParticulars?awardTime=' + res.data.data.awardTime + '&giftId=' + res.data.data.id + '&picPath=' + res.data.data.picPath + '&name=' + res.data.data.name + '&smallProgramCodePath=' + res.data.data.smallProgramCodePath + '&amount=' + res.data.data.amount + '&nickName=' + that.data.userInfo.nickName,
+        let condition, //开奖条件
+          wayOfGiving;
+        const prizeNum = that.data.prizeNum;
+        const token = wx.getStorageSync('token') || null;
+        const uid = wx.getStorageSync('userInfo').uid || null;
+        // 开奖条件
+        switch(that.data.showCondition) {
+          case 0:
+            condition = 't';
+            break;
+          case 1:
+            // 按人数开奖
+            condition = 's';
+            if (that.data.peoples <= 0) {
+              wx.showToast({
+                title: '开奖人数不符合标准!',
+                icon: 'none',
+                duration: 2000
+              })
+              that.setData({
+                lock: false
+              })
+              return false;
+            }
+            break;
+          case 2:
+            condition = 'i';
+            break;
+        }
+        // 领奖方式
+        switch(that.data.wayOfGiving) {
+          case 0:
+            wayOfGiving = 'm';
+            break;
+          case 1:
+            wayOfGiving = 'a';
+            break;
+          case 2:
+            wayOfGiving = 'p';
+            break;
+          case 3:
+            wayOfGiving = 'w';
+            break;
+        }
+        prizeNum.forEach( (item, i) => {
+          item.grade = that.rp(i + 1) + '等奖'
+        })
+        console.log(that.data.desc)
+        Request.post("lottery/StartLottery/",{
+          Prize: prizeNum,
+          condition,
+          time: awardTime,
+          people: that.data.peoples,
+          way:wayOfGiving,
+          token,
+          uid,
+          desc: that.data.desc
+        }).then(res => {
+          console.log(res);
+          const { code, message } = res;
+          if (code === 200) {
+            wx.showToast({
+              title: message,
+              icon: 'none',
+              duration: 2000,
+              complete: () => {
+                console.log('跳转去详情页面');
+              }
             })
-          },
-
-          complete: function (res) {
-            that.setData({
-              lock: false
-            })
-          },
-
+          }
+        }).catch(err => {
+          console.log('err', err);
+        }).finally(() => {
+          console.log("finally")
+          that.setData({
+            lock: false
+          })
         })
       } else {
         that.setData({
@@ -298,12 +376,35 @@ Page({
         lock: false
       })
       wx.showToast({
-        title: '奖品名称或数量不符合标准!',
+        title: '奖品名称或数量或图片不符合标准!',
         icon: 'none',
         duration: 2000
       })
     }
 
+  },
+  // 数字转中文
+  rp: function (n) {
+    var cnum =  ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+    var s = '';
+    n = '' + n; // 数字转为字符串
+    for (var i = 0; i < n.length; i++) {
+        s += cnum[parseInt(n.charAt(i))];
+    }
+    if (s.length == 2) { // 两位数的时候
+        // 如果个位数是0的时候，令改成十
+        if (s.charAt(1) == cnum[0]) {
+            s = s.charAt(0) + cnum[10];
+            // 如果是一十改成十
+            if (s == cnum[1] + cnum[10]) {
+                s = cnum[10]
+            }
+        } else if (s.charAt(0) == cnum[1]) {
+            // 如果十位数是一的话改成十
+            s = cnum[10] + s.charAt(1);
+        }
+    }
+    return s;
   },
   /**
    * 生命周期函数--监听页面加载
@@ -357,6 +458,7 @@ Page({
     })
 
   },
+  // 领奖方式
   bindPickerChange: function (e) {
     let that = this
     console.log(e.detail.value)
@@ -463,43 +565,13 @@ Page({
         }
       })
     }
-    wx.getStorage({
-      key: 'isVip',
-      success (res) {
-        that.setData({
-          isVip: res.data
-        })
-      }
-    })
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let that = this
-    that.setData({
-      introduction: app.globalData.introduction
-    })
-
-    // common.req({
-    //   url: 'user/getVipExpiryTime',
-    //   data: {},
-    //   dataType: 'json',
-    //   method: 'POST',
-    //   success: function (res) {
-    //     console.log(res)
-    //     if (((new Date(res.data.data.vipExpiryTime.replace(/-/g, "\/"))) > (new Date()))) {
-    //       that.setData({
-    //         vipExpiryTime: res.data.data.vipExpiryTime
-    //       })
-    //     } else {
-    //       that.setData({
-    //         vipExpiryTime: null
-    //       })
-    //     }
-    //   },
-    // })
+    
   },
 
   /**
@@ -543,7 +615,12 @@ Page({
    */
   addPrize: function () {
     var num = this.data.prizeNum;
-    num.push(1);
+    var prize = {
+      img: '',
+      num: null,
+      name: ''
+    };
+    num.push(prize);
     this.setData({
       prizeNum: num
     });
@@ -553,22 +630,13 @@ Page({
    */
   deletePrize: function (e) {
     var nowidx=e.currentTarget.dataset.index;//当前索引
-    var nameTotalVal=this.data.nameTotalVal;//所有的input值
-    var amountTotalValue=this.data.amountTotalValue;//所有的input值
-    var imgsValue=this.data.imgsValue;//所有的input值
     var oldarr=this.data.prizeNum;//循环内容
     oldarr.splice(nowidx,1);    //删除当前索引的内容，这样就能删除view了
-    nameTotalVal.splice(nowidx,1);//view删除了对应的input值也要删掉
-    amountTotalValue.splice(nowidx,1);
-    imgsValue.splice(nowidx,1)
     if (oldarr.length < 1) {
         oldarr = [0]  //如果循环内容长度为0即删完了，必须要留一个默认的。这里oldarr只要是数组并且长度为1，里面的值随便是什么
     }
     this.setData({
-      prizeNum:oldarr,
-        nameTotalVal,
-        amountTotalValue,
-        imgsValue
+      prizeNum:oldarr
     })
   },
   /**
@@ -623,6 +691,22 @@ Page({
   goUsersPage() {
     wx.navigateTo({
       url: '../totalUsers/totalUsers',
+    })
+  },
+  /**
+   * 抽奖说明
+   */
+  descInput(e) {
+    this.setData({
+      desc: e.detail.value
+    })
+  },
+  /**
+   * 开奖人数
+   */
+  numInput(e) {
+    this.setData({
+      peoples: e.detail.value
     })
   }
   /**

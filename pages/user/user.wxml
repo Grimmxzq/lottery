@@ -1,15 +1,25 @@
 <!--pages/user/user.wxml-->
 <view class='body'>
   <view class='head'>
-    <view class='portrait'>
-      <image src='{{userInfo.avatarUrl}}'></image>
+    <view wx:if="{{!hasUserInfo && canIUse}}">
+      <view class='login-button flex'>
+        <view class="header-gray">
+          <image src="../../images/img/header-gray.png" class="full-width full-height"></image>
+        </view>
+        <text decode="{{true}}">&nbsp;&nbsp;&nbsp;点击登录账户</text>
+      </view>
     </view>
-    <view class='nickname'>{{userInfo.nickName}}</view>
-    <view class="vip">
-      <image src="../../images/img/vip.png" class="full-width full-height"></image>
-    </view>
-    <view class='walletAddress' bindtap='walletAddress'>地址
-      <image src='../../images/rig.png'></image>
+    <view wx:else style="width: 100%;">
+      <view class='portrait'>
+        <image src='{{userInfo.avatarUrl}}'></image>
+      </view>
+      <view class='nickname'>{{userInfo.nickName}}</view>
+      <view class="vip">
+        <image src="../../images/img/vip.png" class="full-width full-height"></image>
+      </view>
+      <view class='walletAddress' bindtap='walletAddress'>地址
+        <image src='../../images/rig.png'></image>
+      </view>
     </view>
   </view>
   <view class='content'>
@@ -17,7 +27,7 @@
       <view class='myLogo'>
         <image src='../../images/mygift.png'></image>
       </view>
-      <view class='myText'>我的抽奖</view>
+      <view class='myText'>我参与的</view>
       <view class='myRig'>
         <image src='../../images/rig.png'></image>
       </view>
@@ -26,12 +36,12 @@
       <view class='myLogo'>
         <image src='../../images/myAddGift.png'></image>
       </view>
-      <view class='myText'>发起抽奖</view>
+      <view class='myText'>我发布的</view>
       <view class='myRig'>
         <image src='../../images/rig.png'></image>
       </view>
     </view>
-    <view class='myAddGift' bindtap='myGiftCard'>
+    <!-- <view class='myAddGift' bindtap='myGiftCard'>
       <view class='myLogo'>
         <image src='../../images/myAddGift.png'></image>
       </view>
@@ -39,10 +49,10 @@
       <view class='myRig'>
         <image src='../../images/rig.png'></image>
       </view>
-    </view>
-    <view class='myAddGift' bindtap='myGiftCard'>
+    </view> -->
+    <view class='myAddGift' bindtap='myMessage'>
       <view class='myLogo'>
-        <image src='../../images/myAddGift.png'></image>
+        <image src='../../images/img/message.png'></image>
       </view>
       <view class='myText'>消息</view>
       <view class='myRig'>
@@ -96,11 +106,11 @@
           <image src='../../images/rig.png'></image>
         </view>
       </view> 
-      <view class='myBalance' bindtap='contact'>
+      <view class='myBalance'>
         <view class='myLogo'>
-          <image src='../../images/contact.png'></image>
+          <image src='../../images/img/feedback.png'></image>
         </view>
-        <view class='myText'>推广合作</view>
+        <view class='myText'><button open-type='feedback' plain="true">意见反馈</button></view>
         <view class='myRig'>
           <image src='../../images/rig.png'></image>
         </view>
@@ -114,7 +124,7 @@
 <navigator class='openlittleapp' target="miniProgram" open-type="navigate" app-id="wx7245add0c1844d9a" path="pages/index/index" extra-data="" version="release">打开绑定的小程序</navigator>
 <image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/jietu.png'></image>  -->
 <view class="bottom-tip">
-  <view class="name">--<text>熊猫科技出品</text>--</view>
+  <view class="name">--<text>校园抽奖小助手</text>--</view>
   <view class="message">超过一亿一千万人在用的小程序</view>
 </view>
 <view>

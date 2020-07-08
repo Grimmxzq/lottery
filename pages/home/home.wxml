@@ -1,103 +1,40 @@
 <!--pages/home/home.wxml 首页-->
 <view class='body'>
-  <view class="swipers">
-    <swiper indicator-dots="{{indicatorDots}}"
-      autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}" indicator-active-color="#fff">
-      <block wx:for="{{swiperImg}}" wx:key="index">
-        <swiper-item>
-          <image src="{{item}}" mode="aspectFill" class="full-width full-height"></image>
-        </swiper-item>
-      </block>
-    </swiper>
-  </view>
-  <view class='head'>
+  <view class='head flex' wx:if="{{lists.length > 0}}">
     <!-- 标题 -->
     <view class='welfare'>每日福利</view>
-    
-    <!-- 分享 -->
-    <!-- <view class='share'>
-      <button open-type="share" class='shareBtn'></button>
-      <view class='shareText'>分享给朋友</view>
-      <view class='shareIco'>
-        <image src='../../images/share.png'></image>
-      </view>
-    </view> -->
-  </view>
-  <!-- <view class='content'>
-    <view class='contentList' wx:for="{{list}}" wx:key="index" data-id='{{item.giftCard.id}}' bindtap='particulars'>
-      <view class='contentHead'>
-        <view class='labelLeft'>
-          <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view>
-        </view>
-        <view class='leabelRight'>{{item.giftCard.sponsor}}</view>
-        <image class='userBack' src='{{item.giftCard.picPath==null?"../../images/default.png":item.giftCard.picPath}}'></image>
-      </view>
-      <view class='prize'>奖品:{{item.giftCard.name}}×{{item.giftCard.amount}}份</view>
-      <view class='lotteryData'>
-        <view class='participation' wx:if="{{item.isParticipated=='true'}}">
-          <view>
-            <image src='../../images/participation.png'></image>
-          </view>
-          <view class='participationY'>已参与</view>
-          <view class='vertical'>|</view>
-        </view>
-        <view class='date'>{{item.giftCard.awardTime}}</view>
-        <view class='lotteryWay'>自动开奖</view>
-      </view>
-      <view class='dividing'></view>
+    <!-- 成为赞助商 -->
+    <view class='trunSponsor' bindtap='trunSponsor'>
+      成为赞助商
     </view>
-  </view> -->
+  </view>
+  <!-- 抽奖列表 -->
   <view class="prize-content">
-    <block wx:for="5" wx:key="index">
-      <view class="lists" bindtap="goDetails">
+    <block wx:for="{{lists}}" wx:key="index">
+      <view class="lists" bindtap="goDetails" data-id="{{item.lid}}">
         <view class="prize-img">
-          <image src="http://img.alicdn.com//imgextra//i4//4146037384//O1CN01H2CeLm24Pv9bvBzXw_!!4146037384.jpg" class="full-width full-height" mode="aspectFill"></image>
+          <image src="{{item.prize.img}}" mode="aspectFill" class="full-width full-height"></image>
         </view>
         <view class="discribe-content">
-          <view class="prize-shop">麦富迪浩洋专卖店<text decode="{{true}}">&emsp;赞助</text></view>
+          <view class="prize-shop">{{item.nickname}}<text decode="{{true}}">&emsp;赞助</text></view>
           <view class="prizes">
             <view class="prize-sort">
               <text>奖品：</text>
-              <text>麦富迪猫粮佰萃成猫幼猫2.5kg三文鱼猫咪增肥发腮全价粮5斤包邮</text>
+              <text>{{item.prize.name}}</text>
               <text decode="{{true}}">&nbsp;X</text>
-              <text>2</text>
+              <text>{{item.prize.num}}</text>
               <text>份</text>
               <text decode="{{true}}">&nbsp;</text>
               <text class="tuan">团</text>
             </view>
           </view>
-          <view class="open-times">06月09日 20：00 自动开奖</view>
+          <view class="open-times">{{item.time}} 自动开奖</view>
         </view>
       </view>
     </block>
   </view>
-  <view class='foot'>
-    <view class='trunSponsor' bindtap='trunSponsor'>
-      成为赞助商
-    </view>
-  </view>
+  <!-- 登录按钮 -->
   <view class='shareIcon' bindtap='shareIcon' wx:if='{{getSystemConfig.disableAdvancedGiftCard=="false"}}'>
     <image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/send.png'></image>
   </view>
 </view>
-<!-- <view class='masking' wx:if='{{hidden}}'>
-  <view class='maskingConten'>
-    <view class='mHeadImg'>
-      <image src='../../images/shareTop.png'></image>
-    </view>
-    <view class='mCloseImg' bindtap='mCloseImg'>
-      <image src='../../images/close.png'></image>
-    </view>
-    <view class='mTxt top'>
-      邀请一位好友参与抽奖
-    </view>
-    <view class='mTxt'>
-
-      立即获得<e class='mag'>5MAG</e>
-    </view>
-<view class='btnShare'>
-立即邀请
-    <button open-type="share" class='shareBtn'></button>
-</view>
-  </view>
-</view> -->

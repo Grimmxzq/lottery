@@ -19,77 +19,85 @@
     <view class='div'>
       <!--已参与待开奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
-        <view class='contentList' wx:for="{{openList.content}}" wx:key="index" data-id='{{item.id}}' bindtap='particulars'>
-          <view class='contentHead'>
-            <view class='labelLeft'>
-              <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
-            </view>
-            <view class='leabelRight' wx:if='{{item.sponsor!=""?false:item.sponsor!=null?false:""}}'>{{item.sponsor}}</view>
-            <image class='userBack' src='{{item.picPath==null?"../../images/default.png":item.picPath}}'></image>
-          </view>
-          <view class='prize'>奖品:{{item.name}}×{{item.amount}}份</view>
-          <view class='lotteryData'>
-            <view class='participation'>
-              <view>
-                <image src='../../images/participation.png'></image>
+        <block wx:for="{{3}}" wx:key="index">
+          <view class='contentList' bindtap='particulars'>
+            <view class='contentHead'>
+              <view class='labelLeft'>
+                <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
               </view>
-              <view class='participationY'>已参与</view>
-              <view class='vertical'>|</view>
+              <view class='leabelRight'>放到立刻就立刻</view>
+              <image class='userBack' src='../../images/default.png'></image>
             </view>
-            <view class='date'>{{item.awardTime}}</view>
-            <view class='lotteryWay'>自动开奖</view>
+            <view class='prize'>奖品:卡萨丁分开离开家ADSL课教案卡拉就是丢</view>
+            <view class='lotteryData'>
+              <view class='participation'>
+                <view>
+                  <image src='../../images/participation.png'></image>
+                </view>
+                <view class='participationY'>已参与</view>
+                <view class='vertical'>|</view>
+              </view>
+              <view class='date'>06-05 15：00</view>
+              <view class='lotteryWay'>自动开奖</view>
+              <view class="nums">×5份</view>
+            </view>
           </view>
-        </view>
         <view class='more' bindtap='moreData'>{{openList.last==true?'无更多数据~':openList.last==false?'加载更多~':''}}</view>
+        </block>
       </swiper-item>
 
       <!--已开奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
-        <view class='contentList' wx:for="{{closedList.content}}" wx:key="index" data-id='{{item.id}}' bindtap='particulars'>
-          <view class='contentHead'>
-            <view class='labelLeft'>
-              <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
+        <block wx:for="{{10}}" wx:key="index">
+          <view class='contentList'>
+            <view class='contentHead'>
+              <view class='labelLeft'>
+                <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
+              </view>
+              <view class='leabelRight'>肯定是离开</view>
+              <image class='userBack' src='../../images/default.png'></image>
             </view>
-            <view class='leabelRight' wx:if='{{item.sponsor!=""?false:item.sponsor!=null?false:""}}'>{{item.sponsor}}</view>
-            <image class='userBack' src='{{item.picPath==null?"../../images/default.png":item.picPath}}'></image>
-          </view>
-          <view class='prize'>奖品:{{item.name}}×{{item.amount}}份</view>
-          <view class='lotteryData'>
-            <view class='participation'>
+            <view class='prize'>奖品:激昂禄口街道拉看时间大石街道</view>
+            <view class='lotteryData'>
+              <view class='participation'>
 
-              <view class='participationY miss' wx:if='{{item.statusIsWon=="false"}}'>未抽中</view>
-              <view class='participationY win' wx:if='{{item.statusIsWon=="true"}}'>已中奖</view>
-              <view class='vertical'>|</view>
+                <view class='participationY miss'>未抽中</view>
+                <view class='participationY win' wx:if='{{item.statusIsWon=="true"}}'>已中奖</view>
+                <view class='vertical'>|</view>
+              </view>
+              <view class='date'>06-05 16：00</view>
+              <view class='lotteryWay'>自动开奖</view>
+              <view class="nums">×5份</view>
             </view>
-            <view class='date'>{{item.awardTime}}</view>
-            <view class='lotteryWay'>自动开奖</view>
           </view>
-        </view>
-        <view class='more'  bindtap='moreData'>{{closedList.last==true?'无更多数据~':closedList.last==false?'加载更多~':''}}</view>
+          <view class='more'  bindtap='moreData'>{{closedList.last==true?'无更多数据~':closedList.last==false?'加载更多~':''}}</view>
+        </block>
       </swiper-item>
 
       <!--已中奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
-        <view class='contentList' wx:for="{{wonList.content}}" wx:key="index" data-id='{{item.id}}' bindtap='particulars'>
-          <view class='contentHead'>
-            <view class='labelLeft'>
-              <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
+        <block wx:for="{{1}}" wx:key="index">
+          <view class='contentList'>
+            <view class='contentHead'>
+              <view class='labelLeft'>
+                <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
+              </view>
+              <view class='leabelRight'>撒离开家</view>
+              <image class='userBack' src='../../images/default.png'></image>
             </view>
-            <view class='leabelRight' wx:if='{{item.sponsor!=""?false:item.sponsor!=null?false:""}}'>{{item.sponsor}}</view>
-            <image class='userBack' src='{{item.picPath==null?"../../images/default.png":item.picPath}}'></image>
-          </view>
-          <view class='prize'>奖品:{{item.name}}×{{item.amount}}份</view>
-          <view class='lotteryData'>
-            <view class='participation'>
-
-              <view class='participationY win'>已中奖</view>
-              <view class='vertical'>|</view>
+            <view class='prize'>奖品:神盾局就看见斯卡迪加拉克家里的</view>
+            <view class='lotteryData'>
+              <view class='participation'>
+                <view class='participationY win'>已中奖</view>
+                <view class='vertical'>|</view>
+              </view>
+              <view class='date'>06-05 16：00</view>
+              <view class='lotteryWay'>自动开奖</view>
+              <view class="nums">×5份</view>
             </view>
-            <view class='date'>{{item.awardTime}}</view>
-            <view class='lotteryWay'>自动开奖</view>
           </view>
-        </view>
-        <view class='more'  bindtap='moreData'>{{wonList.last==true?'无更多数据~':wonList.last==false?'加载更多~':''}}</view>
+          <view class='more'  bindtap='moreData'>{{wonList.last==true?'无更多数据~':wonList.last==false?'加载更多~':''}}</view>
+        </block>
       </swiper-item>
     </view>
   </swiper>

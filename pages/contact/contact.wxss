@@ -17,10 +17,11 @@
 background: #F2F2EF;
 }
 .giftTxt{
-  font-size: 17px;
-color: #474747;
-text-align: center;
-margin-bottom: 42px;
+  font-size: 36rpx;
+  color: #333;
+  text-align: center;
+  margin-bottom: 42px;
+  font-weight: bold;
 }
 .titkeImg{
   float: left;

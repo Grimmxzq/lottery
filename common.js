@@ -2,7 +2,8 @@ var app = getApp();
 module.exports = {
   req: req,
   updateUserInfo: updateUserInfo,
-  uploadInfo: uploadInfo
+  uploadInfo: uploadInfo,
+  reLogin: reLogin
 }
 
 function updateUserInfo() {
@@ -37,12 +38,11 @@ function reLogin(options) {
   app.state.loginLock = true;
   wx.login({ // 登录
     success: loginRes => {
-      console.log(app.globalData.invitorId)
+      console.log(loginRes);
       req({
-        url: 'user/login',
+        url: 'user/UserLogin',
         data: {
-          'jsCode': loginRes.code,
-          "invitorId": app.globalData.invitorId || ''
+          'code': loginRes.code,
         },
         header: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -87,7 +87,6 @@ function reLogin(options) {
 function req(options) {
   wx.getStorage({
     key: 'cookie',
-
     complete: function(res) {
       // console.log(res)
       if (options.header && options.header != "") {
@@ -107,9 +106,10 @@ function req(options) {
         })
       }
       let oldUrl = options.url;
-      options.url = app.REQ_URL + options.url;
+      options.url = app.REQUEST_URL + options.url;
       let oldSuccess = options.success;
       options.success = function(res) {
+        console.log(res);
         if (res.data.status == '2010') {
           options.success = oldSuccess;
           options.url = oldUrl;

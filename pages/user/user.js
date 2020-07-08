@@ -1,6 +1,6 @@
 // pages/user/user.js
 const app = getApp()
-var common = require("../../common.js");
+const commonRequest = require("../../utils/commonRequest");//导入模块
 Page({
 
   /**
@@ -12,26 +12,54 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   putDeposit:function(){
-wx:wx.navigateTo({
-  url: '../putDeposit/putDeposit',
-  success: function(res) {},
-  fail: function(res) {},
-  complete: function(res) {},
-})
+    wx:wx.navigateTo({
+      url: '../putDeposit/putDeposit',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
   },
 
   getUserInfo: function (e) { //获取头像昵称
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
+    wx.showLoading({
+      title: '登录中...',
+    })
+    // console.log(e);
+    const that = this;
+    const userInfo = e.detail.userInfo;
     if (e.detail.errMsg == 'getUserInfo:ok') {
-      this.setData({
-        userInfo: e.detail.userInfo,
-        hasUserInfo: true
+      wx.login({
+        success: loginRes => {
+          console.log(loginRes);
+          commonRequest.gologin(loginRes, userInfo, (res) => {
+            console.log(res);
+            that.setData({
+              userInfo: e.detail.userInfo,
+              hasUserInfo: true
+            });
+          })
+        },
+        fail:res=>{
+          wx.showToast({
+            title: res,
+          });
+          wx.hideLoading();
+        }
       })
-      common.uploadInfo(e.detail.userInfo.nickName, e.detail.userInfo.avatarUrl)
+      // common.reLogin(e.detail.userInfo.nickName, e.detail.userInfo.avatarUrl)
+    } else {
+      wx.hideLoading({
+        complete: (res) => {
+          wx.showToast({
+            icon: 'none',
+            title: '已取消授权',
+          })
+        }
+      });
     }
   }, 
-  authentication:function(){wx:wx.navigateTo({
+  authentication:function(){
+    wx:wx.navigateTo({
     url: '../authentication/authentication',
     success: function(res) {},
     fail: function(res) {},
@@ -99,20 +127,6 @@ wx:wx.navigateTo({
       key: "tabIndex",
       data: 2
     })
-    // common.req({
-    //   url: 'getSystemConfig',
-    //   data: '',
-    //   header: {
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   },
-    //   dataType: 'json',
-    //   method: 'POST',
-    //   success: function (res) {
-    //     that.setData({
-    //       getSystemConfig: res.data.data
-    //     })
-    //   },
-    // })
     if (app.globalData.userInfo) { //在app页面获取userInfo信息
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -179,5 +193,10 @@ wx:wx.navigateTo({
    */
   // onShareAppMessage: function() {
 
-  // }
+  // },
+  myMessage: function () {
+    wx.navigateTo({
+      url: '../message/message'
+    })
+  }
 })

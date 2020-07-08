@@ -99,8 +99,17 @@
   height: 50rpx;
   line-height: 50rpx;
 }
-.join-prize .pic {
-
+.join-prize .wait-prize {
+  width: 100px;
+  height: 100px;
+  color: #f19185;
+}
+.join-prize .finish-prize {
+  width: 100px;
+  height: 100px;
+  color: #ddd;
+  background-color: rgb(155, 155, 155);
+  border: 0;
 }
 .join-prize .pic image{
   width: 60rpx;
@@ -108,6 +117,238 @@
   margin: 0 5rpx;
 }
 
+/* 我要上首页 */
+.index-top {
+  text-align: center;
+  font-size: 26rpx;
+  color: #666;
+  padding-top: 30rpx;
+  min-height: 100rpx;
+  line-height: 65rpx;
+}
+.bootom-height {
+  height: 100rpx;
+}
+/* 底部定位 */
+.position-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100rpx;
+  background-color: #fff;
+}
+.position-bottom .bottom-left {
+  width: 20%;
+  height: 100rpx;
+  justify-content: center;
+  align-items: center;
+}
+.position-bottom .bottom-left image{
+  width: 50rpx;
+  height: 50rpx;
+}
+.position-bottom .bottom-right {
+  width: 100%;
+  height: 100rpx;
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.position-bottom .bottom-right .join-button{
+  width: 90%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #f1341c;
+  color: #fff;
+  font-size: 30rpx;
+  text-align: center;
+  border-radius: 50rpx;
+  border: 0;
+}
+.position-bottom .finish-right .join-button{
+  color: #ddd;
+  background-color: rgb(155, 155, 155);
+}
+/* 中奖通知 */
+.notice {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+.notice .notice-content {
+  -moz-animation: moveUp 1s;
+  -ms-animation: moveUp 1s;
+  -webkit-animation: moveUp 1s;
+  animation: moveUp 1s;
+  border-radius: 10rpx 10rpx 0 0;
+  width: 100%;
+  height: 90%;
+  background-color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  overflow: scroll;
+}
+.notice .notice-content .close-dialog {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50rpx;
+  height: 50rpx;
+  padding: 40rpx;
+}
+.notice .notice-content .congratulation {
+  font-size: 50rpx;
+  font-weight: bold;
+  height: 150rpx;
+  line-height: 150rpx;
+  padding: 0 40rpx;
+  color: #f1341c;
+}
+.notice .notice-content .title {
+  font-size: 50rpx;
+  font-weight: bold;
+  height: 150rpx;
+  line-height: 150rpx;
+  padding: 0 40rpx;
+}
+
+.notice .notice-content .get-award-step {
+  padding: 0 40rpx 30rpx 40rpx;
+  font-size: 30rpx;
+  color: #666;
+}
+
+.notice .notice-content .get-award-step .box{
+  border: 1rpx solid #ccc;
+  padding: 20rpx;
+  font-size: 26rpx;
+  color: #333;
+  margin-top: 20rpx;
+}
+
+.notice .notice-content .award-prize {
+  padding: 0 40rpx 30rpx 40rpx;
+  font-size: 30rpx;
+}
+
+.delicate-prize {
+  padding: 0 40rpx;
+}
+.delicate-prize .delicate-prize-title {
+  font-size: 30rpx;
+  color: #666;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.delicate-prize .delicate-prize-content {
+  height: 250rpx;
+  border: 2rpx solid #ccc;
+  margin: 20rpx 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20rpx;
+}
+.delicate-prize .delicate-prize-content .img{
+  width: 200rpx;
+  height: 200rpx;
+}
+.delicate-prize .delicate-prize-content .prize-info{
+  width: 60%;
+  height: 200rpx;
+}
+.delicate-prize .delicate-prize-content .prize-info .name{
+  font-size: 30rpx;
+  color: #333;
+}
+.delicate-prize .delicate-prize-content .prize-info .time-and-num{
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #666;
+  padding: 14rpx 0;
+}
+.delicate-prize .delicate-prize-content .prize-info .join-button{
+  font-size: 28rpx;
+  color: #f1341c;
+  padding: 4rpx 30rpx;
+  border: 1rpx solid #f1341c; 
+  font-weight: bold;
+}
+
+.awarder {
+  padding: 20rpx 40rpx 0 40rpx;
+}
+.awarder .lists{
+  font-size: 30rpx;
+  color: #666;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.awarder .user-content{
+  border: 1rpx solid #ccc;
+  margin: 20rpx 0;
+}
+.user-content .name{
+  background-color: #eee;
+  width: 100%;
+  text-align: center;
+  font-size: 26rpx;
+  padding: 20rpx 0;
+  color: #333;
+}
+.awarder .user-content .name{
+  background-color: #eee;
+  width: 100%;
+  text-align: center;
+  font-size: 26rpx;
+  padding: 20rpx 0;
+  color: #333;
+}
+.awarder .user-content .users {
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 40rpx;
+}
+.awarder .user-content .users .user-msg{
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 145rpx;
+}
+.awarder .user-content .users .user-msg .img{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.awarder .user-content .users .user-msg .user-name{
+  width: 100%;
+  font-size: 24rpx;
+  color: #333;
+}
+
+.more-goods {
+  padding: 40rpx 40rpx;
+}
+.more-goods .msg {
+  border: 2rpx solid #000;
+  height: 70rpx;
+  font-size: 30rpx;
+  color: #333;
+  font-weight: bold;
+  line-height: 70rpx;
+  text-align: center;
+}
+
+/* 变大变小动画 */
 .animation-zoom {
   display: flex;
   align-items: center;
@@ -143,53 +384,21 @@
   }
 }
 
-/* 我要上首页 */
-.index-top {
-  text-align: center;
-  font-size: 26rpx;
-  color: #666;
-  padding-top: 30rpx;
-  min-height: 80rpx;
-  line-height: 50rpx;
+/* 从下往上动画 */
+@-webkit-keyframes moveUp {
+  0% {
+    height: 0;
+  }
+  100%{
+    height: 90%;
+  }
 }
-.bootom-height {
-  height: 100rpx;
+@keyframes moveUp {
+  0% {
+    height: 0;
+  }
+  100%{
+    height: 90%;
+  }
 }
-/* 底部定位 */
-.position-bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  width: 100%;
-  height: 100rpx;
-  background-color: #fff;
-}
-.position-bottom .bottom-left {
-  width: 20%;
-  height: 100rpx;
-  justify-content: center;
-  align-items: center;
-}
-.position-bottom .bottom-left image{
-  width: 50rpx;
-  height: 50rpx;
-}
-.position-bottom .bottom-right {
-  width: 100%;
-  height: 100rpx;
-  background-color: #fff;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-}
-.position-bottom .bottom-right .join-button{
-  width: 80%;
-  height: 80rpx;
-  line-height: 80rpx;
-  background-color: #f1341c;
-  color: #fff;
-  font-size: 30rpx;
-  text-align: center;
-  border-radius: 50rpx;
-}
+

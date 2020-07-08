@@ -3,6 +3,7 @@
 const app = getApp()
 var util = require("../../utils/util.js");
 var common = require("../../common.js");
+const Request = require("../../utils/request");//导入模块
 function setDate(date) {
   let getHours, getMinutes, getMonth, getDate;
 
@@ -37,18 +38,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: [],
+    lists: [],
     hidden:false,
-    indicatorDots: true, //是否显示面板指示点
-    autoplay: true, //是否自动播放
-    interval: 5000, //自动切换时间间隔
-    duration: 500,  //滑动动画时长
-    swiperImg: [
-      "http:\/\/img.alicdn.com\/imgextra\/i4\/2200777835412\/O1CN01hbPnX61pqk1cTGTiz_!!2200777835412.jpg",
-      "http:\/\/img.alicdn.com\/imgextra\/i1\/3373502564\/TB2sixlKf1TBuNjy0FjXXajyXXa_!!3373502564-0-item_pic.jpg",
-      "http:\/\/img.alicdn.com\/imgextra\/i4\/2204216994161\/O1CN01IKQ2A01gbmdQRi9nv_!!2204216994161.jpg"
-    ],
-    circular: true  //是否采用衔接滑动
+    page: 1
   },
   trunSponsor: function() { //前往成为赞助商页面
     wx.navigateTo({
@@ -81,24 +73,59 @@ wx:wx.navigateTo({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    wx.showLoading();
-    let that = this;
-    var id = options.id;
-    app.globalData.invitorId = options.invitorId;
-    console.log(options)
-
-    if (options.pageId == 'details') {
-      wx.navigateTo({
-        url: '../particulars/particulars?id=' + id
-      })
-    } else if (options.pageId == 'giftParticulars') {
-      wx.navigateTo({
-        url: '../particulars/particulars?id=' + id
-      })
-    }
-
+    // const id = options.id;
+    // if (options.pageId == 'details') {
+    //   wx.navigateTo({
+    //     url: '../particulars/particulars?id=' + id
+    //   })
+    // } else if (options.pageId == 'giftParticulars') {
+    //   wx.navigateTo({
+    //     url: '../particulars/particulars?id=' + id
+    //   })
+    // }
+    this.getDataList();
   },
-
+  getDataList(isRefresh) {
+    const fresh = isRefresh || false;
+    let that = this;
+    wx.showLoading();
+    let page = this.data.page;
+    Request.post('lottery/Index/',{
+      page,
+      size: 10
+    }).then((res) => {
+      console.log(res);
+      const { code, data, message } = res;
+      if (code === 200) {
+        that.setData({
+          page: page++,
+          lists: data.content
+        })
+      } else {
+        wx.showToast({
+          title: message,
+        });
+      }
+      if (fresh) {
+        wx.nextTick(() => {
+          wx.showToast({
+            title: '刷新成功',
+          })
+          wx.stopPullDownRefresh() //停止下拉刷新
+        })
+      }
+      wx.hideLoading();
+    }).catch(err => {
+      console.log(err);
+      wx.showToast({
+        title: err,
+      });
+      if (fresh) {
+        wx.stopPullDownRefresh() //停止下拉刷新
+      }
+      wx.hideLoading();
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -115,11 +142,11 @@ wx:wx.navigateTo({
       key: "tabIndex",
       data: 0
     })
-    setTimeout(()=>{
-      wx.hideLoading({
-        complete: (res) => {},
-      })
-    }, 3000)
+    // setTimeout(()=>{
+    //   wx.hideLoading({
+    //     complete: (res) => {},
+    //   })
+    // }, 3000)
   },
 
   /**
@@ -128,7 +155,6 @@ wx:wx.navigateTo({
   onHide: function() {
 
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
@@ -148,7 +174,11 @@ wx:wx.navigateTo({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh:function() {
-    
+    this.setData({
+      page: 1,
+      lists: []
+    })
+    this.getDataList(true);
     // let that=this
     // 　　wx.showNavigationBarLoading() //在标题栏中显示加载
     // that.setData({
@@ -221,10 +251,12 @@ wx:wx.navigateTo({
   /**
    * 点击去详情页面
    */
-  goDetails() {
+  goDetails(e) {
+    console.log(e);
+    const id = e.currentTarget.dataset.id;
     wx.navigateTo({
       // url: '../particulars/particulars?giftId=' + 2 +"&pageId=0",
-      url: '../goodsDetails/goodsDetails'
+      url: '../goodsDetails/goodsDetails?id=' + id
     })
   }
 })

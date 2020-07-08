@@ -17,7 +17,7 @@
   height: 8rpx;
   border-radius: 50rpx;
   width: 70rpx;
-  background: #fa7635;
+  background: #f1341c;
   bottom: 0;
   left: 36%;
 }
@@ -37,7 +37,7 @@
 }
 
 .on {
-  color: #fa7635;
+  color: #f1341c;
   border-bottom-left-radius: 10%;
   border-bottom-right-radius: 10%;
 }
@@ -143,11 +143,11 @@ white-space: nowrap;
   font-size: 17px;
   background: #fff;
   line-height: 50px;
-  padding-left: 15px;
+  padding: 0 15px;
 }
 
 .lotteryData {
-  padding-left: 15px;
+  padding: 0 15px;
   height: 30px;
   background: #fff;
 }
@@ -160,6 +160,10 @@ white-space: nowrap;
 
 .lotteryWay {
   margin-left: 7px;
+}
+
+.lotteryData .nums {
+  float: right;
 }
 
 .participation image {
@@ -200,6 +204,6 @@ white-space: nowrap;
 color: #A1A1A1;
 }
 .lotteryData .win{
-color: #FA7635;
+color: #f1341c;
 }
 

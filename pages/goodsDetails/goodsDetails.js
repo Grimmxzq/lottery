@@ -1,5 +1,6 @@
 // pages/goodsDetails/goodsDetails.js
 var app = getApp();
+const Request = require("../../utils/request");//导入模块
 Page({
 
   /**
@@ -15,13 +16,44 @@ Page({
       "http:\/\/img.alicdn.com\/imgextra\/i2\/2206521257455\/O1CN01CnY6Tc24wRH6qg4VV_!!2206521257455.jpg",
       "http:\/\/img.alicdn.com\/imgextra\/i1\/2206521257455\/O1CN01b0QSg324wRHAAJ6pj_!!2206521257455.jpg"
     ],
-    isShowLogin: false //是否显示登录框
+    isShowLogin: false, //是否显示登录框
+    isJoin: 3, //默认没有参与抽奖 1 待开奖 2 参与抽奖 3 已开奖
+    getAward: false, //是否中奖
+    isShowPrizeDialog: false //是否展示获奖框
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options);
+    const id = options.id; //商品id
+    // 模拟数据请求
+    // const math = Math.ceil(Math.random()*10);
+    // var isJoin, 
+    //   isShowPrizeDialog;
+    //   console.log(math)
+    // if (math <= 3) {
+    //   isJoin = 1;
+    //   isShowPrizeDialog = false;
+    // } else if (math <= 6) {
+    //   isJoin = 2;
+    //   isShowPrizeDialog = false;
+    // } else {
+    //   isJoin = 3;
+    //   isShowPrizeDialog = true;
+    // }
+    Request.post('lottery/Particulars/',{
+      lid: id
+    }).then((res) => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+      wx.showToast({
+        title: err,
+      });
+      wx.hideLoading();
+    })
     this.setData({
       isIphonex: app.globalData.isIphoneX
     })
@@ -31,7 +63,17 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
+    // const num = Math.ceil(Math.random()*10);
+    // let getAward;
+    // if (num <= 5) {
+    //   getAward = true;
+    // } else {
+    //   getAward = false;
+    // }
+    // this.setData({
+    //   getAward
+    // })
   },
 
   /**
@@ -152,6 +194,14 @@ Page({
   closeLoginDialog: function() {
     this.setData({
       isShowLogin: false
+    })
+  },
+  // 弹框静止滑动
+  stopTouchMove: function () {},
+  // 关闭开奖框
+  closePrizeDialog: function () {
+    this.setData({
+      isShowPrizeDialog: false
     })
   }
 })

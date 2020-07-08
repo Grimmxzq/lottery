@@ -13,17 +13,17 @@
             <!-- <view class='labelText'>{{item.Type}}</view> -->
           </view>
           <view class='leabelRight' bindtap='cehngePhoto' data-index="{{id}}">更换奖品图片</view>
-          <image class='userBack' src='{{imgsValue[id]}}'></image>
+          <image class='userBack' src="{{prizeNum[id].img == '' ? 'https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/583594514074129397.png' : prizeNum[id].img}}" mode="aspectFill"></image>
         </view>
       </view>
     </view>
     <view class="gray-upload-img" wx:else>
       <view class='contentList content-bg' bindtap='cehngePhoto' data-index="{{id}}">
-        <view class='content-bg-contain' wx:if="{{!imgsValue[id]}}">
+        <view class='content-bg-contain' wx:if="{{!prizeNum[id].img}}">
           <image src="../../images/img/uploadimgs.png" class="gray-upload-img-icon"></image>
           <text class='gray-upload-img-title' decode="{{true}}" space="{{true}}">&nbsp;可添加{{changeWord.changeWord(id + 1)}}等奖图片</text>
         </view>
-        <image class='userBack' src='{{imgsValue[id]}}' wx:else></image>
+        <image class='userBack' src='{{prizeNum[id].img}}' mode="aspectFill" wx:else></image>
       </view>
     </view>
     <!-- 设置奖品名称及数量 -->
@@ -40,9 +40,8 @@
             <text wx:else>{{changeWord.changeWord(id + 1)}}等奖名称</text>
           </view>
           <view class="section">
-            <input type="text" bindinput='inputchange' value='{{nameTotalVal[id]}}' placeholder="请输入奖品名称" data-index="{{id}}" maxlength='20' placeholder-style='font-size: 14px;color: #B7B7B7;' />
+            <input type="text" bindinput='inputchange' value='{{prizeNum[id].name}}' placeholder="请输入奖品名称" data-index="{{id}}" maxlength='20' placeholder-style='font-size: 14px;color: #B7B7B7;' />
           </view>
-          <view class='warning' wx:if='{{byte}}'>不能超过20个字符</view>
         </view>
       </view>
       <!-- 奖品数量 -->
@@ -51,7 +50,7 @@
         <view class=''>奖品份数</view>
         <!-- <view class='part'>份</view> -->
         <view class="num">
-          <input type="number" placeholder="份数" value='{{amountTotalValue[id]}}' bindinput='numberchange' data-index="{{id}}" maxlength='3' placeholder-style='font-size: 14px;color: #B7B7B7;' />
+          <input type="number" placeholder="份数" value='{{prizeNum[id].num}}' bindinput='numberchange' data-index="{{id}}" maxlength='3' placeholder-style='font-size: 14px;color: #B7B7B7;' />
         </view>
         <view class='warning' wx:if='{{bytenumber}}'>数量不得超过 999</view>
       </view>
@@ -108,7 +107,7 @@
     <view class='LotteryStart'>
       <view class='starttime'>开奖人数</view>
       <view class="section__title prize-num-input">
-        <input type="text" bindinput='inputchange' value='{{nameTotalVal[id]}}' placeholder="人数" data-index="{{id}}" maxlength='20' placeholder-style='font-size: 14px;color: #B7B7B7;' />
+        <input type="text" bindinput='numInput' value='{{peoples}}' placeholder="人数" data-index="{{id}}" maxlength='20' placeholder-style='font-size: 14px;color: #B7B7B7;' />
         <text style="color: #333;padding-right: 30rpx">人</text>
       </view>
     </view>
@@ -134,15 +133,15 @@
   <view class="prize-introduce">
     <view class="prize-introduce-title">
       <view class="footTitle">抽奖说明</view>
-      <view class="go-example" bindtap="goExample">查看示例 ></view>
+      <!-- <view class="go-example" bindtap="goExample">查看示例 ></view> -->
     </view>
     <view class="textarea-contain">
-      <textarea placeholder='非必填，可输入抽奖说明' value="" placeholder-style='font-size: 14px;color: #B7B7B7;' class="textarea-area" auto-height maxlength='-1' cursor-spacing="100"/>
+      <textarea placeholder='非必填，可输入抽奖说明' bindinput="descInput" value="{{desc}}" placeholder-style='font-size: 14px;color: #B7B7B7;' class="textarea-area" auto-height maxlength='-1' cursor-spacing="100"/>
     </view>
   </view>
 
   <!-- 高级设置 -->
-  <view class="vip-setting">
+  <!-- <view class="vip-setting">
     <view class="vip-setting-title">
       <view class="footTitle">高级设置</view>
     </view>
@@ -158,7 +157,7 @@
         <switch checked="{{switch1Checked}}" bindchange="switch1Change"/>
       </view>
     </view>
-  </view>
+  </view> -->
   <!-- 领奖方式 -->
   <view class='foot' wx:if="{{switch1Checked && isVip}}">
     <view class='LotteryStyle'></view>
@@ -189,8 +188,6 @@
     </view>
   </view>
   <button wx:if="{{!hasUserInfo && canIUse}}" class='userinfo' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-
-
 
 
 
