@@ -300,3 +300,10 @@ color: #53AD21;
   color: rgb(170, 170, 170);
   font-size: 24rpx;
 }
+
+.loading-text {
+  text-align: center;
+  padding-bottom: 40rpx;
+  font-size: 30rpx;
+  color: #333;
+}

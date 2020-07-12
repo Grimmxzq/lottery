@@ -2,6 +2,7 @@
   "pages": [
     
     "pages/home/home",
+    "pages/shareImg/index",
     "pages/goodsDetails/goodsDetails",
     "pages/pay/pay",
     "pages/addaAdvanced/addAdvanced",
@@ -34,6 +35,7 @@
     "pages/totalUsers/totalUsers",
     "pages/joinUser/joinUser",
     "pages/message/message"
+    
   ],
   "window": {
     "backgroundTextStyle": "dark",

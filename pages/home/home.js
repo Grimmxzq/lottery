@@ -40,7 +40,10 @@ Page({
   data: {
     lists: [],
     hidden:false,
-    page: 1
+    page: 1,
+    size: 5,
+    stopLoading: false,
+    loadingText: '正在加载...'
   },
   trunSponsor: function() { //前往成为赞助商页面
     wx.navigateTo({
@@ -83,37 +86,51 @@ wx:wx.navigateTo({
     //     url: '../particulars/particulars?id=' + id
     //   })
     // }
+    wx.showLoading();
     this.getDataList();
   },
+  // 获取数据
   getDataList(isRefresh) {
     const fresh = isRefresh || false;
     let that = this;
-    wx.showLoading();
     let page = this.data.page;
+    let arr = this.data.lists;
     Request.post('lottery/Index/',{
       page,
-      size: 10
+      size: that.data.size
     }).then((res) => {
       console.log(res);
       const { code, data, message } = res;
       if (code === 200) {
+        // if (fresh) {
+        //   wx.nextTick(() => {
+        //     wx.showToast({
+        //       title: '刷新成功',
+        //     })
+        //   })
+        // }
+        for(var i=0; i<data.content.length; i++) {
+          const item = data.content[i];
+          arr.push(item);
+        }
+        page++;
         that.setData({
-          page: page++,
-          lists: data.content
+          page: page,
+          lists: arr
         })
+        if (data.content.length < 5) {
+          that.setData({
+            stopLoading: true,
+            loadingText: '暂无更多数据'
+          })
+        }
       } else {
         wx.showToast({
           title: message,
+          icon: 'none'
         });
       }
-      if (fresh) {
-        wx.nextTick(() => {
-          wx.showToast({
-            title: '刷新成功',
-          })
-          wx.stopPullDownRefresh() //停止下拉刷新
-        })
-      }
+      wx.stopPullDownRefresh() //停止下拉刷新
       wx.hideLoading();
     }).catch(err => {
       console.log(err);
@@ -161,70 +178,25 @@ wx:wx.navigateTo({
   onUnload: function() {
 
   },
-
-  
-
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    if (this.data.stopLoading) return false;
+    this.getDataList();
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh:function() {
+    wx.showLoading();
     this.setData({
       page: 1,
+      stopLoading: false,
       lists: []
     })
     this.getDataList(true);
-    // let that=this
-    // 　　wx.showNavigationBarLoading() //在标题栏中显示加载
-    // that.setData({
-    //   list:[]
-    // })
-    //   common.req({
-    //     url: 'getHomeGiftList',
-    //     data: '',
-    //     header: {
-    //       'Content-Type': 'application/x-www-form-urlencoded'
-    //     },
-    //     dataType: 'json',
-    //     method: 'POST',
-    //     success: function (res) {
-    //       if (res.data.status == '1001') {
-    //         wx.showToast({
-    //           title: res.data.msg,
-    //           icon: 'loading',
-    //           duration: 3000
-    //         })
-    //       }
-        
-    //       for (var i = 0; i < res.data.data.length; i++) {
-    //         let str = res.data.data[i].giftCard.awardTime;
-    //         str = str.replace(/-/g, '/');
-    //         let date = new Date(str);
-    //         let awardTime = setDate(date)
-        
-    //         res.data.data[i].giftCard.awardTime= awardTime,
-    //             res.data.data[i].giftCard.picPath = app.FILE_URL + res.data.data[i].giftCard.picPath
-    //       }
-    //       that.setData({
-    //         list: res.data.data
-    //       })
-
-    //     },    
-    //   complete: function () {
-    //     // complete
-    //     wx.hideNavigationBarLoading() //完成停止加载
-    //     wx.stopPullDownRefresh() //停止下拉刷新
-    //   }
-    // })
-   
-    
-
-    },  
+  },
   /**
    * 用户点击右上角分享
    */

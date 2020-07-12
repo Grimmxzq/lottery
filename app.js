@@ -10,7 +10,10 @@ App({
     // 适配iphonex及以上版本
     wx.getSystemInfo({
       complete: (res) => {
-        // console.log(res);
+        console.log(res);
+        that.globalData.radio = 750 / res.windowWidth;
+        that.globalData.windowHeight = res.windowHeight;
+        that.globalData.windowWidth = res.windowWidth;
         let model = res.model;
         let iphoneArr = ['iPhone X', 'iPhone XR', 'iPhone XS', 'iPhone XS Max', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max'];
         iphoneArr.forEach( item => {
@@ -48,6 +51,9 @@ App({
     invitorId:null,
     userId:null,    //
     introduction: null,
+    windowHeight: 0,
+    windowWidth: 0,
+    radio: 0, //根据尺寸动态计算 1px换算成多少rpx
     isIphoneX: false //适配iphonex及以上版本
   },
   state:{

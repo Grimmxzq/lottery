@@ -5,12 +5,18 @@
   <view class="headers">
     <!-- banner图 -->
     <view class="imgs">
-      <image src="http:\/\/img.alicdn.com\/imgextra\/i4\/2200777835412\/O1CN01hbPnX61pqk1cTGTiz_!!2200777835412.jpg" mode="aspectFill" class="full-width full-height" bindtap="previewImage" data-url="http:\/\/img.alicdn.com\/imgextra\/i4\/2200777835412\/O1CN01hbPnX61pqk1cTGTiz_!!2200777835412.jpg"></image>
+       <swiper class="full-height">
+        <block wx:for="{{swipers}}" wx:key="*this">
+          <swiper-item>
+            <image src="{{item}}" mode="aspectFill" class="full-width full-height" bindtap="previewImage" data-url="{{item}}"></image>
+          </swiper-item>
+        </block>
+      </swiper>
     </view>
     <!-- 奖品信息 -->
     <view class="prize-info">
-      <view class="title">奖品：【两件装】短袖t恤男士潮牌恤半袖韩版夏季五分上衣服宽松男装潮 X4 份</view>
-      <view class="times">06月12日 18：00 自动开奖</view>
+      <view class="title">奖品：{{details.prize[0].name}} X{{details.prize[0].num}} 份</view>
+      <view class="times">{{details.time}} 自动开奖</view>
       <view class="tuan">团</view>
     </view>
   </view>
@@ -24,7 +30,14 @@
       </view>
       <view>赞助商</view>
     </view>
-    <view class="content">奖品：【两件装】短袖t恤男士潮牌恤半袖韩版夏季五分上衣服宽松男装潮 X4 份两件装】短袖t恤男士潮牌恤半袖韩版夏季五分上衣服宽松男装潮 X4 份</view>
+    <view class="content">
+      奖品内容： 
+      <block wx:for="{{details.prize}}" wx:for-index="index" wx:key="index" wx:for-item="item">
+        <view>
+          <text>{{item.grade}}：{{item.name}} X{{item.num}}份</text>
+        </view>
+      </block>
+    </view>
   </view>
 
   <!-- 奖品介绍 -->
@@ -39,10 +52,10 @@
 
   <!-- 参与抽奖 -->
   <view class="join-prize">
-    <view class="join animation-zoom" bindtap="signUp" wx:if="{{isJoin == 2}}">参与抽奖</view>
+    <view class="join animation-zoom" bindtap="signUp" wx:if="{{isJoin == 0}}">参与抽奖</view>
     <view class="wait-prize animation-zoom" wx:if="{{isJoin == 1}}">待开奖</view>
     <view class="finish-prize animation-zoom" wx:if="{{isJoin == 3}}">已结束</view>
-    <view class="join-num" bindtap="checkJoinUser">已有 10937 人参与，查看全部 ></view>
+    <view class="join-num" bindtap="checkJoinUser">已有 10937 人参与，<text style="color: #f1341c;">查看全部 ></text></view>
     <view class="pic">
       <block wx:for="{{joinUsers}}" wx:for-item="item" wx:for-index="idx" wx:key="idx">
         <image src="{{item}}"></image>
@@ -59,7 +72,8 @@
     <view class="bottom-left flex" bindtap="goIndex">
       <image src="../../images/img/index.png"></image>
     </view>
-    <view class="bottom-right flex" bindtap="signUp" wx:if="{{isJoin == 2}}">
+    <view class="bottom-left flex" bindtap="shareImg">分享</view>
+    <view class="bottom-right flex" bindtap="signUp" wx:if="{{isJoin == 0}}">
       <button class="join-button" plain="true">参与抽奖</button>
     </view> 
     <view class="bottom-right flex" wx:if="{{isJoin == 1}}">
@@ -134,4 +148,3 @@
     <view class="{{isIphonex ? 'iphonex-bottom' : ''}}"></view>
   </scroll-view>
 </view>
-

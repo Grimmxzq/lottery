@@ -8,6 +8,8 @@ Page({
    */
   data: {
     isIphonex: false, //适配iphonex以上版本
+    lid: 0, //商品ID
+    swipers: [], //图片轮播
     joinUsers: [
       "http:\/\/img.alicdn.com\/imgextra\/i4\/2200734032419\/O1CN01sjKQSm1TjwgG5gonD_!!2200734032419.jpg",
       "http:\/\/img.alicdn.com\/imgextra\/i2\/2206521257455\/O1CN01vnj6eK24wRH2vKSxd_!!2206521257455.jpg",
@@ -15,9 +17,10 @@ Page({
       "http:\/\/img.alicdn.com\/imgextra\/i4\/2206521257455\/O1CN01Delf3P24wRH4InzVj_!!2206521257455.jpg",
       "http:\/\/img.alicdn.com\/imgextra\/i2\/2206521257455\/O1CN01CnY6Tc24wRH6qg4VV_!!2206521257455.jpg",
       "http:\/\/img.alicdn.com\/imgextra\/i1\/2206521257455\/O1CN01b0QSg324wRHAAJ6pj_!!2206521257455.jpg"
-    ],
+    ], //参与抽奖人员头像
+    details: null, //抽奖详情
     isShowLogin: false, //是否显示登录框
-    isJoin: 3, //默认没有参与抽奖 1 待开奖 2 参与抽奖 3 已开奖
+    isJoin: 2, //默认没有参与抽奖 0.参与抽奖 1.待开奖 2.已开奖 3.已开奖 + 已中奖 4.已开奖 + 未中奖
     getAward: false, //是否中奖
     isShowPrizeDialog: false //是否展示获奖框
   },
@@ -28,35 +31,78 @@ Page({
   onLoad: function (options) {
     console.log(options);
     const id = options.id; //商品id
-    // 模拟数据请求
-    // const math = Math.ceil(Math.random()*10);
-    // var isJoin, 
-    //   isShowPrizeDialog;
-    //   console.log(math)
-    // if (math <= 3) {
-    //   isJoin = 1;
-    //   isShowPrizeDialog = false;
-    // } else if (math <= 6) {
-    //   isJoin = 2;
-    //   isShowPrizeDialog = false;
-    // } else {
-    //   isJoin = 3;
-    //   isShowPrizeDialog = true;
-    // }
+    const swipers = this.data.swipers;
+    wx.showLoading();
     Request.post('lottery/Particulars/',{
       lid: id
     }).then((res) => {
       console.log(res);
+      const {code, data, message} = res;
+      if (code === 200) {
+        this.handleStatus(data.status);
+        data.content.prize.forEach((item) => {
+          swipers.push(item.img);
+        });
+        this.setData({
+          details: data.content,
+          swipers
+        })
+      } else {
+        wx.showToast({
+          title: message,
+          icon: 'none'
+        })
+      }
+      wx.hideLoading();
     }).catch(err => {
       console.log(err);
       wx.showToast({
-        title: err,
+        title: err.message,
       });
       wx.hideLoading();
     })
     this.setData({
-      isIphonex: app.globalData.isIphoneX
+      isIphonex: app.globalData.isIphoneX,
+      lid: id
     })
+  },
+  // 处理抽奖状态
+  handleStatus(num) {
+    let status = 0;
+    let getAward = false;
+    let isShowPrizeDialog = false;
+    switch (num) {
+      case 0: //参与抽奖
+        status = num;
+        getAward = false;
+        isShowPrizeDialog = false;
+        break;
+      case 1: //待开奖
+        status = num;
+        getAward = false;
+        isShowPrizeDialog = false;
+        break;
+      case 2: //已开奖
+        status = num;
+        getAward = false;
+        isShowPrizeDialog = false;
+        break;
+      case 3: //已开奖 + 已中奖
+        status = num;
+        getAward = true;
+        isShowPrizeDialog = true;
+        break;
+      case 4: //已开奖 + 未中奖
+        status = num;
+        getAward = true;
+        isShowPrizeDialog = true;
+        break;
+    };
+    this.setData({
+      isJoin: status,
+      getAward,
+      isShowPrizeDialog
+    });
   },
 
   /**
@@ -64,16 +110,6 @@ Page({
    */
   onReady: function () {
     
-    // const num = Math.ceil(Math.random()*10);
-    // let getAward;
-    // if (num <= 5) {
-    //   getAward = true;
-    // } else {
-    //   getAward = false;
-    // }
-    // this.setData({
-    //   getAward
-    // })
   },
 
   /**
@@ -151,32 +187,61 @@ Page({
     try {
       var value = wx.getStorageSync('userInfo')
       if (value) {
-        wx.getSetting({
-          withSubscriptions: true,
-          success(res){
-            console.log(res);
-            if (res.subscriptionsSetting.mainSwitch) {
-              console.log("111")
-              wx.requestSubscribeMessage({
-                tmplIds: ['-EzU6FCX73GVmVw58dkRWOm7beyEgXXfJm4mVbMjP9g'],
-                success (res) { 
-                  console.log("222")
-                  console.log(res);
-                  wx.showToast({
-                    title: '参与成功',
+        Request.post('lottery/ParLottery/',{
+          lid: that.data.lid * 1
+        }).then((res) => {
+          console.log(res);
+          const {code, data, message} = res;
+          if (code === 200) {
+            wx.getSetting({
+              withSubscriptions: true,
+              success(res){
+                console.log(res);
+                if (res.subscriptionsSetting.mainSwitch) {
+                  console.log("111")
+                  wx.requestSubscribeMessage({
+                    tmplIds: ['-EzU6FCX73GVmVw58dkRWOm7beyEgXXfJm4mVbMjP9g'],
+                    success (res) { 
+                      console.log("用户允许通知");
+                      console.log(res);
+                      wx.showToast({
+                        title: '参与成功',
+                        complete: function() {
+                          that.setData({
+                            isJoin: 2
+                          });
+                        }
+                      })
+                    },
+                    fail(err) {
+                      console.log(err);
+                      wx.showToast({
+                        title: err.message,
+                        icon: 'none'
+                      })
+                    }
                   })
-                },
-                fail(err) {
-                  console.log(err);
                 }
-              })
-            }
-          },
-          fail(err) {
+              },
+              fail(err) {
+                wx.showToast({
+                  title: '获取用户订阅消息失败',
+                })
+              }
+            })
+          } else {
             wx.showToast({
-              title: '获取用户订阅消息失败',
+              title: message,
+              icon: 'none'
             })
           }
+          wx.hideLoading();
+        }).catch(err => {
+          console.log(err);
+          wx.showToast({
+            title: err,
+          });
+          wx.hideLoading();
         })
       } else {
         that.setData({
@@ -187,6 +252,7 @@ Page({
       // Do something when catch error
       wx.showToast({
         title: '您当前微信版本过低，请升级后再次尝试',
+        icon: 'none'
       })
     }
   },
@@ -194,6 +260,33 @@ Page({
   closeLoginDialog: function() {
     this.setData({
       isShowLogin: false
+    })
+    this.changeStatus();
+  },
+  // 登录以后判断是否参与过抽奖
+  changeStatus: function () {
+    wx.showLoading();
+    const that = this;
+    Request.post('lottery/Particulars/',{
+      lid: that.data.lid
+    }).then((res) => {
+      console.log(res);
+      const {code, data, message} = res;
+      if (code === 200) {
+        this.handleStatus(data.status);
+      } else {
+        wx.showToast({
+          title: message,
+          icon: 'none'
+        })
+      }
+      wx.hideLoading();
+    }).catch(err => {
+      console.log(err);
+      wx.showToast({
+        title: err.message,
+      });
+      wx.hideLoading();
     })
   },
   // 弹框静止滑动
@@ -203,5 +296,37 @@ Page({
     this.setData({
       isShowPrizeDialog: false
     })
+  },
+  // 分享
+  shareImg() {
+    let that = this;
+    let value = wx.getStorageSync('userInfo');
+    if (value) {
+      wx.setStorage({
+        data: {
+          lid: that.data.lid,
+          img: that.data.details.prize[0].img,
+          num: that.data.details.prize[0].num,
+          times: that.data.details.time,
+          name: that.data.details.prize[0].name
+        },
+        key: 'shareInfo',
+        success() {
+          wx.navigateTo({
+            url: '../shareImg/index',
+          })
+        },
+        fail() {
+          wx.showToast({
+            title: '系统错误，请重启再试',
+            icon: 'none'
+          })
+        }
+      })
+    } else {
+      that.setData({
+        isShowLogin: true
+      })
+    }
   }
 })

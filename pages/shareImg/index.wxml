@@ -1,0 +1,9 @@
+<view class="contain-body full-width">
+  <view class="canvas-contain">
+    <canvas canvas-id="shareCanvas" style="height:{{canvasHeight}}px"></canvas>
+  </view>
+</view>
+  <view class="{{isIphonex ? 'iphonex-bottom' : ''}} bootom-height"></view>
+<cover-view class="save-album {{isIphonex ? 'iphonex-bottom' : ''}}">
+  <button type="default" class="save-button" disabled="{{!isSave}}" bindtap="saveImg">保存图片</button>
+</cover-view>

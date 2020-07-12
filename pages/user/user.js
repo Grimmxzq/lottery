@@ -83,9 +83,99 @@ Page({
     })
   },
   walletAddress: function() { //钱包地址页面
-    wx: wx.navigateTo({
-      url: '../walletAddressList/walletAddressList',
+    // wx: wx.navigateTo({
+    //   url: '../walletAddressList/walletAddressList',
+    // })
+    const that = this;
+    wx.getSetting({
+      success(res) {
+        console.log("vres.authSetting['scope.address']：",res.authSetting['scope.address'])
+        if (res.authSetting['scope.address']) {
+          console.log("用户已授权")
+          wx.chooseAddress({
+            success(res) {
+              that.addressRequest(res);
+            },
+            fail() {
+              console.log("已取消");
+            }
+          })
+        } else {
+          if (res.authSetting['scope.address'] == false) {
+            console.log("用户未授权获取通用地址功能");
+            wx.showModal({
+              title: '获取通讯地址授权',
+              content: '检测到未授权通讯地址，是否前往授权？',
+              success(res) {
+                if (res.confirm) {
+                  wx.openSetting({
+                    success(res) {
+                      console.log(res.authSetting);
+                      if (res.authSetting['scope.address'] == true) {
+                        wx.showToast({
+                          title: '地址授权成功'
+                        })
+                      } else {
+                        wx.showToast({
+                          title: '地址授权失败',
+                          icon: 'none'
+                        })
+                      }
+                    }
+                  })
+                } else if (res.cancel) {
+                  wx.showToast({
+                    title: '授权已取消',
+                    icon: 'none'
+                  })
+                }
+              },
+              fail() {
+                wx.showToast({
+                  title: '程序错误，请稍后再试',
+                  icon: 'none'
+                })
+              }
+            })
+          } else {
+            console.log("第一次授权")
+            wx.chooseAddress({
+              success(res) {
+                that.addressRequest(res);
+              },
+              fail() {
+                console.log("已取消");
+              }
+            })
+          }
+        }
+      },
+      fail() {
+        wx.showToast({
+          title: '系统错误',
+          icon: 'none'
+        })
+      }
     })
+  },
+  // 收货地址数据请求
+  addressRequest(res) {
+    // console.log(res.userName)
+    // console.log(res.postalCode)
+    // console.log(res.provinceName)
+    // console.log(res.cityName)
+    // console.log(res.countyName)
+    // console.log(res.detailInfo)
+    // console.log(res.nationalCode)
+    // console.log(res.telNumber)
+    wx.showLoading({
+      title: '授权中...'
+    });
+    setTimeout(() => {
+      wx.showToast({
+        title: '授权成功',
+      })
+    }, 1000);
   },
   myGiftCard: function () { //我生成的礼品卡
     wx: wx.navigateTo({

@@ -1,0 +1,42 @@
+.contain-body {
+  background-color: #222;
+}
+
+.canvas-contain {
+  width: 100%;
+  /* height: 100%; */
+  margin: auto;
+  /* background-color: #e76a59; */
+}
+
+.canvas-contain canvas {
+  width: 700rpx;
+  height: 700px;
+  margin: auto;
+}
+
+.bootom-height {
+  height: 120rpx;
+  width: 100%;
+  background-color: #000;
+}
+
+.save-album {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120rpx;
+  background-color: #fff;
+}
+
+.save-album .save-button {
+  background-color: #333;
+  width: 94%;
+  border-radius: 50px;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #fff;
+  font-size: 30prx;
+  margin-top: 20rpx;
+}
