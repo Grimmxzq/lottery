@@ -1,7 +1,5 @@
 // pages/myAddGiftCard/myAddGiftCard.js
 const app = getApp()
-// var common = require("../../common.js");
-var util = require("../../utils/util.js");
 const Request = require("../../utils/request");//导入模块
 Page({
 
@@ -13,16 +11,16 @@ Page({
     wonListHeight: 0,
     // tab切换  
     currentTab: 0,
-    closedList: {},
-    openList: {},
-    wonList: {}
+    closedList: {}, //未开奖
+    openList: {}, //未中奖
+    wonList: {} //已中奖
   },
   particulars: function (e) {
-    var id = e.currentTarget.dataset.id
+    console.log(e);
+    const lid = e.currentTarget.dataset.lid;
     wx.navigateTo({
-      url: '../particulars/particulars?giftId=' + id + "&pageId=0"
+      url: '../goodsDetails/goodsDetails?id=' + lid,
     })
-
   },
   /** 
    * 滑动切换tab 
@@ -53,104 +51,40 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
-    
-    // common.req({ //请求我的礼品卡列表
-    //   url: 'user/getParticipatedGifts',
-    //   data: {},
-    //   header: {
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   },
-    //   dataType: 'json',
-    //   method: 'POST',
-    //   success: function (res) {
-
-    //     for (var i = 0; i < res.data.data.closedList.content.length; i++) { //给图片加域名
-    //       if (res.data.data.closedList.content[i].picPath != null) {
-    //         res.data.data.closedList.content[i].picPath = app.FILE_URL + res.data.data.closedList.content[i].picPath
-    //       }
-    //     }
-    //     for (var i = 0; i < res.data.data.openList.content.length; i++) {
-    //       if (res.data.data.openList.content[i].picPath != null) {
-    //         res.data.data.openList.content[i].picPath = app.FILE_URL + res.data.data.openList.content[i].picPath
-    //       }
-    //     }
-    //     for (var i = 0; i < res.data.data.wonList.content.length; i++) {
-    //       if (res.data.data.wonList.content[i].picPath != null) {
-    //         res.data.data.wonList.content[i].picPath = app.FILE_URL + res.data.data.wonList.content[i].picPath
-    //       }
-    //     }
-    //     that.setData({
-    //       closedList: res.data.data.closedList,
-    //       openList: res.data.data.openList,
-    //       wonList: res.data.data.wonList
-    //     })
-
-
-    //     function setDate(date) { //设置时间格式
-    //       let getHours, getMinutes, getMonth, getDate;
-
-    //       if (date.getMonth() < 9) {
-    //         getMonth = '0' + (parseInt(date.getMonth()) + 1)
-    //       } else {
-    //         getMonth = date.getMonth()
-    //       }
-    //       if (date.getDate() < 10) {
-    //         getDate = '0' + date.getDate()
-    //       } else {
-    //         getDate = date.getDate()
-    //       }
-
-    //       if (date.getHours() < 10) {
-    //         getHours = '0' + date.getHours()
-    //       } else {
-    //         getHours = date.getHours()
-    //       }
-    //       if (date.getMinutes() < 10) {
-    //         getMinutes = '0' + date.getMinutes()
-    //       } else {
-    //         getMinutes = date.getMinutes()
-    //       }
-    //       let newData = getMonth + "月" + getDate + "日 " + getHours + ":" + getMinutes
-    //       return newData;
-
-    //     }
-    //     for (var i = 0; i < that.data.closedList.length; i++) {
-    //       let str = that.data.closedList[i].awardTime;
-    //       str = str.replace(/-/g, '/');
-    //       let date = new Date(str);
-    //       let awardTime = setDate(date)
-
-    //       let item = 'closedList[' + i + '].awardTime'
-    //       that.setData({
-    //         [item]: awardTime
-    //       })
-    //     }
-    //     for (var i = 0; i < that.data.wonList.length; i++) {
-    //       let str = that.data.wonList[i].awardTime;
-    //       str = str.replace(/-/g, '/');
-    //       let date = new Date(str);
-    //       let awardTime = setDate(date)
-    //       let item = 'wonList[' + i + '].awardTime'
-    //       that.setData({
-    //         [item]: awardTime
-    //       })
-    //     }
-    //     for (var i = 0; i < that.data.openList.length; i++) {
-    //       let str = that.data.openList[i].awardTime;
-    //       str = str.replace(/-/g, '/');
-    //       let date = new Date(str);
-    //       let awardTime = setDate(date)
-    //       let item = 'openList[' + i + '].awardTime'
-    //       that.setData({
-    //         [item]: awardTime
-    //       })
-    //     }
-
-    //   },
-    // })
+    wx.showLoading();
+    Request.post('user/Participate/').then((res) => {
+      console.log(res);
+      const {code, data, message} = res;
+      if (code === 200) {
+        if (data) {
+          console.log(data);
+          that.setData({
+            closedList: data.nostart,
+            openList: data.upstart,
+            wonList: data.start
+          })
+        } else {
+          wx.showToast({
+            title: message,
+            icon: 'none'
+          })
+        }
+      } else {
+        wx.showToast({
+          title: message,
+          icon: 'none'
+        })
+      }
+      wx.hideLoading();
+    }).catch(err => {
+      console.log(err);
+      wx.showToast({
+        title: err.message,
+      });
+      wx.hideLoading();
+    })
     wx.getSystemInfo({
       success: function (res) {
-
         that.setData({
           wonListWidth: res.windowWidth,
           wonListHeight: res.windowHeight

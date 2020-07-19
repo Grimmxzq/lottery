@@ -178,3 +178,25 @@ page {
   font-size: 24rpx;
   color: #999;
 }
+/* WuUI */
+.dialog-content {
+  font-size: 30rpx;
+  text-align: left;
+  color: #666;
+}
+.dialog-content view{
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.dialog-content text{
+  font-weight: bold;
+  color: #333;
+}
+.dialog-content .space-height {
+  height: 20prx;
+  width: 100%;
+}
+.dialog-content .serve-time {
+  font-size: 24rpx;
+  color: #666;
+}

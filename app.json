@@ -1,41 +1,18 @@
 {
   "pages": [
-    
     "pages/home/home",
     "pages/shareImg/index",
     "pages/goodsDetails/goodsDetails",
-    "pages/pay/pay",
-    "pages/addaAdvanced/addAdvanced",
     "pages/user/user",
     "pages/add/add",
-    "pages/putDeposit/putDeposit",
-    "pages/deposit/deposit",
-    "pages/papersParticulars/papersParticulars",
     "pages/authentication/authentication",
-    "pages/redPackageRecord/redPackageRecord",
-    "pages/robRedPackage/robRedPackage",
-    "pages/redPackagePhoto/redPackagePhoto",
-    "pages/editor/editor",
     "pages/myAddGiftCard/myAddGiftCard",
-    "pages/particulars/particulars",
-    "pages/addAddress/addAddress",
-    "pages/flaunt/flaunt",
-    "pages/winUserInfo/winUserInfo",
     "pages/contact/contact",
-    "pages/detail/detail",
-    "pages/myBalance/myBalance",
-    "pages/compileAddress/compileAddress",
     "pages/myGiftCard/myGiftCard",
-    "pages/walletAddressList/walletAddressList",
-    "pages/producePhoto/producePhoto",
-    "pages/giftParticulars/giftParticulars",
-    "pages/sponsor/sponsor",
-    "pages/skip/skip",
-    "pages/example/example",
-    "pages/totalUsers/totalUsers",
-    "pages/joinUser/joinUser",
-    "pages/message/message"
     
+    "pages/joinUser/joinUser",
+    "pages/message/message",
+    "pages/skip/skip"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -69,6 +46,9 @@
         "text": "我的"
       }
     ]
+  },
+  "useExtendedLib": {
+    "weui": true
   },
   "sitemapLocation": "sitemap.json"
 }

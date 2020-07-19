@@ -271,6 +271,11 @@ color: #53AD21;
   width: 100%;
   height: 300rpx;
   overflow: hidden;
+  background-color: #f8f8f8;
+  background-image: url('https://www.forevermisstogether.top/wx/static/image/2020071911504150008.png');
+  background-size: auto 150px;
+  background-repeat: no-repeat;
+  background-position: top;
 }
 
 .prize-content .lists .discribe-content{
@@ -284,6 +289,15 @@ color: #53AD21;
   color: #f1341c;
   height: 50rpx;
   line-height: 50rpx;
+  align-items: center;
+}
+
+.prize-content .lists .discribe-content .prize-shop .user-avatar {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10rpx;
 }
 
 .prize-content .lists .discribe-content .prizes{
@@ -306,4 +320,27 @@ color: #53AD21;
   padding-bottom: 40rpx;
   font-size: 30rpx;
   color: #333;
+}
+
+/* WuUI */
+.dialog-content {
+  font-size: 30rpx;
+  text-align: left;
+  color: #666;
+}
+.dialog-content view{
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.dialog-content text{
+  font-weight: bold;
+  color: #333;
+}
+.dialog-content .space-height {
+  height: 20prx;
+  width: 100%;
+}
+.dialog-content .serve-time {
+  font-size: 24rpx;
+  color: #666;
 }

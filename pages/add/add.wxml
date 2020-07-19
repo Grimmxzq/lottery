@@ -13,7 +13,7 @@
             <!-- <view class='labelText'>{{item.Type}}</view> -->
           </view>
           <view class='leabelRight' bindtap='cehngePhoto' data-index="{{id}}">更换奖品图片</view>
-          <image class='userBack' src="{{prizeNum[id].img == '' ? 'https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/583594514074129397.png' : prizeNum[id].img}}" mode="aspectFill"></image>
+          <image class='userBack' src="{{prizeNum[id].img == '' ? '../../images/default.png' : prizeNum[id].img}}" mode="aspectFill"></image>
         </view>
       </view>
     </view>
@@ -126,8 +126,17 @@
         </picker>
       </view>
     </view>
-
   </view>
+  <view class='foot' wx:if="{{wayOfGiving == 1}}">
+    <view class='LotteryStyle'></view>
+    <view class='LotteryStart flex flex-between'>
+      <view class='wx-title-space'></view>
+      <view class="wx-code-input">
+        <input type="text" bindinput='Wechat' value='{{Wechat}}' placeholder="请输入你的微信号" placeholder-style='font-size: 14px;color: #B7B7B7;' />
+      </view>
+    </view>
+  </view>
+  
 
   <!-- 抽奖说明 -->
   <view class="prize-introduce">

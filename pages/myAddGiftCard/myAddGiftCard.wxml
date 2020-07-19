@@ -5,7 +5,7 @@
     <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">待开奖
       <view class="swiper-tab-bott" wx:if="{{currentTab==0 }}"></view>
     </view>
-    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">已开奖
+    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">未中奖
       <view class="swiper-tab-bott" wx:if="{{currentTab==1 }}"></view>
     </view>
     <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">已中奖
@@ -19,16 +19,16 @@
     <view class='div'>
       <!--已参与待开奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
-        <block wx:for="{{3}}" wx:key="index">
-          <view class='contentList' bindtap='particulars'>
+        <block wx:for="{{closedList}}" wx:key="index">
+          <view class='contentList' bindtap='particulars' data-lid="{{item.lid}}">
             <view class='contentHead'>
               <view class='labelLeft'>
                 <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
               </view>
-              <view class='leabelRight'>放到立刻就立刻</view>
-              <image class='userBack' src='../../images/default.png'></image>
+              <view class='leabelRight'>{{item.startuser.nickname}}</view>
+              <image class='full-width' src='{{item.prize.img}}' mode="aspectFill"></image>
             </view>
-            <view class='prize'>奖品:卡萨丁分开离开家ADSL课教案卡拉就是丢</view>
+            <view class='prize'>奖品: {{item.prize.name}}</view>
             <view class='lotteryData'>
               <view class='participation'>
                 <view>
@@ -37,69 +37,67 @@
                 <view class='participationY'>已参与</view>
                 <view class='vertical'>|</view>
               </view>
-              <view class='date'>06-05 15：00</view>
+              <view class='date'>{{item.time}}</view>
               <view class='lotteryWay'>自动开奖</view>
-              <view class="nums">×5份</view>
+              <view class="nums">×{{item.prize.num}}份</view>
             </view>
           </view>
-        <view class='more' bindtap='moreData'>{{openList.last==true?'无更多数据~':openList.last==false?'加载更多~':''}}</view>
+        <!-- <view class='more' bindtap='moreData'>{{openList.last==true?'无更多数据~':openList.last==false?'加载更多~':''}}</view> -->
         </block>
       </swiper-item>
 
       <!--已开奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
-        <block wx:for="{{10}}" wx:key="index">
-          <view class='contentList'>
+        <block wx:for="{{openList}}" wx:key="index">
+          <view class='contentList' bindtap='particulars' data-lid="{{item.lid}}">
             <view class='contentHead'>
               <view class='labelLeft'>
                 <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
               </view>
-              <view class='leabelRight'>肯定是离开</view>
-              <image class='userBack' src='../../images/default.png'></image>
+              <view class='leabelRight'>{{item.startuser.nickname}}</view>
+              <image class='full-width' src='{{item.prize.img}}' mode="aspectFill"></image>
             </view>
-            <view class='prize'>奖品:激昂禄口街道拉看时间大石街道</view>
+            <view class='prize'>奖品:{{item.prize.name}}</view>
             <view class='lotteryData'>
               <view class='participation'>
 
                 <view class='participationY miss'>未抽中</view>
-                <view class='participationY win' wx:if='{{item.statusIsWon=="true"}}'>已中奖</view>
                 <view class='vertical'>|</view>
               </view>
-              <view class='date'>06-05 16：00</view>
+              <view class='date'>{{item.time}}</view>
               <view class='lotteryWay'>自动开奖</view>
-              <view class="nums">×5份</view>
+              <view class="nums">×{{item.prize.num}}份</view>
             </view>
           </view>
-          <view class='more'  bindtap='moreData'>{{closedList.last==true?'无更多数据~':closedList.last==false?'加载更多~':''}}</view>
+          <!-- <view class='more'  bindtap='moreData'>{{closedList.last==true?'无更多数据~':closedList.last==false?'加载更多~':''}}</view> -->
         </block>
       </swiper-item>
 
       <!--已中奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
-        <block wx:for="{{1}}" wx:key="index">
-          <view class='contentList'>
+        <block wx:for="{{wonList}}" wx:key="index">
+          <view class='contentList' bindtap='particulars' data-lid="{{item.lid}}">
             <view class='contentHead'>
               <view class='labelLeft'>
                 <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
               </view>
-              <view class='leabelRight'>撒离开家</view>
-              <image class='userBack' src='../../images/default.png'></image>
+              <view class='leabelRight'>{{item.startuser.nickname}}</view>
+              <image class='full-width' src='{{item.prize.img}}' mode="aspectFill"></image>
             </view>
-            <view class='prize'>奖品:神盾局就看见斯卡迪加拉克家里的</view>
+            <view class='prize'>奖品:{{item.prize.name}}</view>
             <view class='lotteryData'>
               <view class='participation'>
                 <view class='participationY win'>已中奖</view>
                 <view class='vertical'>|</view>
               </view>
-              <view class='date'>06-05 16：00</view>
+              <view class='date'>{{item.time}}</view>
               <view class='lotteryWay'>自动开奖</view>
-              <view class="nums">×5份</view>
+              <view class="nums">×{{item.prize.num}}份</view>
             </view>
           </view>
-          <view class='more'  bindtap='moreData'>{{wonList.last==true?'无更多数据~':wonList.last==false?'加载更多~':''}}</view>
+          <!-- <view class='more'  bindtap='moreData'>{{wonList.last==true?'无更多数据~':wonList.last==false?'加载更多~':''}}</view> -->
         </block>
       </swiper-item>
     </view>
   </swiper>
-
 </view>

@@ -487,6 +487,20 @@ page {
   /* padding-top: 10px; */
   margin-left: 15px;
 }
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-between .wx-title-space {
+  margin-left: 15px;
+  width: 64px;
+  height: 100%;
+}
+
+.flex-between .wx-code-input {
+ margin-right: 15px;
+ text-align: right;
+}
 
 .advanced {
   margin: 0 auto;

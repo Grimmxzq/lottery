@@ -77,15 +77,6 @@
         <image src='../../images/rig.png'></image>
       </view>
     </view>
-            <view class='myBalance' bindtap='putDeposit' wx:if='{{getSystemConfig.disableWithdrawal=="false"}}'>
-      <view class='myLogo'>
-        <image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/putDeposit.png'></image>
-      </view>
-      <view class='myText'>提现明细</view>
-      <view class='myRig'>
-        <image src='../../images/rig.png'></image>
-      </view>
-    </view>
     <view class='padding'></view>
         <view class='myBalance' bindtap='redPackageRecord' wx:if='{{getSystemConfig.disableEnvelopeRecord=="false"}}'>
       <view class='myLogo'>
@@ -117,6 +108,16 @@
       </view>
   </view>
 </view>
+<mp-dialog title="联系商务" show="{{showOneButtonDialog}}" bindbuttontap="tapDialogButton" bindclose="tapDialogClose" buttons="{{buttons}}">
+  <view class="dialog-content">
+    <view>1.上首页请备注<text>[我要上首页]</text></view>
+    <view>2.小程序广告投放请备注<text>[小程序投放]</text></view>
+    <view>3.其他合作请注明 <text>[具体合作事项]</text></view>
+    <view>4.商务微信号： <text>xzq1628957104</text></view>
+    <view class="space-height" style="color:#fff">1</view>
+    <view class="serve-time">注：服务时间（9：00-21：00）</view>
+  </view>
+</mp-dialog>
 <!-- <view class='moree'>
 更多精彩
 </view>

@@ -13,6 +13,12 @@ Page({
     isIphonex: false, //适配iphonex以上版本
     canvasHeight: app.globalData.windowHeight,
     canvasWidth: 0,
+    lid: 0,
+    prizeImg: '',
+    num: 0,
+    times: '',
+    name: '',
+    desc: '',
     isSave: false //能否点击保存 默认不能
   },
 
@@ -30,13 +36,14 @@ Page({
       prizeImg: shareInfo.img,
       num: shareInfo.num,
       times: shareInfo.times,
-      name: shareInfo.name
+      name: shareInfo.name,
+      desc: shareInfo.desc
     });
     this.getCodeUrl();
   },
   // 获取小程序码
   getCodeUrl() {
-    let url = 'http://t9.baidu.com/it/u=1761131378,1355750940&fm=79&app=86&f=JPEG?w=667&h=1000';
+    let url ="https://www.forevermisstogether.top/wx/static/image/2020070820005292007.jpg";
     this.init(url);
   },
   /**
@@ -148,12 +155,12 @@ Page({
 
       // 12.抽奖说明
       // const name = that.data.name;
-      const states = "就开始打就是看到累计发生阿拉斯加看到垃圾袋李经理佳士科四懂技的了解了解就开始打就是看到累计发生阿拉斯加看到垃圾袋李经理佳士科四懂技的了解了就开始打就是看到累计发生阿拉斯加看到垃圾袋李经理佳士科四懂技的了解了就开始打就是看到累计发生阿拉斯加看到垃圾袋李经理佳士科四懂技的了解了就开始打就是看到累计发生阿拉斯加看到垃圾袋李经理佳士科四懂技的了解了";
+      const desc = that.data.desc;
       ctx.setFontSize(12);
       ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight+ 201, canvasWidth - 20, that.drawText(ctx, '抽奖说明：' + states, 25, prizeHeight + 40 + 190, 148, canvasWidth - 55) - prizeHeight - 191);
+      ctx.fillRect(10, prizeHeight+ 201, canvasWidth - 20, that.drawText(ctx, '抽奖说明：' + desc, 25, prizeHeight + 40 + 190, 148, canvasWidth - 55) - prizeHeight - 191);
       ctx.setFillStyle('#999');
-      const prizeState = that.drawText(ctx, '抽奖说明：' + states, 25, prizeHeight + 40 + 190, 148, canvasWidth - 55);
+      const prizeState = that.drawText(ctx, '抽奖说明：' + desc, 25, prizeHeight + 40 + 190, 148, canvasWidth - 55);
 
       // debugger
       that.setData({
@@ -177,10 +184,10 @@ Page({
         success: function (res) {
           resolve(res)
         },
-        fail: function () {
+        fail: function (e) {
           console.log("图片生成临时路径生成失败");
           wx.showToast({
-            title: '图片生成失败',
+            title: '图片生成失败' +url,
             icon: 'none'
           })
           reject("图片生成临时路径生成失败");
@@ -200,16 +207,75 @@ Page({
     return Promise.all(all)
   },
   /**
+ * 多行文本溢出
+ * @param {Object} context - canvas组件的绘图上下文
+ * @param {String} text - 文本内容
+ * @param {Number} maxWidth - 文本最大宽度
+ * @param {Number} maxRow - 文本最多显示行数
+ * @param {String} font - 字体样式
+ * @param {String} color - 文本颜色
+ * @param {Number} lineHeight - 文本行高
+ * @param {Number} x - 文本的x坐标
+ * @param {Number} y - 文本的y坐标
+ * @param {Boolean} broken - 单词是否截断显示【true → 单词截断显示，适用于：纯中文、中英混排、纯英文（不考虑英文单词的完整性）】【false → 单词完整显示，考虑英文单词的完整性，仅适用于纯英文】
+ */
+  drawTextOverflow:function(context, text, maxWidth, maxRow, font, color, lineHeight, x, y, broken = true) {
+    let arr = [];
+    let temp = '';
+    let row = [];
+    let separator = broken ? '' : ' ';
+  
+    text = text.replace(/[\r\n]/g, ''); // 去除回车换行符
+    arr = text.split(separator);
+  
+    context.font = font;  // 注意：一定要先设置字号，否则会出现文本变形
+    context.fillStyle = color;
+  
+    if (context.measureText(text).width <= maxWidth) {
+      row.push(text);
+    } else {
+      for (let i = 0; i < arr.length; i++) {
+        // 超出最大行数且字符有剩余，添加...
+        if (row.length == maxRow && i < arr.length - 1) {
+          row[row.length - 1] += '...';
+          break;
+        }
+  
+        // 字符换行计算
+        if (context.measureText(temp).width < maxWidth) {
+          temp += arr[i] + separator;
+  
+          // 遍历到最后一位字符
+          if (i === arr.length - 1) {
+            row.push(temp);
+          }
+        } else {
+          i--;  // 防止字符丢失
+          row.push(temp);
+          temp = '';
+        }
+      }
+    }
+  
+    // 绘制文本
+    for (let i = 0; i < row.length; i++) {
+      context.fillText(row[i], x, y + i * lineHeight, maxWidth);
+    }
+  
+    return row.length * lineHeight;  // 返回文本高度
+  },
+  /**
    * 文本换行
    */
   drawText: function(ctx, str, leftWidth, initHeight, titleHeight, canvasWidth) {
     var lineWidth = 0;
     var lastSubStrIndex = 0; //每次开始截取的字符串的索引
+    str = str.replace(/[\r\n]/g, ' '); // 去除回车换行符
     for (let i = 0; i < str.length; i++) {
         lineWidth += ctx.measureText(str[i]).width;
         if (lineWidth > canvasWidth) {
             ctx.fillText(str.substring(lastSubStrIndex, i), leftWidth, initHeight); //绘制截取部分
-            initHeight += 16; //16为字体的高度
+            initHeight += 20; //16为字体的高度
             lineWidth = 0;
             lastSubStrIndex = i;
             titleHeight += 20;

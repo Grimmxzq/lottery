@@ -14,7 +14,7 @@
   <swiper current="{{currentTab}}" class="swiper-box" duration="300" style='height:{{wonListHeight-40}}px' bindchange="bindChange">
     <swiper-item style=' overflow: auto;height: 500px;'>
       <view class='await'>
-        <view class='awaitLst' wx:for="{{noOpenList}}" wx:key="index">
+        <view class='awaitLst' wx:for="{{noOpenList}}" wx:key="index" data-lid="{{item.lid}}" bindtap="particulars">
           <view class='name'>奖品: {{item.prize[0].name}}</view>
           <view class="num">× {{item.prize[0].num}}份</view>
           <view class='logo'>
@@ -23,27 +23,18 @@
           <view class='date'>{{item.time}}</view>
         </view>
       </view>
-      <!-- <view class='more' bindtap='moreData'>{{openList.last==true?'无更多数据~':openList.last==false?'加载更多~':''}}</view> -->
     </swiper-item>
 
     <!--已开奖  -->
     <swiper-item style=' overflow: auto;height: 500px;'>
-      <view class='awaitLst' wx:for="{{alreadyList}}" wx:key="index">
-          <view class='name'>奖品: {{item.prize[0].name}}</view>
-          <view class="num">× {{item.prize[0].num}}份</view>
-          <view class='logo'>
-            <image src='../../images/rig.png'></image>
-          </view>
-          <view class='date'>{{item.time}}</view>
-        </view>
-      <!-- <view class='awaitLst' data-id='{{item.id}}' wx:for="{{closedList.content}}" wx:key="index" bindtap='particulars'>
-        <view class='name'>奖品:{{item.name}}×{{item.amount}}份</view>
+      <view class='awaitLst' wx:for="{{alreadyList}}" wx:key="index" data-lid="{{item.lid}}" bindtap="particulars">
+        <view class='name'>奖品: {{item.prize[0].name}}</view>
+        <view class="num">× {{item.prize[0].num}}份</view>
         <view class='logo'>
           <image src='../../images/rig.png'></image>
         </view>
-        <view class='date'>{{item.awardTime}}</view>
+        <view class='date'>{{item.time}}</view>
       </view>
-      <view class='more' bindtap='moreData'>{{closedList.last==true?'无更多数据~':closedList.last==false?'加载更多~':''}}</view> -->
     </swiper-item>
 </swiper>
 

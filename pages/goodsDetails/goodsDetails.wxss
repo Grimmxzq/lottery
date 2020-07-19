@@ -10,6 +10,16 @@
   width: 100%;
   height: 350rpx;
 }
+.headers .imgs .img-bg{
+  width: 100%;
+  height: 350rpx;
+  overflow: hidden;
+  background-color: #f8f8f8;
+  background-image: url('https://www.forevermisstogether.top/wx/static/image/2020071911504150008.png');
+  background-size: auto 350rpx;
+  background-repeat: no-repeat;
+  background-position: top;
+}
 .headers .prize-info{
   padding: 20rpx;
   position: relative;
@@ -69,9 +79,10 @@
   font-size: 30rpx;
 }
 .prize-introduce .content{
-  padding-top: 20rpx;
+  /* padding-top: 20rpx; */
   font-size: 28rpx;
-  line-height: 55rpx;
+  /* line-height: 55rpx; */
+  white-space: pre-wrap;
 }
 /* 参与抽奖 */
 .join-prize {
@@ -236,6 +247,19 @@
   margin-top: 20rpx;
 }
 
+.notice .notice-content .get-award-step .box .wx-code{
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.notice .notice-content .get-award-step .box button{
+  width: 50%;
+  background-color: #fff;
+  font-size: 26rpx;
+}
+
 .notice .notice-content .award-prize {
   padding: 0 40rpx 30rpx 40rpx;
   font-size: 30rpx;
@@ -261,6 +285,12 @@
 .delicate-prize .delicate-prize-content .img{
   width: 200rpx;
   height: 200rpx;
+  overflow: hidden;
+  background-color: #f8f8f8;
+  background-image: url('https://www.forevermisstogether.top/wx/static/image/2020071911504150008.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: top;
 }
 .delicate-prize .delicate-prize-content .prize-info{
   width: 60%;

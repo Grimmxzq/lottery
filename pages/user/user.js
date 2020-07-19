@@ -1,5 +1,6 @@
 // pages/user/user.js
 const app = getApp()
+const Request = require("../../utils/request");//导入模块
 const commonRequest = require("../../utils/commonRequest");//导入模块
 Page({
 
@@ -9,28 +10,24 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    showOneButtonDialog: false,
+    buttons: [
+      {
+        text: '一键复制微信号'
+      }
+    ],
+    wxCode: 'xzq1628957104'
   },
-  putDeposit:function(){
-    wx:wx.navigateTo({
-      url: '../putDeposit/putDeposit',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
-  },
-
   getUserInfo: function (e) { //获取头像昵称
     wx.showLoading({
       title: '登录中...',
     })
-    // console.log(e);
     const that = this;
     const userInfo = e.detail.userInfo;
     if (e.detail.errMsg == 'getUserInfo:ok') {
       wx.login({
         success: loginRes => {
-          console.log(loginRes);
           commonRequest.gologin(loginRes, userInfo, (res) => {
             console.log(res);
             that.setData({
@@ -94,6 +91,7 @@ Page({
           console.log("用户已授权")
           wx.chooseAddress({
             success(res) {
+              console.log(res);
               that.addressRequest(res);
             },
             fail() {
@@ -171,20 +169,40 @@ Page({
     wx.showLoading({
       title: '授权中...'
     });
-    setTimeout(() => {
+    Request.post('user/AddressUser/',{
+      userName: res.userName,
+      postalCode: res.postalCode,
+      provinceName: res.provinceName,
+      cityName: res.cityName,
+      countyName: res.countyName,
+      detailInfo: res.detailInfo,
+      nationalCode: res.nationalCode,
+      telNumber: res.telNumber
+    }).then((res) => {
+      console.log(res);
+      const {code, message} = res;
+      if (code === 200) {
+        wx.showToast({
+          title: '授权成功',
+        })
+      } else {
+        wx.showToast({
+          title: message,
+          icon: 'none'
+        })
+      }
+      wx.hideLoading();
+    }).catch(err => {
+      console.log(err);
       wx.showToast({
-        title: '授权成功',
-      })
-    }, 1000);
+        title: err.message,
+      });
+      wx.hideLoading();
+    })
   },
   myGiftCard: function () { //我生成的礼品卡
     wx: wx.navigateTo({
       url: '../myGiftCard/myGiftCard',
-    })
-  },
-  contact: function () {//联系我们
-    wx: wx.navigateTo({
-      url: '../contact/contact',
     })
   },
   myBalance: function () {//我的余额
@@ -288,5 +306,31 @@ Page({
     wx.navigateTo({
       url: '../message/message'
     })
-  }
+  },
+  contact: function() { //前往成为赞助商页面
+    this.setData({
+      showOneButtonDialog: true
+    })
+  },
+  tapDialogClose: function () {
+    this.setData({
+      showOneButtonDialog: false
+    })
+  },
+  tapDialogButton(e) {
+    console.log(e);
+    const that = this;
+    if (e.detail.index === 0) {
+      wx.setClipboardData({
+        data: that.data.wxCode,
+        success: function(res) {
+          wx.getClipboardData({
+            success: function(res) {
+              console.log(res.data) // data
+            }
+          })
+        }
+      })
+    }
+  },
 })

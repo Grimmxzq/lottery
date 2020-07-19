@@ -5,9 +5,14 @@
     <view class='footTxt'>我们正在寻求优质的企业级合作伙伴，如有商务合作意向，请扫描下方二维码添加我们的商务咨询。
     </view>
   </view>
+  
   <view class='foot'>
   <view class='logo'>
   <image src='../../images/img/provide.jpg' bindtap='preview'></image></view>
   <view class='logoTxt' bindlongpress='copy'>商务微信号: {{wxcodename}}(长按复制)</view>
   </view>
+  <view class="weui-flex">
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+</view>
 </view>

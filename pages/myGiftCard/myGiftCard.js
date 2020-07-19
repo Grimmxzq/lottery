@@ -18,11 +18,12 @@ Page({
     currentTab: 0,
   },
   particulars: function(e) { //查看详情
-    var id = e.currentTarget.dataset.id
+    const lid = e.currentTarget.dataset.lid
     wx.navigateTo({
-      url: '../particulars/particulars?giftId=' + id + "&pageId=0"
+      url: '../goodsDetails/goodsDetails?id=' + lid
     })
-  }, /** 
+  }, 
+  /** 
    * 滑动切换tab 
    */
   bindChange: function (e) {

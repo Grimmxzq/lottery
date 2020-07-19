@@ -111,13 +111,14 @@
 }
 
 .contentHead {
+  overflow: hidden;
   height: 180px;
   position: relative;
-}
-
-.userBack {
-  height: 100%;
-  width: 100%;
+  background-color: #f8f8f8;
+  background-image: url('https://www.forevermisstogether.top/wx/static/image/2020071911504150008.png');
+  background-size: auto 350rpx;
+  background-repeat: no-repeat;
+  background-position: top;
 }
 
 .leabelRight {
@@ -126,7 +127,8 @@
   position: absolute;
   background: rgba(0, 0, 0, 0.50);
   border-radius: 10px;
-  width: 90px;
+  /* width: 90px; */
+  padding: 0 20rpx;
   height: 28px;
   color: white;
   margin-top: 10px;

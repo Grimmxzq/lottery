@@ -32,7 +32,7 @@
 
 .helpfixed {
   clear: both;
-  height: 100rpx;
+  height: 80rpx;
   width: 100%;
   background: #fff;
 }

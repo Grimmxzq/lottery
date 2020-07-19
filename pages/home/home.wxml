@@ -1,4 +1,3 @@
-<!--pages/home/home.wxml 首页-->
 <view class='body' wx:if="{{lists.length > 0}}">
   <view class='head flex'>
     <!-- 标题 -->
@@ -8,15 +7,35 @@
       成为赞助商
     </view>
   </view>
+  <mp-dialog title="联系商务" show="{{showOneButtonDialog}}" bindbuttontap="tapDialogButton" bindclose="tapDialogClose" buttons="{{buttons}}">
+    <view class="dialog-content">
+      <view>1.上首页请备注<text>[我要上首页]</text></view>
+      <view>2.小程序广告投放请备注<text>[小程序投放]</text></view>
+      <view>3.其他合作请注明 <text>[具体合作事项]</text></view>
+      <view>4.商务微信号： <text>xzq1628957104</text></view>
+      <view class="space-height" style="color:#fff">1</view>
+      <view class="serve-time">注：服务时间（9：00-21：00）</view>
+    </view>
+  </mp-dialog>
   <!-- 抽奖列表 -->
   <view class="prize-content">
-    <block wx:for="{{lists}}" wx:key="index">
+    <block wx:for="{{lists}}" wx:key="index" wx:for-index="index">
       <view class="lists" bindtap="goDetails" data-id="{{item.lid}}">
-        <view class="prize-img">
-          <image src="{{item.prize.img}}" mode="aspectFill" class="full-width full-height"></image>
+        <view class="prize-img text-center">
+          <image src="{{item.prize.img}}" mode="aspectFill" class="full-width"></image>
         </view>
         <view class="discribe-content">
-          <view class="prize-shop">{{item.nickname}}<text decode="{{true}}">&emsp;赞助</text></view>
+          <view class="prize-shop flex">
+            <view class="user-avatar">
+              <image src="{{item.avatarUrl}}" class="full-width full-height"></image>
+            </view>
+            <view>
+              {{item.nickname}}
+            </view>
+            <view>
+              <text decode="{{true}}">&emsp;赞助</text>
+            </view>
+          </view>
           <view class="prizes">
             <view class="prize-sort">
               <text>奖品：</text>

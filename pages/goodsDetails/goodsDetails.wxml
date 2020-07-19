@@ -1,6 +1,6 @@
 
 <login-component wx:if="{{isShowLogin}}" bind:closeLoginDialog="closeLoginDialog"></login-component>
-<view class="goods-details-body full-width full-height">
+<view class="goods-details-body full-width full-height" wx:if="{{isShow}}">
   <!-- 头部 -->
   <view class="headers">
     <!-- banner图 -->
@@ -8,7 +8,9 @@
        <swiper class="full-height">
         <block wx:for="{{swipers}}" wx:key="*this">
           <swiper-item>
-            <image src="{{item}}" mode="aspectFill" class="full-width full-height" bindtap="previewImage" data-url="{{item}}"></image>
+            <view class="img-bg">
+              <image src="{{item}}" mode="aspectFill" class="full-width full-height" bindtap="previewImage" data-url="{{item}}"></image>
+            </view>
           </swiper-item>
         </block>
       </swiper>
@@ -26,7 +28,7 @@
     <view class="name flex">
       <view class="left-title flex">
         <image src="../../images/img/sponsor.png"></image>
-        <text>收到就好和</text>
+        <text>{{details.startuser.nickname}}</text>
       </view>
       <view>赞助商</view>
     </view>
@@ -46,7 +48,7 @@
       奖品介绍：
     </view>
     <view class="content">
-      【两件装】短袖t恤男士潮牌恤半袖韩版夏季五分上衣服宽松男装潮 X4 份两件装】短袖t恤男士潮牌恤半袖韩版夏季
+      <text>{{details.desc}}</text>
     </view>
   </view>
 
@@ -54,11 +56,12 @@
   <view class="join-prize">
     <view class="join animation-zoom" bindtap="signUp" wx:if="{{isJoin == 0}}">参与抽奖</view>
     <view class="wait-prize animation-zoom" wx:if="{{isJoin == 1}}">待开奖</view>
-    <view class="finish-prize animation-zoom" wx:if="{{isJoin == 3}}">已结束</view>
-    <view class="join-num" bindtap="checkJoinUser">已有 10937 人参与，<text style="color: #f1341c;">查看全部 ></text></view>
+    <view class="finish-prize animation-zoom" wx:if="{{isJoin == 2 || isJoin == 3 || isJoin == 4}}">已结束</view>
+    <!-- <view class="join-num" bindtap="checkJoinUser">已有 {{joinPeople}} 人参与，<text style="color: #f1341c;">查看全部 ></text></view> -->
+    <view class="join-num">已有 {{joinPeople}} 人参与</view>
     <view class="pic">
-      <block wx:for="{{joinUsers}}" wx:for-item="item" wx:for-index="idx" wx:key="idx">
-        <image src="{{item}}"></image>
+      <block wx:for="{{joinPeopleImg}}" wx:for-item="item" wx:for-index="idx" wx:key="idx" wx:if="{{idx<6}}">
+        <image src="{{item.avatarUrl}}" binderror="errImg" data-err-index="{{idx}}"></image>
       </block>
     </view>
   </view>
@@ -72,20 +75,22 @@
     <view class="bottom-left flex" bindtap="goIndex">
       <image src="../../images/img/index.png"></image>
     </view>
-    <view class="bottom-left flex" bindtap="shareImg">分享</view>
+    <!-- <view class="bottom-left flex" bindtap="shareImg">
+      <image src="../../images/img/share.png"></image>
+    </view> -->
     <view class="bottom-right flex" bindtap="signUp" wx:if="{{isJoin == 0}}">
       <button class="join-button" plain="true">参与抽奖</button>
     </view> 
     <view class="bottom-right flex" wx:if="{{isJoin == 1}}">
       <button class="join-button" plain="true" style="color: #f19185">待开奖</button>
     </view> 
-    <view class="bottom-right flex finish-right" wx:if="{{isJoin == 3}}">
+    <view class="bottom-right flex finish-right" wx:if="{{isJoin == 2 || isJoin == 3 || isJoin == 4}}">
       <button class="join-button" plain="true">已结束</button>
     </view> 
   </view>
 </view>
 <!-- 开奖弹框 -->
-<view class="notice" wx:if="{{ isJoin === 3 && isShowPrizeDialog}}" bindtap="closePrizeDialog">
+<view class="notice" wx:if="{{ isJoin === 3 || isJoin === 4 && isShowPrizeDialog}}" bindtap="closePrizeDialog">
   <scroll-view class="notice-content moveUp" scroll-y catchtouchmove='stopTouchMove' catchtap="stopTouchMove">
     <view class="close-dialog" bindtap="closePrizeDialog">
       <image src="../../images/img/close.png" class="full-width full-height"></image>
@@ -93,27 +98,38 @@
     <view class="congratulation" wx:if="{{getAward}}">恭喜！你已中奖</view>
     <view class="title" wx:else>很遗憾，你未中奖</view>
     <view class="award-prize" wx:if="{{getAward}}">
-      奖品：四大皆空就
+      奖品：{{ getPrizeInfo.name }}
     </view>
     <view class="get-award-step" wx:if="{{getAward}}">
-      <view class="get-award-step-title">领奖</view>
-      <view class="box">
-        圣诞节很快就爱喝酒卡仕达看时间达克赛德发收款机房会计杜甫
+      <view class="get-award-step-title">领奖方式</view>
+      <view class="box" wx:if="{{isJoin === 3 && details.way === '收货地址领奖'}}">
+        <view wx:if="getPrizeInfo.address">
+          <view>收件人：{{ getPrizeInfo.address.name }}</view>
+          <view>电话号码：{{ getPrizeInfo.address.phone }}</view>
+          <view>收货地址：{{ getPrizeInfo.address.address }}</view>
+        </view>
+        <view wx:else>
+          <view>前去<text bindtap="goUser">绑定收货地址</text></view>
+        </view>
+      </view>
+      <view class="box text-center" wx:if="{{isJoin === 3 && details.way !== '收货地址领奖'}}">
+        <view>{{ details.startuser.wxid }}</view>
+        <button bindtap="copyCode">复制微信号</button>
       </view>
     </view>
-    <view class="delicate-prize">
+    <view class="delicate-prize" bindtap="goDetails" data-lid="{{randomPrize.lid}}">
       <text class="delicate-prize-title">精选抽奖</text>
       <view class="delicate-prize-content flex">
         <view class="img">
-          <image src="http:\/\/img.alicdn.com\/imgextra\/i2\/2200755386378\/O1CN01IWJIHK1wzAgyTpnbo_!!2200755386378.jpg" class="full-width full-height"></image>
+          <image src="{{randomPrize.prize.img}}" class="full-width full-height"></image>
         </view>
         <view class="prize-info">
           <view class="name line-more">
-            奖品：四大皆空快捷键就李开复家离开家谁看得见安静奥斯卡经典了解代收款
+            奖品：{{randomPrize.prize.name}}
           </view>
           <view class="time-and-num flex">
-            <view class="times">06月14日 17：00</view>
-            <view class="num">x 8份</view>
+            <view class="times">{{randomPrize.time}}</view>
+            <view class="num">x {{randomPrize.prize.num}}份</view>
           </view>
           <text class="join-button">免费抽奖</text>
         </view>
@@ -122,18 +138,18 @@
     <view class="awarder">
       <text class="lists">中奖者名单</text>
       <!-- 一二等奖分开展示 -->
-      <block wx:for="{{3}}" wx:key="i">
+      <block wx:for="{{winning}}" wx:key="i" wx:for-item="item">
         <view class="user-content">
-          <view class="name">奖品：阿萨德客家话客家话山东黄金</view>
+          <view class="name">奖品：{{item.name}}</view>
           <view class="users flex">
             <!-- 中奖用户展示 -->
-            <block wx:for="{{6}}" wx:key="i">
+            <block wx:for="{{item.user}}" wx:key="i" wx:for-item="temp" wx:for-index="{{idx}}">
               <view class="user-msg flex">
                 <view class="img">
-                  <image src="http:\/\/img.alicdn.com\/imgextra\/i2\/2200755386378\/O1CN01IWJIHK1wzAgyTpnbo_!!2200755386378.jpg" class="full-width full-height"></image>
+                  <image src="{{temp.avatarUrl}}" class="full-width full-height"></image>
                 </view>
-                <view class="user-name">
-                  <text>史蒂芬霍金</text>
+                <view class="user-name text-center">
+                  <text>{{temp.nickname}}</text>
                 </view>
               </view>
             </block>
@@ -141,7 +157,7 @@
         </view>
       </block>
     </view>
-    <view class="more-goods">
+    <view class="more-goods" bindtap="goIndex">
       <!-- 去首页 -->
       <view class="msg">更多抽奖在等你</view>
     </view>

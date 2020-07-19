@@ -2,8 +2,8 @@
 //获取应用实例
 const app = getApp()
 var util = require("../../utils/util.js");
-var common = require("../../common.js");
 const Request = require("../../utils/request");//导入模块
+
 function setDate(date) {
   let getHours, getMinutes, getMonth, getDate;
 
@@ -39,32 +39,43 @@ Page({
    */
   data: {
     lists: [],
-    hidden:false,
     page: 1,
     size: 5,
     stopLoading: false,
-    loadingText: '正在加载...'
+    loadingText: '正在加载...',
+    showOneButtonDialog: false,
+    buttons: [
+      {
+        text: '一键复制微信号'
+      }
+    ],
+    wxCode: 'xzq1628957104'
   },
   trunSponsor: function() { //前往成为赞助商页面
-    wx.navigateTo({
-      url: '../sponsor/sponsor'
+    this.setData({
+      showOneButtonDialog: true
     })
   },
-  shareIcon:function(){//显示提问框
-let that=this
-// that.setData({
-//   hidden:true
-// })
-wx:wx.navigateTo({
-  url: '../addaAdvanced/addAdvanced',
-})
-  },
-  mCloseImg: function () {//隐藏提问框
-    let that = this
-    that.setData({
-      hidden: false
+  tapDialogClose: function () {
+    this.setData({
+      showOneButtonDialog: false
     })
-
+  },
+  tapDialogButton(e) {
+    console.log(e);
+    const that = this;
+    if (e.detail.index === 0) {
+      wx.setClipboardData({
+        data: that.data.wxCode,
+        success: function(res) {
+          wx.getClipboardData({
+            success: function(res) {
+              console.log(res.data) // data
+            }
+          })
+        }
+      })
+    }
   },
   particulars: function (e) { //查看详情
     var id = e.currentTarget.dataset.id
@@ -76,16 +87,6 @@ wx:wx.navigateTo({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // const id = options.id;
-    // if (options.pageId == 'details') {
-    //   wx.navigateTo({
-    //     url: '../particulars/particulars?id=' + id
-    //   })
-    // } else if (options.pageId == 'giftParticulars') {
-    //   wx.navigateTo({
-    //     url: '../particulars/particulars?id=' + id
-    //   })
-    // }
     wx.showLoading();
     this.getDataList();
   },
@@ -130,16 +131,15 @@ wx:wx.navigateTo({
           icon: 'none'
         });
       }
-      wx.stopPullDownRefresh() //停止下拉刷新
+      if (fresh) {
+        wx.stopPullDownRefresh() //停止下拉刷新
+      }
       wx.hideLoading();
     }).catch(err => {
       console.log(err);
       wx.showToast({
         title: err,
       });
-      if (fresh) {
-        wx.stopPullDownRefresh() //停止下拉刷新
-      }
       wx.hideLoading();
     })
   },
@@ -201,23 +201,6 @@ wx:wx.navigateTo({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-    // let that=this
-    // that.setData({
-    //   hidden: false
-    // })
-    // try {
-    //   var value = wx.getStorageSync('userId')
-    //   if (value) {
-    //     app.globalData.userId = value
-    //   }
-    // } catch (e) {
-     
-    // }
-    // console.log(app.globalData.userId)
-    // return {
-    //   title: '这里有很多通证礼品卡，要不来试试？',
-    //   path: '/pages/home/home?invitorId=' + (app.globalData.userId || '')
-    // }
 
   },
   /**

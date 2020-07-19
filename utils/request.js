@@ -3,7 +3,6 @@ const apiHttp = app.REQUEST_URL; //请求域名
 
 
 function fun(url, method, data, header) {
-  console.log(method);
   data = data || {};
   header = header || {
     // 'content-type' : method == 'POST' ? 'application/x-www-form-urlencoded' : 'application/json'
@@ -27,7 +26,7 @@ function fun(url, method, data, header) {
       method: method,
       timeout: 10000, //超时定为10s
       success: function(res) {
-        console.log("成功：",res);
+        console.log(res);
         if (res.data.code) {
           switch (res.data.code) {
             case 200: //成功
@@ -40,12 +39,12 @@ function fun(url, method, data, header) {
               })
               break;
             default:
-              resolve(res);
+              resolve(res.data);
           }
-        } else if (res.statusCode === 500) {
+        } else {
           wx.showToast({
             icon: 'none',
-            title: '服务器异常,请稍后再试',
+            title: '状态码：' + res.statusCode + '。服务器异常,请稍后再试',
           })
         }
         // if (typeof res.data === "object") {
@@ -72,33 +71,10 @@ function fun(url, method, data, header) {
         // }
         
       },
-      fail: reject,
-      complete: function() {
-        wx.hideNavigationBarLoading();
-      }
-    });
-  });
-  return promise;
-}
-function upload(url, name, filePath) {
-  let header = {};
-  let sessionId = wx.getStorageSync("UserSessionId"); //从缓存中拿该信息
-  if (sessionId) {
-    if (!header || !header["SESSIONID"]) {
-      header["SESSIONID"] = sessionId; //添加到请求头中
-    }
-  }
-  wx.showNavigationBarLoading();
-  let promise = new Promise(function(resolve, reject) {
-    wx.uploadFile({
-      url: apiHttp + url,
-      filePath: filePath,
-      name: name,
-      header: header,
-      success: function(res) {
-        resolve(res);
+      fail: function(e) {
+        console.log(e);
+        reject(e);
       },
-      fail: reject,
       complete: function() {
         wx.hideNavigationBarLoading();
       }
@@ -113,8 +89,5 @@ module.exports = {
   },
   "post": function(url, data, header) {
     return fun(url, "POST", data, header);
-  },
-  upload: function(url, name, filePath) {
-    return upload(url, name, filePath);
   }
 };

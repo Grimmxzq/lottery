@@ -11,14 +11,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    array: ['钱包地址领奖', '收货地址领奖', '手机号领奖', '添加官方微信领奖'],
+    array: ['收货地址领奖', '添加微信领奖'],
     popUp: false,
     lock: false,
     expireTime: false,
     wayOfGiving: 0,
     vipExpiryTime: null,
     WechatAccept: false,
-    Wechat: null,
+    Wechat: '', //微信号
     newDate: false,
     pickDate: '',
     picKey: 'giftCard/cover/default.png',
@@ -86,12 +86,11 @@ Page({
       url: '../editor/editor',
     })
   },
-  Wechat: function (event) {
+  Wechat: function (event) { //微信号输入时触发
     let that = this;
     that.setData({
       Wechat: event.detail.value
     })
-
   },
   isHome: function () {
     this.setData({
@@ -191,7 +190,8 @@ Page({
             },
             success(res) {
               console.log(res);
-              const data = JSON.parse(res.data);
+              let data;
+              data = JSON.parse(res.data);
               if (data.code == 200) {
                 prizeNum[index].img = data.data.url;
                 that.setData({
@@ -213,18 +213,25 @@ Page({
             }
           })
         }
+      },
+      fail(err) {
+        wx.showToast({
+          title: err,
+          icon: 'none'
+        })
       }
     })
   },
   // 发起抽奖
   formSubmit: function (e) {
+    console.log(e);
     let that = this
     that.setData({
       lock: true
     })
-    if (that.data.wayOfGiving == 3 && that.data.Wechat == null) {
+    if (that.data.wayOfGiving == 1 && that.data.Wechat == null) {
       wx.showToast({
-        title: '请填写客服微信号',
+        title: '请填写微信号',
         icon: 'none',
         duration: 2000
       })
@@ -283,8 +290,8 @@ Page({
     })
     if (judgement) { //判断名称数量是否合法
       if (that.data.newDate == false) { //判断是时间是否合法
-        let condition, //开奖条件
-          wayOfGiving;
+        let condition; //开奖条件
+        let wayOfGiving;
         const prizeNum = that.data.prizeNum;
         const token = wx.getStorageSync('token') || null;
         const uid = wx.getStorageSync('userInfo').uid || null;
@@ -313,24 +320,17 @@ Page({
             break;
         }
         // 领奖方式
-        switch(that.data.wayOfGiving) {
+        switch(that.data.wayOfGiving * 1) {
           case 0:
-            wayOfGiving = 'm';
-            break;
-          case 1:
             wayOfGiving = 'a';
             break;
-          case 2:
-            wayOfGiving = 'p';
-            break;
-          case 3:
+          case 1:
             wayOfGiving = 'w';
             break;
         }
         prizeNum.forEach( (item, i) => {
           item.grade = that.rp(i + 1) + '等奖'
         })
-        console.log(that.data.desc)
         Request.post("lottery/StartLottery/",{
           Prize: prizeNum,
           condition,
@@ -339,18 +339,30 @@ Page({
           way:wayOfGiving,
           token,
           uid,
-          desc: that.data.desc
+          desc: that.data.desc === '' ? '暂无抽奖说明' : that.data.desc,
+          wxid: that.data.Wechat
         }).then(res => {
           console.log(res);
-          const { code, message } = res;
+          const { code, data, message } = res;
           if (code === 200) {
-            wx.showToast({
+            wx.showLoading({
               title: message,
               icon: 'none',
               duration: 2000,
               complete: () => {
                 console.log('跳转去详情页面');
+                wx.redirectTo({
+                  url: '../goodsDetails/goodsDetails?id=' + data.lid + '&edit=' + true,
+                  success() {
+                    wx.hideLoading();
+                  }
+                })
               }
+            })
+          } else {
+            wx.showToast({
+              title: message,
+              icon: 'none'
             })
           }
         }).catch(err => {
