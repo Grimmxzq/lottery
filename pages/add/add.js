@@ -11,7 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    array: ['收货地址领奖', '添加微信领奖'],
+    array: ['按收货地址领奖', '让中奖者联系我'],
     popUp: false,
     lock: false,
     expireTime: false,
@@ -80,6 +80,12 @@ Page({
         }
       });
     }
+  },
+  // 跳转去webview
+  goWebView() {
+    wx.navigateTo({
+      url: '../webView/index',
+    })
   },
   addImgTxt: function () {
     wx: wx.navigateTo({
@@ -664,7 +670,7 @@ Page({
    */
   goExample: function () {
     wx.navigateTo({
-      url: '../example/example',
+      url: '../examples/index',
     })
   },
   /**

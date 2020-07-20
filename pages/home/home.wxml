@@ -3,8 +3,12 @@
     <!-- 标题 -->
     <view class='welfare'>每日福利</view>
     <!-- 成为赞助商 -->
-    <view class='trunSponsor' bindtap='trunSponsor'>
-      成为赞助商
+    <view class="right flex">
+      <text class='trunSponsor' bindtap='trunSponsor'>成为赞助商</text>
+      <text class="line">|</text>
+      <view bindtap="share">
+        <button open-type="share" plain>分享</button>
+      </view>
     </view>
   </view>
   <mp-dialog title="联系商务" show="{{showOneButtonDialog}}" bindbuttontap="tapDialogButton" bindclose="tapDialogClose" buttons="{{buttons}}">

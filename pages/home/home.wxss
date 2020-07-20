@@ -22,16 +22,26 @@ page{
 }
 .welfare {
   float: left;
-  color: #f1341c;
+  color: #e4463d;
   font-size: 18px;
   font-weight: bold;
 }
-.trunSponsor{
-  font-size: 14px;
+.head .right {
+  font-size: 12px;
   text-align: center;
   height: 60px;
   line-height: 60px;
-  color: #f1341c;
+  color: #666;
+}
+.head .right .line{
+  padding: 0 20rpx;
+}
+.head .right button {
+  border: 0;
+  font-size: 24rpx;
+  line-height: 60px;
+  padding: 0;
+  color: #666;
 }
 .masking{
   width: 100%;
@@ -286,7 +296,7 @@ color: #53AD21;
 
 .prize-content .lists .discribe-content .prize-shop{
   font-weight: bold;
-  color: #f1341c;
+  color: #e4463d;
   height: 50rpx;
   line-height: 50rpx;
   align-items: center;
@@ -301,7 +311,8 @@ color: #53AD21;
 }
 
 .prize-content .lists .discribe-content .prizes{
-  min-height: 90rpx;
+  /* min-height: 90rpx; */
+  line-height: 60rpx;
 }
 
 .prize-content .lists .discribe-content .prizes .tuan{

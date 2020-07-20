@@ -1,6 +1,9 @@
 <!--pages/add/add.wxml-->
 <wxs module="changeWord" src="../../filter/numChangeWord.wxs"></wxs>
-<view class="add-title">普通抽奖</view>
+<view class="add-title flex">
+  <view>普通抽奖</view>
+  <view class="example-play" bindtap="goWebView">案例玩法 ></view>
+</view>
 <view class='add-body'>
   <view class="setting-prize-nums" wx:for="{{prizeNum}}" wx:for-index="id" wx:key="id">
 
@@ -142,7 +145,7 @@
   <view class="prize-introduce">
     <view class="prize-introduce-title">
       <view class="footTitle">抽奖说明</view>
-      <!-- <view class="go-example" bindtap="goExample">查看示例 ></view> -->
+      <view class="go-example" bindtap="goExample">查看示例 ></view>
     </view>
     <view class="textarea-contain">
       <textarea placeholder='非必填，可输入抽奖说明' bindinput="descInput" value="{{desc}}" placeholder-style='font-size: 14px;color: #B7B7B7;' class="textarea-area" auto-height maxlength='-1' cursor-spacing="100"/>

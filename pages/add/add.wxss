@@ -7,7 +7,11 @@
   color: #666;
   height: 80rpx;
   line-height: 80rpx;
-  padding-left: 20rpx;
+  justify-content: space-between;
+  padding: 0 20rpx;
+}
+.add-title .example-play{
+  color: rgb(41, 106, 167);
 }
 .setting-prize-nums {
   background-color: #fff;
@@ -145,7 +149,7 @@ color: #979797;
   clear: both;
   width: 190px;
   height: 40px;
-  background: #f1341c;
+  background: #e4463d;
   border-radius: 20px;
   margin: 0 auto;
   margin-top: 27px;
@@ -168,7 +172,7 @@ color: #979797;
   font-size: 15px;
   line-height: 50px;
   text-align: center;
-  color: #f1341c;
+  color: #e4463d;
 }
 
 page {
@@ -285,8 +289,7 @@ page {
   text-align: center;
   height: 80rpx;
   line-height: 80rpx;
-  font-weight: bold;
-  color: #333;
+  color: #999;
 }
 
 .prizeName, .prizeNumber {
@@ -431,7 +434,7 @@ page {
   margin: 15rpx 30rpx;
   height: 80rpx;
   line-height: 80rpx;
-  background-color: #f1341c;
+  background-color: #e4463d;
   text-align: center;
   color: #fff;
   font-size: 30rpx;

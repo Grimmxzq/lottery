@@ -9,10 +9,11 @@
     "pages/myAddGiftCard/myAddGiftCard",
     "pages/contact/contact",
     "pages/myGiftCard/myGiftCard",
-    
     "pages/joinUser/joinUser",
     "pages/message/message",
-    "pages/skip/skip"
+    "pages/skip/skip",
+    "pages/webView/index",
+    "pages/examples/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -37,7 +38,7 @@
         "selectedIconPath": "images/addSe.png",
         "iconPath": "images/add.png",
         "pagePath": "pages/skip/skip",
-        "text": "抽奖"
+        "text": "发起抽奖"
       },
       {
         "selectedIconPath": "images/userSe.png",
