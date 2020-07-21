@@ -1,6 +1,8 @@
 {
   "pages": [
+    
     "pages/home/home",
+    "pages/examples/index",
     "pages/shareImg/index",
     "pages/goodsDetails/goodsDetails",
     "pages/user/user",
@@ -12,8 +14,8 @@
     "pages/joinUser/joinUser",
     "pages/message/message",
     "pages/skip/skip",
-    "pages/webView/index",
-    "pages/examples/index"
+    "pages/webView/index"
+    
   ],
   "window": {
     "backgroundTextStyle": "dark",

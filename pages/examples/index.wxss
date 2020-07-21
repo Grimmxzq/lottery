@@ -1,1 +1,56 @@
 /* pages/examples/index.wxss */
+.body-contain {
+  padding: 40rpx 20rpx;
+  height: 100%;
+  background-color: #f0f0f0;
+}
+
+.van-cell {
+  position: inherit !important;
+}
+.space-height {
+  height: 20px;
+  width: 100%;
+}
+
+.title {
+  font-size: 30rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+
+.tips {
+  font-size: 26rpx;
+  color: #999;
+  line-height: 40rpx;
+}
+
+.collapse-contain .msg{
+  padding: 30rpx;
+  background-color: #fdf6e4;
+  color: #645b49;
+  white-space: pre-wrap;
+  font-size: 26rpx;
+}
+
+.van-collapse-item__content {
+  padding-bottom: 0 !important;
+}
+
+.van-cell__left-icon-wrap,.van-cell__right-icon-wrap {
+  height: auto !important;
+}
+
+.collapse-contain .buttons {
+  justify-content: space-around;
+}
+
+.collapse-contain .buttons .copy-button{
+  text-align: center;
+  width: 50%;
+}
+
+.collapse-contain .buttons button{
+  border: 0;
+  width: 100%;
+}

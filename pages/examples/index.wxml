@@ -1,2 +1,38 @@
-<!--pages/examples/index.wxml-->
-<text>pages/examples/index.wxml</text>
+<!-- <van-collapse value="{{ activeNames }}" bind:change="onChange">
+  <van-collapse-item title="有赞微商城" name="1">
+    提供多样店铺模板，快速搭建网上商城
+  </van-collapse-item>
+  <van-collapse-item title="有赞零售" name="2">
+    网店吸粉获客、会员分层营销、一机多种收款，告别经营低效和客户流失
+  </van-collapse-item>
+  <van-collapse-item title="有赞美业" name="3" disabled>
+    线上拓客，随时预约，贴心顺手的开单收银
+  </van-collapse-item>
+</van-collapse> -->
+
+<view class="body-contain">
+  <van-collapse value="{{ activeNames }}" bind:change="onChange">
+    <block wx:for="{{collapseData}}" wx:key="i" wx:for-item="item" wx:for-index="index">
+      <van-collapse-item name="{{i}}">
+        <view slot="title">
+          <view class="title">{{item.title}}</view>
+          <view class="tips">{{item.tips}}</view>
+        </view>
+        <view class="collapse-contain">
+          <view class="msg">
+            <text>{{item.content}}</text>
+          </view>
+          <view class="buttons flex">
+            <view class="copy-button" bindtap="copyMsg" data-index="{{index}}">
+              <van-button icon="../../images/img/copy.png" type="default">复制</van-button>
+            </view>
+            <view class="copy-button" bindtap="applyMsg" data-index="{{index}}">
+              <van-button icon="apps-o" type="default">应用</van-button>
+            </view>
+          </view>
+        </view>
+      </van-collapse-item>
+      <view class="space-height"></view>
+    </block>
+  </van-collapse>
+</view>
