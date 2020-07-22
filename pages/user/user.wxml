@@ -9,7 +9,7 @@
         <text decode="{{true}}">&nbsp;&nbsp;&nbsp;点击登录账户</text>
       </view>
     </view>
-    <view wx:else style="width: 100%;">
+    <view wx:else class="full-width">
       <view class='portrait'>
         <image src='{{userInfo.avatarUrl}}'></image>
       </view>
@@ -22,8 +22,27 @@
       </view>
     </view>
   </view>
+  <!-- <view class="prize-info flex">
+    <view class="join-prize">参与抽奖</view>
+    <view class="start-prize">发起抽奖</view>
+    <view class="memory-prize">抽奖记录</view>
+  </view> -->
+  <van-grid column-num="3" class="prize-info">
+    <van-grid-item use-slot>
+      <view>0</view>
+      <view>参与抽奖</view>
+    </van-grid-item>
+    <van-grid-item use-slot>
+      <view>0</view>
+      <view>发起抽奖</view>
+    </van-grid-item>
+    <van-grid-item use-slot>
+      <view>0</view>
+      <view>抽奖记录</view>
+    </van-grid-item>
+  </van-grid>
   <view class='content'>
-    <view class='myGift' bindtap='myAddGiftCard'>
+    <!-- <view class='myGift' bindtap='myAddGiftCard'>
       <view class='myLogo'>
         <image src='../../images/mygift.png'></image>
       </view>
@@ -40,30 +59,12 @@
       <view class='myRig'>
         <image src='../../images/rig.png'></image>
       </view>
-    </view>
-    <!-- <view class='myAddGift' bindtap='myGiftCard'>
-      <view class='myLogo'>
-        <image src='../../images/myAddGift.png'></image>
-      </view>
-      <view class='myText'>中奖纪录</view>
-      <view class='myRig'>
-        <image src='../../images/rig.png'></image>
-      </view>
     </view> -->
     <view class='myAddGift' bindtap='myMessage'>
       <view class='myLogo'>
         <image src='../../images/img/message.png'></image>
       </view>
       <view class='myText'>消息</view>
-      <view class='myRig'>
-        <image src='../../images/rig.png'></image>
-      </view>
-    </view>
-    <view class='myBalance' bindtap='myBalance' wx:if='{{getSystemConfig.disableBalance=="false"}}'>
-      <view class='myLogo'>
-        <image src='../../images/myBalance.png'></image>
-      </view>
-      <view class='myText'>我的余额</view>
       <view class='myRig'>
         <image src='../../images/rig.png'></image>
       </view>
@@ -77,17 +78,6 @@
         <image src='../../images/rig.png'></image>
       </view>
     </view>
-    <view class='padding'></view>
-        <view class='myBalance' bindtap='redPackageRecord' wx:if='{{getSystemConfig.disableEnvelopeRecord=="false"}}'>
-      <view class='myLogo'>
-        <image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/redPackageReceive.png'></image>
-      </view>
-      <view class='myText'>我的红包卡记录</view>
-      <view class='myRig'>
-        <image src='../../images/rig.png'></image>
-      </view>
-    </view>
-    <view class='padding'></view>
       <view class='myBalance' bindtap='contact'>
         <view class='myLogo'>
           <image src='../../images/contact.png'></image>
@@ -97,11 +87,11 @@
           <image src='../../images/rig.png'></image>
         </view>
       </view> 
-      <view class='myBalance'>
+      <view class='myBalance' bindtap="asks">
         <view class='myLogo'>
           <image src='../../images/img/feedback.png'></image>
         </view>
-        <view class='myText'><button open-type='feedback' plain="true">意见反馈</button></view>
+        <view class='myText'>常见问题说明</view>
         <view class='myRig'>
           <image src='../../images/rig.png'></image>
         </view>
@@ -118,15 +108,31 @@
     <view class="serve-time">注：服务时间（9：00-21：00）</view>
   </view>
 </mp-dialog>
+<mp-dialog title="免责声明" show="{{noDuty}}" bindbuttontap="tapDutyDialogClose" bindclose="tapDutyDialogClose" buttons="{{dutyButtons}}">
+  <text>
+    我们仅提供发起及参与抽奖的平台，不对任何第三方发起人行为承担责任，本平台会在法律范围内尽可能地规范、督促用户遵守相关法律。
+  </text>
+</mp-dialog>
 <!-- <view class='moree'>
 更多精彩
 </view>
 <view class='littleapp' >
 <navigator class='openlittleapp' target="miniProgram" open-type="navigate" app-id="wx7245add0c1844d9a" path="pages/index/index" extra-data="" version="release">打开绑定的小程序</navigator>
 <image src='https://maggie-public.oss-cn-beijing.aliyuncs.com/littleApps/jietu.png'></image>  -->
+<view class="more-handle text-center">
+  <van-row custom-class="row-bg" gutter="1">
+    <van-col span="7">
+      <button open-type='feedback' plain >意见反馈</button>
+    </van-col>
+    <van-col span="1">|</van-col>
+    <van-col span="8" bindtap="showDutyDialog">免责说明</van-col>
+    <van-col span="1">|</van-col>
+    <van-col span="7" bindtap="goComplaint">我要投诉</van-col>
+  </van-row>
+</view>
 <view class="bottom-tip">
   <view class="name">--<text>校园抽奖小助手</text>--</view>
-  <view class="message">超过一亿一千万人在用的小程序</view>
+  <view class="message">超过一千万人在用的小程序</view>
 </view>
 <view>
   <button wx:if="{{!hasUserInfo && canIUse}}" class='userinfo' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>

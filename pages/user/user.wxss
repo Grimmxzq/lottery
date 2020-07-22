@@ -28,8 +28,23 @@ page {
   width: 100%;
   height: 100px;
   background: #fff;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
+
+.prize-info {
+  font-size: 28rpx;
+  color: #999;
+}
+.prize-info .join-prize {
+  width: 33.33%;
+}
+.prize-info .start-prize {
+  width: 33.33%;
+}
+.prize-info .memory-prize {
+  width: 33.33%;
+}
+
 
 .login-button {
   height: 100px;
@@ -199,4 +214,24 @@ page {
 .dialog-content .serve-time {
   font-size: 24rpx;
   color: #666;
+}
+.more-handle {
+  padding-top: 15px;
+  height: 30px;
+  line-height: 30px;
+  width: 60%;
+  margin: auto;
+}
+
+.more-handle button {
+  font-size: 24rpx;
+  padding: 0;
+  border: 0;
+  color: #999;
+}
+
+.row-bg {
+  height: 100%;
+  font-size: 12px;
+  color: #999;
 }

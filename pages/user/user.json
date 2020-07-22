@@ -3,6 +3,10 @@
   "backgroundTextStyle": "dark",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "mp-dialog": "/miniprogram_npm/weui-miniprogram/dialog/dialog"
+    "mp-dialog": "/miniprogram_npm/weui-miniprogram/dialog/dialog",
+    "van-grid": "../../vant-weapp/grid/index",
+    "van-grid-item": "../../vant-weapp/grid-item/index",
+    "van-row": "../../vant-weapp/row/index",
+    "van-col": "../../vant-weapp/col/index"
   }
 }

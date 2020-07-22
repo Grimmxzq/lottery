@@ -11,10 +11,16 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    showOneButtonDialog: false,
+    showOneButtonDialog: false, //联系我们弹框是否显示
+    noDuty: false, //免责声明弹框是否显示
     buttons: [
       {
         text: '一键复制微信号'
+      }
+    ],
+    dutyButtons: [
+      {
+        text: '确定'
       }
     ],
     wxCode: 'xzq1628957104'
@@ -312,11 +318,31 @@ Page({
       showOneButtonDialog: true
     })
   },
+  // 常见问题说明
+  asks() {
+    wx.navigateTo({
+      url: '../asks/index',
+    })
+  },
+  // 免责弹框隐藏
+  tapDutyDialogClose() {
+    this.setData({
+      noDuty: false
+    })
+  },
+  // 联系我们弹框隐藏
   tapDialogClose: function () {
     this.setData({
       showOneButtonDialog: false
     })
   },
+  // 免责弹框显示
+  showDutyDialog() {
+    this.setData({
+      noDuty: true
+    })
+  },
+  // 复制微信号
   tapDialogButton(e) {
     console.log(e);
     const that = this;
@@ -333,4 +359,10 @@ Page({
       })
     }
   },
+  // 去投诉页面
+  goComplaint() {
+    wx.navigateTo({
+      url: '../complaint/index',
+    })
+  }
 })

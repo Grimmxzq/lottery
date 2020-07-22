@@ -76,6 +76,20 @@
   <view class='foot'>
     <view class='footTitle'>开奖设置</view>
     <view class='LotteryStart'>
+      <view class='starttime'>奖品类型</view>
+      <view class="section__title condition-contain">
+        <picker range="{{typeArray}}" value="{{typeIndex}}" bindchange="bindPickerChangetype">
+          <view class="picker" >
+            {{typeArray[typeIndex]}}
+            <image class='rightpicker' src='../../images/rig.png'></image>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="foot">
+    <view class='LotteryStyle'></view>
+    <view class='LotteryStart'>
       <view class='starttime'>开奖条件</view>
       <view class="section__title condition-contain">
         <picker range="{{condition}}" value="{{index}}" bindchange="bindPickerChangeCondition">

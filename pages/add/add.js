@@ -12,6 +12,8 @@ Page({
    */
   data: {
     array: ['按收货地址领奖', '让中奖者联系我'],
+    typeArray: ['实物','红包','虚拟'],
+    typeIndex: 0,
     popUp: false,
     lock: false,
     expireTime: false,
@@ -655,6 +657,14 @@ Page({
     }
     this.setData({
       prizeNum:oldarr
+    })
+  },
+  /**
+   * 选择奖品类型
+   */
+  bindPickerChangetype(e) {
+    this.setData({
+      typeIndex: e.detail.value * 1
     })
   },
   /**
