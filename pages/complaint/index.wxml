@@ -1,2 +1,52 @@
-<!--pages/complaint/index.wxml-->
-<text>pages/complaint/index.wxml</text>
+<view class="complaint-title">
+  请选择投诉类型
+</view>
+<van-radio-group value="{{ radio }}">
+  <van-cell-group>
+    <block wx:for="{{types}}" wx:for-item="item" wx:for-index="i" wx:key="i">
+      <van-cell title="{{item}}" clickable data-name="{{i}}" bind:click="onClick">
+        <van-radio slot="right-icon" use-icon-slot name="{{i}}">
+          <view hidden="{{radio !== i}}">
+             <van-icon name="success" color="green" size="18px"/>
+          </view>
+        </van-radio>
+      </van-cell>
+    </block>
+  </van-cell-group>
+</van-radio-group>
+<view class="complaint-title">
+  问题描述
+</view>
+
+<view class="put-img-and-ask-descripe">
+<van-cell-group>
+  <van-field
+    value="{{ message }}"
+    type="textarea"
+    placeholder="请详细描述问题以便我们尽快处理"
+    autosize
+    border="{{ false }}"
+  />
+  <view class="padding-middle">
+    <van-uploader
+      file-list="{{ fileList }}"
+      bind:after-read="afterRead"
+      bind:delete="deleteRead"
+    />
+  </view>
+</van-cell-group>
+</view>
+
+<van-cell-group>
+  <van-field
+    label="联系方式"
+    value="{{ value }}"
+    placeholder="请输入微信号或手机号"
+    border="{{ false }}"
+    bind:change="onChange"
+  />
+</van-cell-group>
+
+<view class="padding-base">
+  <van-button round type="info" color="#e4463d" block disabled="{{isDisabled}}" loading="{{isLoading}}" loading-text="提交中..." bind:click="submitButton">提交</van-button>
+</view>

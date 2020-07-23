@@ -1,1 +1,15 @@
 /* pages/complaint/index.wxss */
+
+.complaint-title {
+  font-size: 26rpx;
+  color: #666;
+  padding: 0 20rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.put-img-and-ask-descripe {
+  margin: 0 20rpx 20rpx 20rpx;
+  background-color: #fff;
+  border-radius: 5px;
+}

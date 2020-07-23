@@ -1,0 +1,25 @@
+<!--pages/myAddGiftCard/myAddGiftCard.wxml-->
+<!--标题的页面  -->
+<view class='body'>
+  <block wx:for="{{wonList}}" wx:key="index">
+    <view class='contentList' bindtap='particulars' data-lid="{{item.lid}}">
+      <view class='contentHead'>
+        <view class='labelLeft'>
+          <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
+        </view>
+        <view class='leabelRight'>{{item.startuser.nickname}}</view>
+        <image class='full-width' src='{{item.prize.img}}' mode="aspectFill"></image>
+      </view>
+      <view class='prize'>奖品:{{item.prize.name}}</view>
+      <view class='lotteryData'>
+        <view class='participation'>
+          <view class='participationY win'>已中奖</view>
+          <view class='vertical'>|</view>
+        </view>
+        <view class='date'>{{item.time}}</view>
+        <view class='lotteryWay'>自动开奖</view>
+        <view class="nums">×{{item.prize.num}}份</view>
+      </view>
+    </view>
+  </block>
+</view>

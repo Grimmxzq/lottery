@@ -6,6 +6,7 @@
     "pages/goodsDetails/goodsDetails",
     "pages/add/add",
     "pages/user/user",
+    "pages/asks/index",
     "pages/authentication/authentication",
     "pages/myAddGiftCard/myAddGiftCard",
     "pages/contact/contact",
@@ -13,9 +14,9 @@
     "pages/joinUser/joinUser",
     "pages/message/message",
     "pages/skip/skip",
+    "pages/complaint/index",
     "pages/webView/index",
-    "pages/asks/index",
-    "pages/complaint/index"
+    "pages/wonList/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

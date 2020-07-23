@@ -1,2 +1,11 @@
-<!--pages/asks/index.wxml-->
-<text>pages/asks/index.wxml</text>
+<view class="body-contain">
+  <block wx:for="{{ dataList }}" wx:key="i" wx:for-item="item" wx:for-index="i">
+    <van-panel>
+      <view slot="header">
+        <text class="title">{{item.title}}</text>
+      </view>
+      <view class="panel-content">{{item.content}}</view>
+    </van-panel>
+    <view class="padding-top-middle"></view>
+  </block>
+</view>

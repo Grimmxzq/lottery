@@ -211,6 +211,12 @@ Page({
       url: '../myGiftCard/myGiftCard',
     })
   },
+  // 中奖纪录
+  wonList() {
+    wx: wx.navigateTo({
+      url: '../wonList/index',
+    })
+  },
   myBalance: function () {//我的余额
     wx: wx.navigateTo({
       url: '../myBalance/myBalance',

@@ -12,6 +12,22 @@ page {
   padding-bottom:34px; 
 }
 
+.padding-top-large {
+  padding-top: 60rpx;
+}
+
+.padding-top-middle {
+  padding-top: 40rpx;
+}
+
+.padding-base {
+  padding: 20rpx;
+}
+
+.padding-middle {
+  padding: 30rpx;
+}
+
 .text-center {
   text-align: center;
 }

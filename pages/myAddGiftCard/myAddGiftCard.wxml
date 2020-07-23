@@ -8,9 +8,6 @@
     <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">未中奖
       <view class="swiper-tab-bott" wx:if="{{currentTab==1 }}"></view>
     </view>
-    <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">已中奖
-      <view class="swiper-tab-bott" wx:if="{{currentTab==2 }}"></view>
-    </view>
   </view>
   <view class='helpfixed'></view>
 
@@ -70,32 +67,6 @@
             </view>
           </view>
           <!-- <view class='more'  bindtap='moreData'>{{closedList.last==true?'无更多数据~':closedList.last==false?'加载更多~':''}}</view> -->
-        </block>
-      </swiper-item>
-
-      <!--已中奖  -->
-      <swiper-item style=' overflow: auto;height: 500px;'>
-        <block wx:for="{{wonList}}" wx:key="index">
-          <view class='contentList' bindtap='particulars' data-lid="{{item.lid}}">
-            <view class='contentHead'>
-              <view class='labelLeft'>
-                <!-- <view class='labelText'>{{item.giftCard.type=='0000'?"抽奖":item.giftCard.type}}</view> -->
-              </view>
-              <view class='leabelRight'>{{item.startuser.nickname}}</view>
-              <image class='full-width' src='{{item.prize.img}}' mode="aspectFill"></image>
-            </view>
-            <view class='prize'>奖品:{{item.prize.name}}</view>
-            <view class='lotteryData'>
-              <view class='participation'>
-                <view class='participationY win'>已中奖</view>
-                <view class='vertical'>|</view>
-              </view>
-              <view class='date'>{{item.time}}</view>
-              <view class='lotteryWay'>自动开奖</view>
-              <view class="nums">×{{item.prize.num}}份</view>
-            </view>
-          </view>
-          <!-- <view class='more'  bindtap='moreData'>{{wonList.last==true?'无更多数据~':wonList.last==false?'加载更多~':''}}</view> -->
         </block>
       </swiper-item>
     </view>
