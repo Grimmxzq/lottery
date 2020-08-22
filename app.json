@@ -1,6 +1,8 @@
 {
   "pages": [
+    
     "pages/home/home",
+    "pages/introduces/index",
     "pages/examples/index",
     "pages/shareImg/index",
     "pages/goodsDetails/goodsDetails",
@@ -16,7 +18,8 @@
     "pages/skip/skip",
     "pages/complaint/index",
     "pages/webView/index",
-    "pages/wonList/index"
+    "pages/wonList/index",
+    "pages/cutImg/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

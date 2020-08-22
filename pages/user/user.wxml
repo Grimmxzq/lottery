@@ -29,15 +29,15 @@
   </view> -->
   <van-grid column-num="3" class="prize-info">
     <van-grid-item use-slot bindtap="myAddGiftCard">
-      <view>0</view>
+      <view>{{userlot}}</view>
       <view>参与抽奖</view>
     </van-grid-item>
     <van-grid-item use-slot bindtap='myGiftCard'>
-      <view>0</view>
+      <view>{{ userstart }}</view>
       <view>发起抽奖</view>
     </van-grid-item>
     <van-grid-item use-slot bindtap='wonList'>
-      <view>0</view>
+      <view>{{userprize}}</view>
       <view>中奖记录</view>
     </van-grid-item>
   </van-grid>

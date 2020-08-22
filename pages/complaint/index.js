@@ -62,13 +62,6 @@ Page({
   onReachBottom: function () {
 
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
   onClick(event) {
     const { name } = event.currentTarget.dataset;
     this.setData({

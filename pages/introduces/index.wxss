@@ -1,0 +1,19 @@
+/* pages/introduces/index.wxss */
+
+.body-contain {
+  min-height: 100px;
+  background-color: #fff;
+  border-radius: 5rpx;
+}
+
+.textarea-area {
+  width: 100%;
+}
+
+.upload-contain {
+  margin-top: 15rpx;
+}
+
+.save-button {
+  margin: 40rpx 20rpx 20rpx 20rpx;
+}

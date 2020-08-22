@@ -1,0 +1,9 @@
+<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut"></image-cropper>
+<view class="cut-img-footer {{isIphonex ? 'iphonex-bottom' : ''}}">
+    <view class="tips text-center">裁剪后图片尺寸为900*450px</view>
+    <view class="buttons flex">
+        <view class="cancel-button" bindtap="cancel">取消</view>
+        <view class="certain-button" bindtap="isUpload">确认并裁剪上传</view>
+        <view class="restart-button cancel-button" bindtap="restart">重选</view>
+    </view>
+</view>

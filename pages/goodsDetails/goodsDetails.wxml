@@ -9,7 +9,7 @@
         <block wx:for="{{swipers}}" wx:key="*this">
           <swiper-item>
             <view class="img-bg">
-              <image src="{{item}}" mode="aspectFill" class="full-width full-height" bindtap="previewImage" data-url="{{item}}"></image>
+              <image src="{{item}}" mode="aspectFit" class="full-width full-height" bindtap="previewImage" data-url="{{item}}"></image>
             </view>
           </swiper-item>
         </block>
@@ -43,7 +43,7 @@
   </view>
 
   <!-- 奖品介绍 -->
-  <view class="prize-introduce">
+  <view class="prize-introduce padding-base">
     <view class="title">
       奖品介绍：
     </view>
@@ -66,6 +66,18 @@
     </view>
   </view>
 
+  <view class="img-and-text" wx:if="{{ introduce.text || introduce.imgs.length > 0 }}">
+    <!-- <view class="titles text-center">图文详情</view> -->
+    <view class="introduce" wx:if="{{ introduce.text }}">{{introduce.text}}</view>
+    <view wx:if="{{introduce.imgs.length > 0}}">
+      <block wx:for="{{introduce.imgs}}" wx:key="index" wx:for-item="item">
+        <view>
+          <image src="{{item.url}}" mode="widthFix" class="full-width" bindtap="previewImageAndText" data-url="{{item.url}}"></image>
+        </view>
+      </block>
+    </view>
+  </view>
+
   <!-- 我要上首页 -->
   <view class="index-top">我要上首页 ></view>
   <view class="{{isIphonex ? 'iphonex-bottom' : ''}} bootom-height"></view>
@@ -75,9 +87,9 @@
     <view class="bottom-left flex" bindtap="goIndex">
       <image src="../../images/img/index.png"></image>
     </view>
-    <!-- <view class="bottom-left flex" bindtap="shareImg">
+    <view class="bottom-left flex" bindtap="shareImg">
       <image src="../../images/img/share.png"></image>
-    </view> -->
+    </view>
     <view class="bottom-right flex" bindtap="signUp" wx:if="{{isJoin == 0}}">
       <button class="join-button" plain="true">参与抽奖</button>
     </view> 

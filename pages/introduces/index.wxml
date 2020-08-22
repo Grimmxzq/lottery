@@ -1,0 +1,13 @@
+
+<view class="body-contain margin-base">
+  <view style="padding: 20rpx 10px 20rpx 10px">
+    <textarea placeholder='请输入本次抽奖的图文介绍' bindinput="descInput" value="{{desc}}" placeholder-style='font-size: 14px;color: #B7B7B7;' class="textarea-area" auto-height auto-focus maxlength='-1'/>
+  </view>
+  <view class="upload-contain" style="margin-left:15px">
+    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="deleteRead" preview-size="75px" multiple />
+  </view>
+</view>
+
+<view class="save-button">
+  <van-button type="primary" color="#e4463d" round block bind:click="saveButton">保存</van-button>
+</view>

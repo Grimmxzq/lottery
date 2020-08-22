@@ -45,8 +45,13 @@ Page({
     peoples: '', //开奖人数 
     condition: ["按时间自动开奖", "按人数自动开奖", "即开即中"], //开奖条件
     showCondition: 0, //当前选中的开奖条件是第几个
+    introduce: {
+      text: '',
+      imgs: []
+    },
     isIphonex: false, //适配iphonex以上版本
     switch1Checked: false, //高级功能是否开启 默认不开启
+    switch2Checked: true,
     isVip: true //是否是高级用户 默认false
   },
   getUserInfo: function (e) {
@@ -151,9 +156,7 @@ Page({
   },
   // 添加图片
   cehngePhoto: function (e) {
-    const that = this;
     const index = e.currentTarget.dataset.index;
-    const prizeNum = that.data.prizeNum;
     wx.chooseImage({
       count: 1, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -188,37 +191,8 @@ Page({
           return
         }
         if (tempFilePath) {
-          wx.uploadFile({
-            url: app.REQUEST_URL + 'lottery/UploadFile/',
-            filePath: tempFilePath,
-            name: 'image',
-            timeout: 20000,
-            header: {
-              'token': wx.getStorageSync("token")
-            },
-            success(res) {
-              console.log(res);
-              let data;
-              data = JSON.parse(res.data);
-              if (data.code == 200) {
-                prizeNum[index].img = data.data.url;
-                that.setData({
-                  prizeNum
-                })
-              } else {
-                wx.showToast({
-                  icon: 'none',
-                  title: '图片上传失败，请重新上传',
-                })
-              }
-            },
-            fail(err) {
-              console.log(err);
-              wx.showToast({
-                icon: 'none',
-                title: '图片上传失败，请重新上传',
-              })
-            }
+          wx.navigateTo({
+            url: '../cutImg/index?url=' + tempFilePath + '&index=' + index,
           })
         }
       },
@@ -348,7 +322,8 @@ Page({
           token,
           uid,
           desc: that.data.desc === '' ? '暂无抽奖说明' : that.data.desc,
-          wxid: that.data.Wechat
+          wxid: that.data.Wechat,
+          introduce: that.data.introduce
         }).then(res => {
           console.log(res);
           const { code, data, message } = res;
@@ -358,11 +333,17 @@ Page({
               icon: 'none',
               duration: 2000,
               complete: () => {
-                console.log('跳转去详情页面');
-                wx.redirectTo({
-                  url: '../goodsDetails/goodsDetails?id=' + data.lid + '&edit=' + true,
+                wx.setStorage({
+                  data: '',
+                  key: 'imgAndText',
                   success() {
-                    wx.hideLoading();
+                    console.log('跳转去详情页面');
+                    wx.redirectTo({
+                      url: '../goodsDetails/goodsDetails?id=' + data.lid + '&edit=' + true,
+                      success() {
+                        wx.hideLoading();
+                      }
+                    })
                   }
                 })
               }
@@ -591,7 +572,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    let pages = getCurrentPages();
+    let currPage = pages[pages.length - 1]; //当前页
+    const prizeNum = this.data.prizeNum;
+    if (currPage.data.url && currPage.data.num) {
+        //调取接口操作
+        prizeNum[currPage.data.num].img = decodeURIComponent(currPage.data.url);
+        this.setData({
+          prizeNum
+        })
+    }
   },
 
   /**
@@ -714,14 +704,6 @@ Page({
     })
   },
   /**
-   * 去设置参与人员页面
-   */
-  goUsersPage() {
-    wx.navigateTo({
-      url: '../totalUsers/totalUsers',
-    })
-  },
-  /**
    * 抽奖说明
    */
   descInput(e) {
@@ -736,11 +718,13 @@ Page({
     this.setData({
       peoples: e.detail.value
     })
-  }
+  },
   /**
-   * 用户点击右上角分享
+   * 去图文介绍页面
    */
-  // onShareAppMessage: function() {
-
-  // }
+  addIntroduce() {
+    wx.navigateTo({
+      url: '../introduces/index',
+    })
+  }
 })

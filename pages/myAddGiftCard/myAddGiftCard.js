@@ -59,9 +59,9 @@ Page({
         if (data) {
           console.log(data);
           that.setData({
-            closedList: data.nostart,
-            openList: data.upstart,
-            wonList: data.start
+            closedList: data.nostart, //待开奖
+            openList: data.upstart, //未中奖
+            wonList: data.start //中奖
           })
         } else {
           wx.showToast({

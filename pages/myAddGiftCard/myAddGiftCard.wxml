@@ -14,7 +14,7 @@
   <!--滚动的页面  -->
   <swiper current="{{currentTab}}" class="swiper-box" duration="300" style='height:{{wonListHeight-40}}px' bindchange="bindChange">
     <view class='div'>
-      <!--已参与待开奖  -->
+      <!--待开奖  -->
       <swiper-item style=' overflow: auto;height: 500px;'>
         <block wx:for="{{closedList}}" wx:key="index">
           <view class='contentList' bindtap='particulars' data-lid="{{item.lid}}">

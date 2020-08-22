@@ -1,0 +1,42 @@
+.cut-img-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 152rpx;
+  width: 100%;
+  z-index: 1;
+  background-color: #000;
+}
+.cut-img-footer .tips {
+  font-size: 12px;
+  color: #ccc;
+  height: 52rpx;
+  line-height: 52rpx;
+}
+
+.buttons {
+  padding: 0 20rpx;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+}
+.buttons .cancel-button {
+  width: 80px;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+}
+.buttons .certain-button {
+  width: 150px;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 20px;
+  background-color: #e4463d;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+}

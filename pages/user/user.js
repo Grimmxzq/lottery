@@ -23,7 +23,10 @@ Page({
         text: '确定'
       }
     ],
-    wxCode: 'xzq1628957104'
+    wxCode: 'xzq1628957104',
+    userlot: 0, //参与的抽奖
+    userprize: 0, //用户发起抽奖
+    userstart: 0 //中奖的
   },
   getUserInfo: function (e) { //获取头像昵称
     wx.showLoading({
@@ -252,7 +255,30 @@ Page({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-
+      Request.post('user/UserCount/').then((res) => {
+        console.log(res);
+        const { code, data, message} = res;
+        if (code === 200) {
+          that.setData({
+            userlot: data.userlot,
+            userstart: data.userstart,
+            userprize: data.userprize
+          })
+        }
+      }).catch(err => {
+        console.log(err);
+        wx.showToast({
+          title: err.message,
+          icon: 'none',
+          success() {
+            that.setData({
+              userlot: 0,
+              userstart: 0,
+              userprize: 0
+            })
+          }
+        });
+      })
     } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
@@ -273,7 +299,6 @@ Page({
             userInfo: res.userInfo,
             hasUserInfo: true
           })
-
         }
       })
     }

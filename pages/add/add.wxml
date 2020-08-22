@@ -2,7 +2,7 @@
 <wxs module="changeWord" src="../../filter/numChangeWord.wxs"></wxs>
 <view class="add-title flex">
   <view>普通抽奖</view>
-  <view class="example-play" bindtap="goWebView">案例玩法 ></view>
+  <!-- <view class="example-play" bindtap="goWebView">案例玩法 ></view> -->
 </view>
 <view class='add-body'>
   <view class="setting-prize-nums" wx:for="{{prizeNum}}" wx:for-index="id" wx:key="id">
@@ -73,7 +73,7 @@
     </view>
   </view> -->
   <!-- 开奖条件 -->
-  <view class='foot'>
+  <!-- <view class='foot'>
     <view class='footTitle'>开奖设置</view>
     <view class='LotteryStart'>
       <view class='starttime'>奖品类型</view>
@@ -86,7 +86,7 @@
         </picker>
       </view>
     </view>
-  </view>
+  </view> -->
   <view class="foot">
     <view class='LotteryStyle'></view>
     <view class='LotteryStart'>
@@ -167,7 +167,7 @@
   </view>
 
   <!-- 高级设置 -->
-  <!-- <view class="vip-setting">
+  <view class="vip-setting">
     <view class="vip-setting-title">
       <view class="footTitle">高级设置</view>
     </view>
@@ -176,24 +176,57 @@
         <image src="../../images/img/vip.png" class="full-width full-height"></image>
       </view>
       <view class="vip-introduce">
-        <view class="name" bindtap="heighterTip">高级功能<image src="../../images/img/tip.png"></image></view>
-        <view>高级会员专属功能</view>
+        <view class="name">更多功能</view>
+        <view>图文介绍、允许参与者分享</view>
       </view>
       <view class="vip-btn">
-        <switch checked="{{switch1Checked}}" bindchange="switch1Change"/>
+        <switch checked="{{switch1Checked}}" bindchange="switch1Change" color="#e4463d"/>
       </view>
     </view>
-  </view> -->
-  <!-- 领奖方式 -->
-  <view class='foot' wx:if="{{switch1Checked && isVip}}">
-    <view class='LotteryStyle'></view>
-    <view class='LotteryStart' bindtap="goUsersPage">
-      <view class='starttime'>参与设置</view>
-      <view class="section__title" style="text-align: right;">
-        <image class='rightpicker' style='margin-right:15px;' src='../../images/rig.png'></image>
+  </view>
+  <view hidden="{{!(switch1Checked && isVip)}}">
+    <!-- 抽奖说明 -->
+    <view class="prize-introduce">
+      <view class="prize-introduce-title">
+        <view class="footTitle">图文介绍</view>
+        <view class="go-example" style="color:#838383;">选填</view>
+      </view>
+      <view class="textarea-contain" bindtap="addIntroduce">
+        <view wx:if="{{introduce.text != '' || introduce.imgs.length > 0}}">
+          <view style="white-space: pre-wrap;">{{introduce.text}}</view>
+          <view class="flex view-imgs">
+            <block wx:for="{{introduce.imgs}}" wx:for-item="item" wx:key="id">
+              <view class="show-img">
+                <image src="{{item.url}}"></image>
+              </view>
+            </block>
+          </view>
+        </view>
+        <view wx:else style="position:relative">
+          <view class="position-button">
+            <van-button icon="plus" type="default" custom-style="font-weight:bold;">
+              添加图文介绍
+            </van-button>
+          </view>
+          <view class="bg-gray" style="margin-bottom: 10rpx;height: 20rpx;"></view>
+          <view class="bg-gray" style="margin-bottom: 10rpx;height: 20rpx;"></view>
+          <view class="flex flex-between">
+            <view class="squar bg-gray"></view>
+            <view class="squar bg-gray"></view>
+            <view class="squar bg-gray"></view>
+          </view>
+        </view>
       </view>
     </view>
-
+    <!-- 允许参与者分享 -->
+    <view class='foot padding-top-base'>
+      <view class='moreActive'>
+        <view class='starttime'>允许参与者分享<text class="hot-tip">HOT</text></view>
+        <view class="section__title" style="text-align: right;">
+          <switch checked="{{switch2Checked}}" color="#e4463d"/>
+        </view>
+      </view>
+    </view>
   </view>
 
   <view class='LotteryStart' wx:if='{{WechatAccept}}'>

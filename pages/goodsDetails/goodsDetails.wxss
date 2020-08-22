@@ -1,22 +1,22 @@
 /* pages/goodsDetails/goodsDetails.wxss */
 
 .goods-details-body {
-  background-color: #ddd;
+  /* background-color: #ddd; */
 }
 .headers {
   margin-bottom: 20rpx;
 }
 .headers .imgs{
   width: 100%;
-  height: 350rpx;
+  height: 400rpx;
 }
 .headers .imgs .img-bg{
   width: 100%;
-  height: 350rpx;
+  height: 400rpx;
   overflow: hidden;
   background-color: #f8f8f8;
   background-image: url('https://www.forevermisstogether.top/wx/static/image/2020071911504150008.png');
-  background-size: auto 350rpx;
+  background-size: auto 400rpx;
   background-repeat: no-repeat;
   background-position: top;
 }
@@ -136,6 +136,7 @@
   padding-top: 30rpx;
   min-height: 100rpx;
   line-height: 65rpx;
+  /* background-color: #ddd; */
 }
 .bootom-height {
   height: 100rpx;
@@ -391,6 +392,28 @@
   color: #fff;
   font-weight: bold;
   font-size: 36rpx;
+}
+
+.img-and-text {
+  background-color: #fff;
+  margin-top: 20rpx;
+  padding: 20rpx;
+}
+
+.img-and-text .titles {
+  height: 50px;
+  line-height: 50px;
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.img-and-text .introduce {
+  font-size: 30rpx;
+  line-height: 25px;
+  color: #000;
+  padding: 10px 0;
 }
 
 @-webkit-keyframes sunny {

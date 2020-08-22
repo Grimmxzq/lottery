@@ -26,12 +26,12 @@
 			"outputPath": ""
 		},
 		"useIsolateContext": true,
-		"useCompilerModule": true,
+		"useCompilerModule": false,
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.11.0",
-	"appid": "wx474f0e8791855778",
+	"appid": "wx231a4bd3ab1bb0fe",
 	"projectname": "校园抽奖小助手",
 	"isGameTourist": false,
 	"simulatorType": "wechat",

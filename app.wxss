@@ -20,8 +20,16 @@ page {
   padding-top: 40rpx;
 }
 
+.padding-top-base {
+  padding-top: 20rpx;
+}
+
 .padding-base {
   padding: 20rpx;
+}
+
+.margin-base {
+  margin: 20rpx;
 }
 
 .padding-middle {

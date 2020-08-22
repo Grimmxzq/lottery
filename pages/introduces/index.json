@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "图文介绍",
+  "usingComponents": {
+    "van-button": "../../vant-weapp/button/index",
+    "van-uploader": "../../vant-weapp/uploader/index"
+  }
+}

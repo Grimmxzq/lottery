@@ -1,5 +1,6 @@
 // pages/shareImg/index.js
 var app = getApp();
+const Request = require("../../utils/request");//导入模块
 /// 获取canvas转化后的rpx
 const rate = function(rpx) { 
   return rpx / app.globalData.radio
@@ -19,6 +20,8 @@ Page({
     times: '',
     name: '',
     desc: '',
+    condition: '',
+    prize: [],
     isSave: false //能否点击保存 默认不能
   },
 
@@ -37,14 +40,35 @@ Page({
       num: shareInfo.num,
       times: shareInfo.times,
       name: shareInfo.name,
-      desc: shareInfo.desc
+      desc: shareInfo.desc,
+      prize: shareInfo.prize,
+      condition: shareInfo.condition
     });
     this.getCodeUrl();
   },
   // 获取小程序码
   getCodeUrl() {
-    let url ="https://www.forevermisstogether.top/wx/static/image/2020070820005292007.jpg";
-    this.init(url);
+    const that = this;
+    Request.post('lottery/ProgramCode/',{
+      scene: that.data.lid
+    }).then((res) => {
+      console.log(res);
+      const {code,data, message} = res;
+      if (code === 200) {
+        this.init(data.url);
+      } else {
+        wx.showToast({
+          title: message,
+          icon: 'none'
+        })
+      }
+    }).catch(err => {
+      console.log(err);
+      wx.showToast({
+        title: err.message,
+        icon: 'none'
+      });
+    })
   },
   /**
    * 初始化海报
@@ -56,9 +80,10 @@ Page({
     let nickName = wx.getStorageSync('userInfo').nickName;
     let prizeImg = that.data.prizeImg; //奖品图片
     this.getImageAll([avatarImg, prizeImg, codeImg]).then(((res) => {
-      let avatarImg = res[0];
-      let prizeImg = res[1];
-      let codeImg = res[2];
+      let avatarImg = res[0]; //头像url
+      let prizeImg = res[1]; //奖品url
+      let codeImg = res[2]; //小程序码url
+
       // 使用 wx.createContext 获取绘图上下文 context
       let ctx = wx.createCanvasContext('shareCanvas');
       let canvasWidth = rate(700); //定义canvas宽度
@@ -74,9 +99,19 @@ Page({
         y: rate(40)
       };
       
-      // 1.设置 canvas 的背景并填充canvas
+      // 1.设置 canvas 的背景颜色并填充canvas 定义2个部分分开填充
+      let initHieght = 130; //定义顶部高度
+      let leftLength = 25; //定义到左边的安全距离
+      let safeDistance = 10; //定义安全距离
+      let prizeImgHeight = (prizeImg.height / prizeImg.width) * (canvasWidth - 50); //设置奖品图片高度
+      console.log("设置奖品图片高度", prizeImgHeight);
+      // header部分
       ctx.setFillStyle('#e76a59');
-      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      ctx.fillRect(0, 0, canvasWidth, initHieght);
+      // contain部分
+      ctx.setFillStyle('#fff');
+      ctx.fillRect(0, initHieght, canvasWidth, canvasHeight - initHieght);
 
       // 2.添加头像
       ctx.save();
@@ -95,76 +130,85 @@ Page({
       ctx.setFontSize(16);
       ctx.fillText( '邀请你来参加抽奖', (canvasWidth - ctx.measureText('邀请你来参加抽奖').width) / 2, 115);
 
-      const prizeImgHeight = (prizeImg.height / prizeImg.width) * (canvasWidth - 50);
-      // 5.添加背景容器
-      ctx.setFillStyle('#fff');
-      ctx.fillRect(10, 130, canvasWidth - 20, prizeImgHeight + 15);
-
-      // 6.绘制奖品图片
+      // 5.绘制奖品图片
+      let height1 = initHieght + safeDistance; //奖品图片距离顶部的高度
       ctx.save();
-      ctx.fillRect(25, 145, canvasWidth - 50, prizeImgHeight);
-      ctx.drawImage(prizeImg.path, 25, 145, canvasWidth - 50, prizeImgHeight);
+      ctx.fillRect(leftLength, height1, canvasWidth - 50, prizeImgHeight);
+      ctx.drawImage(prizeImg.path, leftLength, height1, canvasWidth - 50, prizeImgHeight);
       ctx.restore();
 
-      // 7.奖品名称
-      const name = that.data.name;
-      const num = that.data.num;
+      // 7.奖品标题
+      let height2 = height1 + prizeImgHeight + safeDistance * 2; //奖品标题距离顶部的高度
       ctx.setFontSize(16);
-      ctx.fillRect(10,prizeImgHeight + 145, canvasWidth - 20, that.drawText(ctx, '奖品：' + name + ' x ' + num, 25, prizeImgHeight + 170, 148, canvasWidth - 50) - prizeImgHeight - 145);
       ctx.setFillStyle('#000');
-      const prizeHeight = that.drawText(ctx, '奖品：' + name + ' x ' + num, 25, prizeImgHeight + 170, 148, canvasWidth - 50);
-      // debugger
+      ctx.fillText( '奖品：', leftLength, height2);
 
-      // 8.开奖日期
+      
+      // ctx.setFillStyle('#f1341c');
+      // ctx.fillRect(0, height1, canvasWidth, prizeImgHeight);
+      // 8.奖品名称
+      let height3 = height2 + safeDistance * 2; //奖品名称距离顶部的高度
+      ctx.setFontSize(14);
+      ctx.setFillStyle('#333');
+      let d = height3;
+      for (let i = 0; i < this.data.prize.length; i++) {
+        const  item = this.data.prize[i];
+        d = that.drawText( ctx,item.grade + ': ' + item.name + ' x ' + item.num + '份', leftLength, d, 30, canvasWidth - 50) + safeDistance * 2;
+      }
+
+      // 9.开奖日期
+      let height4 = d; //开奖日期距离顶部的高度
       const time = that.data.times;
-      ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight, canvasWidth - 20, 20);
       ctx.setFontSize(12);
       ctx.setFillStyle('#999');
-      ctx.fillText( time + ' 自动开奖', 25, prizeHeight + 20);
-      
+      // s 按人数开奖 t 按时间自动开奖 i 即开即中
+      const way = that.data.condition === 's' ? '按人数开奖' : that.data.condition === 't' ? '按时间自动开奖' : '即开即中';
+      ctx.fillText( time + ' ' + way, leftLength, height4);
 
-      // 9.绘制线条
-      ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight+ 20, canvasWidth - 20, 11);
+      // 10.绘制线条
+      let height5 = height4 + safeDistance; //线条距离顶部的高度
       ctx.setFillStyle('#eee');
-      ctx.fillRect( 25, prizeHeight + 29, canvasWidth - 50, 1);
-      ctx.fillRect( 25, prizeHeight + 30, canvasWidth - 50, 1);
+      ctx.fillRect( 25, height5, canvasWidth - 50, 1);
+      ctx.fillRect( 25, height5 + 1, canvasWidth - 50, 1);
 
-      // 10.绘制小程序码
-      ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight+ 31, canvasWidth - 20, 150);
+      // 11.绘制小程序码
+      let height6 = height5 + safeDistance + 1; //小程序码距离顶部的高度
       ctx.save();
-      ctx.fillRect(25, prizeHeight + 40, canvasWidth - 50, 130);
-      ctx.drawImage(codeImg.path, 25, prizeHeight + 40, canvasWidth - 50, 130);
+      ctx.setFillStyle('#fff');
+      ctx.fillRect(leftLength, height6, canvasWidth - 50, 130);
+      ctx.drawImage(codeImg.path, (canvasWidth - 130) / 2, height6, 130, 130);
       ctx.restore();
 
-      // 11.提示
+      // 12.提示
+      let height7 = height6 + safeDistance + 130; //提示距离顶部的高度
       ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight+ 160, canvasWidth - 20, 31);
+      ctx.fillRect(10, height7, canvasWidth - 20, 32);
       const tips = "长按识别小程序，参与抽奖";
       ctx.setFontSize(12);
       ctx.setFillStyle('#999');
-      ctx.fillText( tips, (canvasWidth - ctx.measureText(tips).width) / 2, prizeHeight + 190);
+      ctx.fillText( tips, (canvasWidth - ctx.measureText(tips).width) / 2, height7);
 
-      // --------------------
-      ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight+ 191, canvasWidth - 20, 11);
+      // 13.绘制线条
+      let height8 = height7 + safeDistance; //线条距离顶部的高度
       ctx.setFillStyle('#eee');
-      ctx.fillRect( 25, prizeHeight + 200, canvasWidth - 50, 2);
+      ctx.fillRect( 25, height8, canvasWidth - 50, 1);
 
-      // 12.抽奖说明
-      // const name = that.data.name;
+      // 14.抽奖说明
+      let height9 = height8 + safeDistance * 2; //抽奖说明距离顶部的高度
       const desc = that.data.desc;
       ctx.setFontSize(12);
-      ctx.setFillStyle('#fff');
-      ctx.fillRect(10, prizeHeight+ 201, canvasWidth - 20, that.drawText(ctx, '抽奖说明：' + desc, 25, prizeHeight + 40 + 190, 148, canvasWidth - 55) - prizeHeight - 191);
       ctx.setFillStyle('#999');
-      const prizeState = that.drawText(ctx, '抽奖说明：' + desc, 25, prizeHeight + 40 + 190, 148, canvasWidth - 55);
+      const prizeState = that.drawText(ctx, '抽奖说明：' + desc, 25, height9, 30, canvasWidth - 55) + safeDistance;
+
+      // 15封边
+      ctx.setFillStyle('#e76a59');
+      ctx.fillRect(0, initHieght, safeDistance, prizeState);
+      ctx.fillRect(canvasWidth - safeDistance, initHieght, safeDistance, prizeState);
+      ctx.fillRect(0, prizeState, canvasWidth, safeDistance * 2);
 
       // debugger
       that.setData({
-        canvasHeight: prizeState + 30,
+        canvasHeight: prizeState + safeDistance * 2,
         canvasWidth,
         isSave: true
       })
@@ -266,6 +310,12 @@ Page({
   },
   /**
    * 文本换行
+   * @param {Object} context - canvas组件的绘图上下文
+   * @param {String} str - 文本内容
+   * @param {Number} leftWidth - 距离左边的距离
+   * @param {Number} initHeight - 字体距离顶部的高度
+   * @param {Number} titleHeight - 字体的行高
+   * @param {Number} canvasWidth - 宽度
    */
   drawText: function(ctx, str, leftWidth, initHeight, titleHeight, canvasWidth) {
     var lineWidth = 0;

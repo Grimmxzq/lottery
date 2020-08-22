@@ -20,6 +20,7 @@ Page({
     joinPeopleImg: [], //参与人数头像
     getAward: false, //是否中奖
     isShowPrizeDialog: false, //是否展示获奖框
+    introduce: null,
     randomPrize: {} //精选抽奖
   },
 
@@ -29,7 +30,12 @@ Page({
   onLoad: function (options) {
     wx.showLoading();
     console.log(options);
-    const id = options.id; //商品id
+    let id = '';
+    if (options.scene) {
+      id = decodeURIComponent(options.scene);
+    } else {
+      id = options.id; //商品id
+    }
     const swipers = this.data.swipers;
     Request.post('lottery/Particulars/',{
       lid: id
@@ -47,6 +53,7 @@ Page({
           joinPeople: data.content.count,
           joinPeopleImg: data.content.userlist,
           isShow: true,
+          introduce: data.content.introduce,
           winning: data.status === 3 || data.status === 4 ? data.Winning : [],
           getPrizeInfo: data.status === 3 || data.status === 4 ? data.prizes : []
         })
@@ -164,6 +171,11 @@ Page({
    */
   previewImage: function(url) {
     console.log(url);
+    wx.previewImage({
+      urls: [url.currentTarget.dataset.url] // 需要预览的图片http链接列表
+    })
+  },
+  previewImageAndText(url) {
     wx.previewImage({
       urls: [url.currentTarget.dataset.url] // 需要预览的图片http链接列表
     })
@@ -359,13 +371,23 @@ Page({
     let value = wx.getStorageSync('userInfo');
     if (value) {
       wx.setStorage({
+        // data: {
+        //   lid: that.data.lid,
+        //   img: that.data.details.prize[0].img,
+        //   num: that.data.details.prize[0].num,
+        //   times: that.data.details.time,
+        //   name: that.data.details.prize[0].name,
+        //   desc: that.data.details.desc
+        // },
         data: {
           lid: that.data.lid,
           img: that.data.details.prize[0].img,
           num: that.data.details.prize[0].num,
           times: that.data.details.time,
           name: that.data.details.prize[0].name,
-          desc: that.data.details.desc
+          desc: that.data.details.desc,
+          condition: that.data.details.condition,
+          prize: that.data.details.prize
         },
         key: 'shareInfo',
         success() {

@@ -290,6 +290,7 @@ page {
   height: 80rpx;
   line-height: 80rpx;
   color: #999;
+  margin-bottom: 10px;
 }
 
 .prizeName, .prizeNumber {
@@ -375,6 +376,22 @@ page {
   /* height: auto; */
 }
 
+.position-button {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 140px;
+  height: 50px;
+}
+
+.textarea-contain .squar {
+  width: 100px;
+  height: 100px;
+}
+
 .LotteryStart {
   position: relative;
   clear: both;
@@ -384,6 +401,15 @@ page {
   background: #fff;
 }
 
+.moreActive {
+  position: relative;
+  clear: both;
+  line-height: 50px;
+  height: 50px;
+  background: #fff;
+  padding-right: 20rpx;
+}
+
 .starttime {
   float: left;
   margin-left: 15px;
@@ -391,11 +417,24 @@ page {
   color: #333;
 }
 
+.starttime .hot-tip {
+  padding: 4rpx 10rpx;
+  font-size: 20rpx;
+  background-color: #e4463d;
+  border-radius: 20px;
+  color: #fff;
+  margin-left: 10rpx;
+}
+
 .section__title {
   float: right;
   width: 170px;
   font-size: 15px;
   color: #838383;
+}
+
+.bg-gray {
+  background-color: #f0f0f0;
 }
 
 .prize-num-input {
@@ -559,6 +598,17 @@ page {
   margin-left: 10rpx;
 }
 
-.vip-setting .vip-setting-contain .vip-btn{
-  
+.view-imgs {
+  flex-wrap:wrap;
+  margin-left: 3px;
+  margin-top: 10px;
+}
+
+.show-img {
+  margin-right: 8px;
+}
+
+.show-img image{
+  width: 75px;
+  height: 75px;
 }
