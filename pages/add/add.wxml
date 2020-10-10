@@ -103,7 +103,7 @@
     </view>
   </view>
   <!-- 开奖时间 -->
-  <view class='foot'>
+  <view class='foot' wx:if="{{showCondition != 1}}">
     <view class='LotteryStyle'></view>
     <view class='LotteryStart'>
       <view class='starttime'>开奖时间</view>

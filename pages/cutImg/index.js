@@ -88,12 +88,13 @@ Page({
       })
   },
   cancel() {
-      wx.navigateBack({
-        delta: 1,
-      })
+      wx.navigateBack()
   },
   isUpload() {
       const that = this;
+      wx.showLoading({
+        title: '剪切中...',
+      })
       this.cropper.getImg((e) => {
         console.log(e);
         wx.uploadFile({
@@ -112,13 +113,12 @@ Page({
               if (data.code == 200) {
                 const pages = getCurrentPages() 
                 const prevPage = pages[pages.length-2] // 上一页// 调用上一个页面的setData 方法，将数据存储
+                
                 prevPage.setData({
                     url: encodeURIComponent(data.data.url),
                     num: that.data.index
                 })
-                wx.navigateBack({
-                    delta: 1
-                })
+                wx.navigateBack();
               } else {
                 wx.showToast({
                   icon: 'none',

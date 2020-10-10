@@ -204,6 +204,15 @@ Page({
       }
     })
   },
+  // 获取7天之后的日期
+  fun_date(aa){
+    var date1 = new Date(),
+    time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//time1表示当前时间
+    var date2 = new Date(date1);
+    date2.setDate(date1.getDate()+aa);
+    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " 00:00:00";
+    return time2;
+  },
   // 发起抽奖
   formSubmit: function (e) {
     console.log(e);
@@ -266,7 +275,6 @@ Page({
     if (mon < (date.getMonth() + 1)) {
       year = year + 1
     }
-    let awardTime = year + '-' + mon + '-' + day + ' ' + hous + ":" + minut + ":00";
     const judgement = this.data.prizeNum.every( item => {
       return item.num > 0 && item.name != ''
     })
@@ -313,6 +321,8 @@ Page({
         prizeNum.forEach( (item, i) => {
           item.grade = that.rp(i + 1) + '等奖'
         })
+        // 按人数开奖 则如果时间没满 就7天之后开奖
+        let awardTime = condition === 's' ? that.fun_date(7) : (year + '-' + mon + '-' + day + ' ' + hous + ":" + minut + ":00");
         Request.post("lottery/StartLottery/",{
           Prize: prizeNum,
           condition,
@@ -424,7 +434,7 @@ Page({
     var hour = date.getHours() //计算小时数
     var minute = date.getMinutes() //计算分数
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 7; i++) {
       let day;
       if (i == 0) {
         day = (date.getDay() + 0) % 7;
@@ -576,11 +586,17 @@ Page({
     let currPage = pages[pages.length - 1]; //当前页
     const prizeNum = this.data.prizeNum;
     if (currPage.data.url && currPage.data.num) {
+        wx.showLoading({
+          title: '上传中...',
+        })
         //调取接口操作
         prizeNum[currPage.data.num].img = decodeURIComponent(currPage.data.url);
         this.setData({
           prizeNum
         })
+        setTimeout(() => {
+          wx.hideLoading();
+        }, 500);
     }
   },
 
@@ -603,8 +619,6 @@ Page({
     prevPage.setData({
       id: 1
     })
-
-    //   wx.navigateBack();
   },
 
   /**

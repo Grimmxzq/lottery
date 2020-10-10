@@ -28,14 +28,11 @@ module.exports = {
                   data: res.data.token,
                   key: 'token',
                   success() {
-                    wx.hideLoading({
-                      complete: () => {
-                        wx.showToast({
-                          title: '授权成功',
-                        });
-                        callback(res);
-                      },
-                    })
+                    wx.hideLoading();
+                    wx.showToast({
+                      title: '授权成功',
+                    });
+                    callback(res);
                   }
                 })
               }).catch(err => {
